@@ -1,0 +1,10 @@
+node_modules
+dist
+.wrangler
+coverage
+package-lock.json
+
+# Docs de projet (prose Markdown dense, maintenue à la main) et fichiers hors périmètre code.
+docs
+AGENTS.md
+.claude

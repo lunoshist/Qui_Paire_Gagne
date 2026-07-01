@@ -1,0 +1,13 @@
+name = "qui-paire-gagne-server"
+main = "src/index.ts"
+compatibility_date = "2025-06-01"
+
+# Une room = un Durable Object. Ici un simple écho pour prouver la tuyauterie WS.
+[[durable_objects.bindings]]
+name = "ECHO_ROOM"
+class_name = "EchoRoom"
+
+# Backend SQLite obligatoire pour le free tier des Durable Objects (voir D-005 / architecture.md).
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["EchoRoom"]
