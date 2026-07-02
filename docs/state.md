@@ -8,18 +8,23 @@
 - Serveur (round logic) + client (jeu) déployés ; catalogue = **295 cartes curées** par le commanditaire (curation en cours, redéployable via `scripts/build-manifest.mjs` + redeploy).
 - Reste : enrichir/curer le catalogue, algo de tirage par ambiguïté (tags riches), polish révélation animée (TASK-009), reconnexion en pleine manche.
 
-## 🎯 Phase courante — PEAUFINAGE post-playtest #1 (backlog D-014)
-Jeu en ligne et jouable. Avancement des retours :
-- **TASK-009 ✅ déployé** : cartes en GRAND + zoom (lightbox).
-- **TASK-010 ✅ déployé** : flows — reconnexion sans blocage, rejouer/relancer même salle (`returnToLobby`),
-  rejoindre en cours (spectateur), promotion d'hôte en jeu.
-- **TASK-011 ✅ (déploiement en cours)** : révélation 2 modes distincts — **Meneur pas-à-pas** (défaut, synchronisé,
-  hôte avance via `revealNext`) vs **Rapide** (auto) ; scores animés ; Victoire confettis+podium.
-  ⚠️ Change D-008 : `VitesseReveal` simplifié à `meneur|rapide` (les 3 tempos ne différaient pas → plainte).
-- **RESTE** : design (non prioritaire) ; **CI/CD complet** (TASK-012, en attente réponse GitHub ; `scripts/deploy.sh` en self-service) ;
-  enrichissement des tags pour l'algo de tirage par ambiguïté.
-- **Génération d'images en boucle** (3 styles) + curation par le commanditaire : en continu.
-Détails complets : voir **D-014**.
+## 🎯 Phase courante — PEAUFINAGE (playtests #1 & #2, backlogs D-014/D-015)
+Jeu en ligne, jouable, en amélioration continue. **Tout le code des retours #1 & #2 est fait & déployé** :
+- ✅ TASK-009 cartes en grand + zoom · ✅ TASK-010 flows (reconnexion/rejouer/rejoindre-en-cours/promotion hôte)
+- ✅ TASK-011 révélation 2 modes (Meneur pas-à-pas / Rapide) + scores animés + Victoire confettis/podium
+  (⚠️ D-008 revu : `VitesseReveal` = `meneur|rapide`)
+- ✅ TASK-013 mode **duo coopératif** (barème 1/2/4/8/13 + 2 poubelle) + **temps illimité**
+- ✅ TASK-014 passe **design** (espacements/hiérarchie/tokens, fix crop `contain`, révélation « hero »)
+- ✅ **CI/CD** GitHub Actions en place (`.github/workflows/deploy.yml`) — **manque juste les 2 secrets GitHub**
+  (`CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`) à ajouter par le commanditaire pour activer l'auto-deploy.
+  Commits locaux non poussés en attendant (push validera le 1er auto-deploy).
+
+## 🔭 Reste / pistes
+- Activer CI/CD (secrets) → pousser.
+- **Tags riches** (couleurs/catégorie/ambiance) pour l'**algo de tirage par ambiguïté** (aujourd'hui tirage aléatoire).
+- Génération d'images en boucle + curation (pool en cours) ; finale « pommes pourries » à théâtraliser ?
+- Sons, autres réglages, reprise de place en lobby (anti-doublon).
+Détails : D-014, D-015.
 
 ## ✅ Fait
 - Règles officielles recherchées et consignées.
