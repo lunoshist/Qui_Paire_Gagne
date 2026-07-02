@@ -148,8 +148,12 @@ export function Reveal({
         <h2>🎬 Révélation</h2>
         {duo && (
           <Banner kind="info">
-            🤝 Duo coopératif — <strong>{paires.length} paire(s) en commun</strong> · score d’équipe{' '}
-            <strong>+{reveal.deltaScores[players[0]?.id] ?? 0}</strong> pour vous deux.
+            🤝 Duo coopératif —{' '}
+            <strong>
+              {reveal.parPaire.filter((pr) => pr.makers.length >= 2).length} paire(s) en commun
+            </strong>{' '}
+            · score d’équipe <strong>+{reveal.deltaScores[players[0]?.id] ?? 0}</strong> pour vous
+            deux.
           </Banner>
         )}
         {mode === 'meneur' ? (
@@ -319,9 +323,12 @@ function PairReveal({
   catalog: ReturnType<typeof useCatalog>;
   onZoom: (id: string) => void;
 }) {
-  // En duo, toute paire affichée est une paire COMMUNE (l'équipe marque).
+  // En duo : une paire COMMUNE (2 auteurs) fait marquer l'équipe ; une paire faite par
+  // un seul (non commune) est révélée aussi, mais à 0 point.
   const verdict = duo
-    ? { text: 'Paire en commun 💞', kind: 'plus' }
+    ? pr.makers.length >= 2
+      ? { text: `Paire en commun · +${pr.pointsParMaker} 💞`, kind: 'plus' }
+      : { text: 'Pas en commun · 0 point 😬', kind: 'solo' }
     : pairVerdict(pr.makers.length, pr.pointsParMaker);
   const history = variant === 'history';
   const cardSize = history ? 'sm' : 'md';

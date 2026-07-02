@@ -407,14 +407,29 @@ describe('computeRoundResultDuo — C = 0..5 (pomme non commune)', () => {
       const res = computeRoundResultDuo(sub('p1', a, 'X'), sub('p2', b, 'Y'));
       const expected = DUO_PAIR_POINTS[c];
       expect(res.deltaScores).toEqual({ p1: expected, p2: expected });
-      // Détail : une entrée parPaire par paire commune, makers = les 2 joueurs.
-      expect(res.parPaire).toHaveLength(c);
-      for (const pr of res.parPaire) expect(pr.makers.sort()).toEqual(['p1', 'p2']);
-      // La somme des points marginaux reconstitue le total d'équipe (reveal cohérent).
-      const somme = res.parPaire.reduce((s, pr) => s + pr.pointsParMaker, 0);
+      // TOUTES les paires sont révélées : communes (makers = 2) + uniques de chacun (makers = 1, 0 pt).
+      // Chaque joueur a 5 paires distinctes → total = 10 - c.
+      expect(res.parPaire).toHaveLength(10 - c);
+      const communes = res.parPaire.filter((pr) => pr.makers.length === 2);
+      expect(communes).toHaveLength(c);
+      for (const pr of communes) expect(pr.makers.slice().sort()).toEqual(['p1', 'p2']);
+      const uniques = res.parPaire.filter((pr) => pr.makers.length === 1);
+      for (const pr of uniques) expect(pr.pointsParMaker).toBe(0);
+      // La somme des points marginaux des paires communes reconstitue le total d'équipe (reveal cohérent).
+      const somme = communes.reduce((s, pr) => s + pr.pointsParMaker, 0);
       expect(somme).toBe(expected);
     });
   }
+
+  it('révèle AUSSI les paires non communes (makers = un seul joueur, 0 point)', () => {
+    const { a, b } = duoPairs(2); // 2 communes, 3 uniques par joueur
+    const res = computeRoundResultDuo(sub('p1', a, 'X'), sub('p2', b, 'Y'));
+    const uniquesA = res.parPaire.filter((pr) => pr.makers.length === 1 && pr.makers[0] === 'p1');
+    const uniquesB = res.parPaire.filter((pr) => pr.makers.length === 1 && pr.makers[0] === 'p2');
+    expect(uniquesA).toHaveLength(3);
+    expect(uniquesB).toHaveLength(3);
+    for (const pr of [...uniquesA, ...uniquesB]) expect(pr.pointsParMaker).toBe(0);
+  });
 });
 
 describe('computeRoundResultDuo — pomme pourrie', () => {
