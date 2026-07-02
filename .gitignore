@@ -7,6 +7,9 @@ coverage/
 .env
 client/.env
 
+# Catalogue recopié au build dans les assets servis (pipeline TASK-008, régénéré par predev/prebuild).
+client/public/catalog/
+
 # Pool brut d'images du catalogue (volumineux, curé manuellement par le commanditaire).
 # Persiste sur le disque local ; seules les images retenues seront committées dans catalog/images/.
 catalog/pool/

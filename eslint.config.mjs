@@ -53,5 +53,12 @@ export default tseslint.config(
       globals: { ...globals.node, WebSocket: 'readonly' },
     },
   },
+  {
+    // Scripts de build Node (pipeline d'assets, etc.).
+    files: ['**/scripts/**/*.mjs'],
+    languageOptions: {
+      globals: { ...globals.node },
+    },
+  },
   prettier,
 );

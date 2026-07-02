@@ -7,7 +7,12 @@
  */
 
 import { MIN_PLAYERS } from '@qpg/shared';
-import type { PublicRoomState, ServerMessage } from '@qpg/shared';
+import type {
+  GameOverMessage,
+  PublicRoomState,
+  RevealPayloadMessage,
+  ServerMessage,
+} from '@qpg/shared';
 
 /** Statut de la connexion WebSocket, tel qu'affiché à l'utilisateur. */
 export type ConnectionStatus = 'idle' | 'connecting' | 'open' | 'reconnecting' | 'closed';
@@ -18,12 +23,29 @@ export interface RoomError {
   message: string;
 }
 
+/** État de la manche en cours, alimenté par `roundStart` (le sablier tourne côté client). */
+export interface RoundInfo {
+  manche: number;
+  /** Les 11 cardIds tirés pour la manche. */
+  cards: string[];
+  /** Timestamp (ms) de fin de la phase `forming`. */
+  deadline: number;
+}
+
 /** État observable de la salle côté client. */
 export interface RoomStoreState {
   connection: ConnectionStatus;
   playerId: string | null;
   roomState: PublicRoomState | null;
   lastError: RoomError | null;
+  /** Manche courante (cartes + deadline), `null` hors partie. */
+  round: RoundInfo | null;
+  /** Identifiants des joueurs ayant soumis leurs paires pour la manche. */
+  submitted: string[];
+  /** Payload de révélation de la manche (résultats + soumissions + scores), `null` sinon. */
+  reveal: RevealPayloadMessage | null;
+  /** Résultat de fin de partie (classement final), `null` tant que la partie n'est pas finie. */
+  gameOver: GameOverMessage | null;
 }
 
 export const initialRoomState: RoomStoreState = {
@@ -31,6 +53,10 @@ export const initialRoomState: RoomStoreState = {
   playerId: null,
   roomState: null,
   lastError: null,
+  round: null,
+  submitted: [],
+  reveal: null,
+  gameOver: null,
 };
 
 /** Actions du réducteur : changements de connexion + messages serveur. */
@@ -40,9 +66,10 @@ export type RoomAction =
   | { type: 'clearError' };
 
 /**
- * Réducteur pur. Ne traite (côté lobby) que `joined`, `roomState` et `error` ;
- * les autres messages serveur (jeu) sont ignorés ici — hors périmètre TASK-004.
- * `joined` porte le `playerId` autoritatif (à persister par l'appelant).
+ * Réducteur pur. Traite les messages de connexion, de lobby (`joined`,
+ * `roomState`, `error`) ET de jeu (`roundStart`, `playerSubmitted`,
+ * `revealPayload`, `gameOver`). `joined` porte le `playerId` autoritatif
+ * (à persister par l'appelant).
  */
 export function reduce(state: RoomStoreState, action: RoomAction): RoomStoreState {
   switch (action.type) {
@@ -66,8 +93,29 @@ export function reduce(state: RoomStoreState, action: RoomAction): RoomStoreStat
           return { ...state, roomState: msg.state };
         case 'error':
           return { ...state, lastError: { code: msg.code, message: msg.message } };
+
+        case 'roundStart':
+          // Nouvelle manche : on repart d'une ardoise propre (soumissions/reveal).
+          return {
+            ...state,
+            round: { manche: msg.manche, cards: msg.cards, deadline: msg.deadline },
+            submitted: [],
+            reveal: null,
+            gameOver: null,
+          };
+
+        case 'playerSubmitted':
+          return state.submitted.includes(msg.playerId)
+            ? state
+            : { ...state, submitted: [...state.submitted, msg.playerId] };
+
+        case 'revealPayload':
+          return { ...state, reveal: msg };
+
+        case 'gameOver':
+          return { ...state, gameOver: msg };
+
         default:
-          // Messages de jeu (roundStart, revealPayload, …) : ignorés en lobby.
           return state;
       }
     }

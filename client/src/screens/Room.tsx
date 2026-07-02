@@ -14,6 +14,9 @@ import { Banner, Button, ColorPicker, Input, Panel, PlayerBadge, Select } from '
 import { canStartGame, isHost, missingPlayers } from '../store/roomStore';
 import { useRoom } from '../store/useRoom';
 import type { JoinInfo } from '../store/useRoom';
+import { Formation } from './Formation';
+import { Reveal } from './Reveal';
+import { Victory } from './Victory';
 import {
   getStoredCouleur,
   getStoredPlayerId,
@@ -178,13 +181,38 @@ function RoomInner({
           <Panel>
             <p>Connexion à la salle…</p>
           </Panel>
+        ) : state.phase === 'dealing' ? (
+          <Panel className="placeholder-card">
+            <div className="placeholder-emoji" aria-hidden="true">
+              🎬
+            </div>
+            <h2>La partie démarre…</h2>
+            <p>Distribution des cartes…</p>
+          </Panel>
+        ) : state.phase === 'forming' && room.round ? (
+          <Formation
+            round={room.round}
+            players={state.players}
+            myId={myId}
+            submitted={room.submitted}
+            onSubmit={room.submitPairs}
+          />
+        ) : (state.phase === 'reveal' || state.phase === 'scores') && room.reveal ? (
+          <Reveal
+            reveal={room.reveal}
+            players={state.players}
+            iAmHost={iAmHost}
+            onAdvance={room.advance}
+          />
+        ) : state.phase === 'finished' && room.gameOver ? (
+          <Victory gameOver={room.gameOver} players={state.players} navigate={navigate} />
         ) : state.phase !== 'lobby' ? (
           <Panel className="placeholder-card">
             <div className="placeholder-emoji" aria-hidden="true">
               🎬
             </div>
             <h2>La partie démarre…</h2>
-            <p>(à venir)</p>
+            <p>Chargement de la manche…</p>
           </Panel>
         ) : (
           <>

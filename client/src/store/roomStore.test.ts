@@ -58,17 +58,68 @@ describe('reduce — messages serveur', () => {
     expect(s.lastError).toEqual({ code: 'ROOM_FULL', message: 'Salle pleine.' });
   });
 
-  it('ignore les messages de jeu (hors lobby)', () => {
-    const s = reduce(initialRoomState, {
-      type: 'server',
-      message: { type: 'roundStart', manche: 1, cards: [], deadline: 0 },
-    });
-    expect(s).toBe(initialRoomState);
-  });
-
   it('clearError remet lastError à null', () => {
     const withError = { ...initialRoomState, lastError: { code: 'X', message: 'y' } };
     expect(reduce(withError, { type: 'clearError' }).lastError).toBeNull();
+  });
+});
+
+describe('reduce — messages de jeu', () => {
+  const withPlayer = reduce(initialRoomState, {
+    type: 'server',
+    message: { type: 'joined', playerId: 'p1', state: makeRoom() },
+  });
+
+  it('roundStart stocke la manche/cartes/deadline et remet à zéro l’ardoise', () => {
+    const dirty = {
+      ...withPlayer,
+      submitted: ['x'],
+      reveal: { type: 'revealPayload' } as never,
+      gameOver: { type: 'gameOver' } as never,
+    };
+    const s = reduce(dirty, {
+      type: 'server',
+      message: { type: 'roundStart', manche: 2, cards: ['a', 'b', 'c'], deadline: 123 },
+    });
+    expect(s.round).toEqual({ manche: 2, cards: ['a', 'b', 'c'], deadline: 123 });
+    expect(s.submitted).toEqual([]);
+    expect(s.reveal).toBeNull();
+    expect(s.gameOver).toBeNull();
+  });
+
+  it('playerSubmitted ajoute (sans doublon) au set des joueurs ayant fini', () => {
+    const s1 = reduce(withPlayer, {
+      type: 'server',
+      message: { type: 'playerSubmitted', playerId: 'p2' },
+    });
+    expect(s1.submitted).toEqual(['p2']);
+    const s2 = reduce(s1, { type: 'server', message: { type: 'playerSubmitted', playerId: 'p2' } });
+    expect(s2).toBe(s1); // idempotent : pas de doublon, pas de nouvel objet
+    const s3 = reduce(s1, { type: 'server', message: { type: 'playerSubmitted', playerId: 'p3' } });
+    expect(s3.submitted).toEqual(['p2', 'p3']);
+  });
+
+  it('revealPayload stocke le payload de révélation', () => {
+    const msg = {
+      type: 'revealPayload' as const,
+      parPaire: [],
+      pommesPourries: [],
+      soumissionsParJoueur: {},
+      deltaScores: { p1: 3 },
+      cumul: { p1: 3 },
+    };
+    const s = reduce(withPlayer, { type: 'server', message: msg });
+    expect(s.reveal).toBe(msg);
+  });
+
+  it('gameOver stocke le classement final', () => {
+    const msg = {
+      type: 'gameOver' as const,
+      classement: [{ playerId: 'p1', score: 7 }],
+      scoresFinaux: { p1: 7 },
+    };
+    const s = reduce(withPlayer, { type: 'server', message: msg });
+    expect(s.gameOver).toBe(msg);
   });
 });
 

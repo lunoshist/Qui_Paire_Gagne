@@ -13,7 +13,7 @@
  */
 
 import { useCallback, useEffect, useReducer, useRef } from 'react';
-import type { ClientMessage, Couleur, RoomSettings, ServerMessage } from '@qpg/shared';
+import type { ClientMessage, Couleur, Pair, RoomSettings, ServerMessage } from '@qpg/shared';
 import { getStoredPlayerId, setStoredPlayerId } from '../storage';
 import { buildRoomWsUrl } from '../wsUrl';
 import { initialRoomState, reduce } from './roomStore';
@@ -28,6 +28,10 @@ export interface JoinInfo {
 export interface UseRoom extends RoomStoreState {
   updateSettings: (settings: RoomSettings) => void;
   startGame: () => void;
+  /** Soumet les 5 paires + la pomme pourrie (un seul message par manche). */
+  submitPairs: (paires: Pair[], pommePourrie: string) => void;
+  /** Hôte : passe de la révélation à la manche suivante (ou à la fin). */
+  advance: () => void;
   clearError: () => void;
 }
 
@@ -145,7 +149,13 @@ export function useRoom(code: string, joinInfo: JoinInfo | null): UseRoom {
     [sendMessage],
   );
   const startGame = useCallback(() => sendMessage({ type: 'startGame' }), [sendMessage]);
+  const submitPairs = useCallback(
+    (paires: Pair[], pommePourrie: string) =>
+      sendMessage({ type: 'submitPairs', paires, pommePourrie }),
+    [sendMessage],
+  );
+  const advance = useCallback(() => sendMessage({ type: 'advance' }), [sendMessage]);
   const clearError = useCallback(() => dispatch({ type: 'clearError' }), []);
 
-  return { ...state, updateSettings, startGame, clearError };
+  return { ...state, updateSettings, startGame, submitPairs, advance, clearError };
 }
