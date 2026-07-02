@@ -62,6 +62,13 @@ interface RoundData {
   submissions: Record<string, PlayerSubmission>;
   /** Résultat calculé, mémorisé une fois la manche résolue (phase `reveal`). */
   reveal: RoundResult | null;
+  /**
+   * (Mode `meneur`) Curseur de révélation autoritatif : nombre d'éléments déjà
+   * dévoilés (paires triées crescendo puis, en finale, le bloc des pommes
+   * pourries). 0 à l'entrée en `reveal`, incrémenté par `revealNext` (hôte),
+   * borné par `revealTotalSteps()`. Persisté → survit à l'hibernation.
+   */
+  revealStep: number;
 }
 
 interface SocketAttachment {
@@ -72,7 +79,7 @@ const STORAGE_KEY_ROOM = 'room';
 const STORAGE_KEY_CODE = 'code';
 const STORAGE_KEY_ROUND = 'round';
 
-const VITESSES: readonly VitesseReveal[] = ['lent', 'normal', 'rapide'];
+const VITESSES: readonly VitesseReveal[] = ['meneur', 'rapide'];
 
 export class GameRoom implements DurableObject {
   private readonly state: DurableObjectState;
@@ -96,6 +103,15 @@ export class GameRoom implements DurableObject {
       // (déploiement en pleine partie) → tous les joueurs présents participent.
       if (this.round && !Array.isArray(this.round.participants)) {
         this.round.participants = this.room?.players.map((p) => p.id) ?? [];
+      }
+      // Compat ascendante : round persisté avant l'ajout du curseur `revealStep`.
+      if (this.round && typeof this.round.revealStep !== 'number') {
+        this.round.revealStep = 0;
+      }
+      // Compat ascendante : réglages persistés avec un ancien tempo (lent/normal)
+      // → on retombe sur le mode meneur (défaut) désormais.
+      if (this.room && !VITESSES.includes(this.room.settings.vitesseReveal)) {
+        this.room.settings.vitesseReveal = 'meneur';
       }
     });
   }
@@ -157,6 +173,9 @@ export class GameRoom implements DurableObject {
         return;
       case 'advance':
         await this.handleAdvance(ws);
+        return;
+      case 'revealNext':
+        await this.handleRevealNext(ws);
         return;
       case 'returnToLobby':
         await this.handleReturnToLobby(ws);
@@ -365,7 +384,7 @@ export class GameRoom implements DurableObject {
     // Participants = tous les joueurs présents au démarrage (les arrivants en
     // cours de manche seront spectateurs jusqu'à la prochaine).
     const participants = this.room.players.map((p) => p.id);
-    this.round = { tirage, deadline, participants, submissions: {}, reveal: null };
+    this.round = { tirage, deadline, participants, submissions: {}, reveal: null, revealStep: 0 };
     this.room.phase = 'forming';
 
     // Alarme DO : résout la manche à l'échéance même si le DO hiberne entre-temps.
@@ -508,6 +527,7 @@ export class GameRoom implements DurableObject {
     }
 
     this.round.reveal = result;
+    this.round.revealStep = 0;
     this.room.phase = 'reveal';
     await this.persist();
 
@@ -541,6 +561,39 @@ export class GameRoom implements DurableObject {
 
     this.broadcast();
     this.broadcastGameOver();
+  }
+
+  /**
+   * (Mode `meneur`) L'hôte dévoile l'élément suivant : incrémente le curseur
+   * `revealStep` (borné par `revealTotalSteps()`) et rediffuse l'étape à TOUS.
+   * Refusé aux non-hôtes ; sans effet hors phase `reveal` ou une fois au bout.
+   */
+  private async handleRevealNext(ws: WebSocket): Promise<void> {
+    const playerId = this.requireJoined(ws);
+    if (!playerId || !this.room) return;
+    if (playerId !== this.room.hostId) {
+      this.sendError(ws, 'NOT_HOST', 'Seul l’hôte pilote la révélation.');
+      return;
+    }
+    if (this.room.phase !== 'reveal' || !this.round) {
+      this.sendError(ws, 'NOT_IN_REVEAL', 'On ne dévoile que pendant la révélation.');
+      return;
+    }
+    const total = this.revealTotalSteps();
+    if (this.round.revealStep >= total) return; // déjà tout dévoilé : borne haute
+    this.round.revealStep += 1;
+    await this.persist();
+    this.broadcastServer({ type: 'revealStep', step: this.round.revealStep });
+  }
+
+  /**
+   * Nombre total d'étapes de révélation d'une manche résolue : une par paire
+   * distincte + une étape finale pour le bloc des pommes pourries (s'il y en a).
+   */
+  private revealTotalSteps(): number {
+    const r = this.round?.reveal;
+    if (!r) return 0;
+    return r.parPaire.length + (r.pommesPourries.length > 0 ? 1 : 0);
   }
 
   /**
@@ -724,6 +777,7 @@ export class GameRoom implements DurableObject {
       soumissionsParJoueur,
       deltaScores: result.deltaScores,
       cumul,
+      revealStep: this.round?.revealStep ?? 0,
     };
   }
 

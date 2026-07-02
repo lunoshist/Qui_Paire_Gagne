@@ -19,6 +19,8 @@
  * 13. (TASK-010) rejoindre en cours → spectateur (SPECTATOR) puis intégré à la manche suivante
  * 14. (TASK-010) returnToLobby (hôte, depuis finished) → lobby scores à 0 + relance même salle
  * 15. (TASK-010) hôte quitte en jeu → promotion d'un joueur restant
+ * 16. (TASK-011) revealNext (mode meneur) : curseur pas-à-pas synchronisé, borné,
+ *     refus non-hôte, resync mid-reveal renvoie le step courant
  *
  * Usage : node server/test/integration.mjs   (depuis la racine du repo)
  */
@@ -351,7 +353,7 @@ async function main() {
       settings: {
         nbManches: 2,
         dureeSablier: 60,
-        vitesseReveal: 'normal',
+        vitesseReveal: 'meneur',
         variantesScoring: { paireUnanimeZero: true, pommePourrieDouble: true },
       },
     });
@@ -501,7 +503,7 @@ async function main() {
       settings: {
         nbManches: 1,
         dureeSablier: 10,
-        vitesseReveal: 'normal',
+        vitesseReveal: 'meneur',
         variantesScoring: { paireUnanimeZero: true, pommePourrieDouble: true },
       },
     });
@@ -599,7 +601,10 @@ async function main() {
       q2.send({ type: 'submitPairs', ...subs.p2 });
       q3.send({ type: 'submitPairs', ...subs.p3 });
       await q1.ofType('revealPayload', 6000);
-      await q1.next((m) => m.type === 'roomState' && m.state.phase === 'reveal', 'roomState(Rv reveal)');
+      await q1.next(
+        (m) => m.type === 'roomState' && m.state.phase === 'reveal',
+        'roomState(Rv reveal)',
+      );
       // q3 se reconnecte pendant la révélation.
       q3.close();
       await q1.next(
@@ -630,7 +635,7 @@ async function main() {
       const { code, q1, q2, q3, rs } = await startedRoom('Sp', {
         nbManches: 2,
         dureeSablier: 90,
-        vitesseReveal: 'normal',
+        vitesseReveal: 'meneur',
         variantesScoring: { paireUnanimeZero: true, pommePourrieDouble: true },
       });
       // Nouveau joueur pendant la manche 1.
@@ -639,22 +644,35 @@ async function main() {
       // Il ne reçoit PAS de roundStart pour la manche en cours.
       await sleep(300);
       const gotRoundStart = s4.raw.some((s) => s.includes('"roundStart"'));
-      check('join-in-progress : spectateur (aucun roundStart de la manche en cours)', !gotRoundStart);
+      check(
+        'join-in-progress : spectateur (aucun roundStart de la manche en cours)',
+        !gotRoundStart,
+      );
       // Toute soumission est refusée (SPECTATOR).
       s4.send({ type: 'submitPairs', ...buildSubs(rs.cards).p1 });
       const errSpec = await s4.ofType('error', 4000);
-      check('join-in-progress : soumission refusée (SPECTATOR)', errSpec.code === 'SPECTATOR', errSpec.code);
+      check(
+        'join-in-progress : soumission refusée (SPECTATOR)',
+        errSpec.code === 'SPECTATOR',
+        errSpec.code,
+      );
       // Les 3 participants terminent la manche 1 → reveal.
       const subs = buildSubs(rs.cards);
       q1.send({ type: 'submitPairs', ...subs.p1 });
       q2.send({ type: 'submitPairs', ...subs.p2 });
       q3.send({ type: 'submitPairs', ...subs.p3 });
       await q1.ofType('revealPayload', 6000);
-      await q1.next((m) => m.type === 'roomState' && m.state.phase === 'reveal', 'roomState(Sp reveal)');
+      await q1.next(
+        (m) => m.type === 'roomState' && m.state.phase === 'reveal',
+        'roomState(Sp reveal)',
+      );
       // Manche suivante : le spectateur devient participant.
       q1.send({ type: 'advance' });
       const rs2 = await s4.ofType('roundStart', 6000);
-      check('join-in-progress : intégré dès la manche suivante (reçoit roundStart)', rs2.manche === 2);
+      check(
+        'join-in-progress : intégré dès la manche suivante (reçoit roundStart)',
+        rs2.manche === 2,
+      );
       s4.send({ type: 'submitPairs', ...buildSubs(rs2.cards).p1 });
       const psS4 = await q1.next(
         (m) => m.type === 'playerSubmitted' && m.playerId === js4.playerId,
@@ -669,7 +687,7 @@ async function main() {
       const { q1, q2, q3, jq1, jq2, jq3, rs } = await startedRoom('Rl', {
         nbManches: 1,
         dureeSablier: 90,
-        vitesseReveal: 'normal',
+        vitesseReveal: 'meneur',
         variantesScoring: { paireUnanimeZero: true, pommePourrieDouble: true },
       });
       const subs = buildSubs(rs.cards);
@@ -677,10 +695,16 @@ async function main() {
       q2.send({ type: 'submitPairs', ...subs.p2 });
       q3.send({ type: 'submitPairs', ...subs.p3 });
       await q1.ofType('revealPayload', 6000);
-      await q1.next((m) => m.type === 'roomState' && m.state.phase === 'reveal', 'roomState(Rl reveal)');
+      await q1.next(
+        (m) => m.type === 'roomState' && m.state.phase === 'reveal',
+        'roomState(Rl reveal)',
+      );
       q1.send({ type: 'advance' });
       await q1.ofType('gameOver', 6000);
-      await q1.next((m) => m.type === 'roomState' && m.state.phase === 'finished', 'roomState(Rl finished)');
+      await q1.next(
+        (m) => m.type === 'roomState' && m.state.phase === 'finished',
+        'roomState(Rl finished)',
+      );
       // Non-hôte refusé.
       q2.send({ type: 'returnToLobby' });
       const errRl = await q2.ofType('error', 4000);
@@ -707,14 +731,20 @@ async function main() {
         settings: {
           nbManches: 2,
           dureeSablier: 90,
-          vitesseReveal: 'normal',
+          vitesseReveal: 'meneur',
           variantesScoring: { paireUnanimeZero: true, pommePourrieDouble: true },
         },
       });
-      await q1.next((m) => m.type === 'roomState' && m.state.settings.nbManches === 2, 'roomState(Rl resettings)');
+      await q1.next(
+        (m) => m.type === 'roomState' && m.state.settings.nbManches === 2,
+        'roomState(Rl resettings)',
+      );
       q1.send({ type: 'startGame' });
       const rsRelance = await q3.ofType('roundStart', 6000);
-      check('returnToLobby → relance : nouvelle partie manche 1 (même salle)', rsRelance.manche === 1);
+      check(
+        'returnToLobby → relance : nouvelle partie manche 1 (même salle)',
+        rsRelance.manche === 1,
+      );
     }
 
     // --- 15. Hôte quitte EN JEU (forming) → promotion d'un joueur restant ---
@@ -737,6 +767,92 @@ async function main() {
           stPromo.state.players.some((p) => p.id === stPromo.state.hostId) &&
           stPromo.state.phase === 'forming',
         `host=${stPromo.state.hostId} attenduParmi=[${jq2.playerId}] phase=${stPromo.state.phase}`,
+      );
+    }
+
+    // --- 16. (TASK-011) revealNext : curseur pas-à-pas synchronisé (mode meneur) ---
+    {
+      const { code, q1, q2, q3, jq3, rs } = await startedRoom('Rn', {
+        nbManches: 1,
+        dureeSablier: 90,
+        vitesseReveal: 'meneur',
+        variantesScoring: { paireUnanimeZero: true, pommePourrieDouble: true },
+      });
+      const subs = buildSubs(rs.cards);
+      q1.send({ type: 'submitPairs', ...subs.p1 });
+      q2.send({ type: 'submitPairs', ...subs.p2 });
+      q3.send({ type: 'submitPairs', ...subs.p3 });
+      const rev = await q1.ofType('revealPayload', 6000);
+      const total = rev.parPaire.length + (rev.pommesPourries.length > 0 ? 1 : 0);
+      check(
+        'revealPayload : curseur initial revealStep=0',
+        rev.revealStep === 0,
+        `step=${rev.revealStep}`,
+      );
+      check('revealNext : total d’étapes > 0 (paires + pommes)', total > 0, `total=${total}`);
+
+      // Non-hôte refusé.
+      q2.send({ type: 'revealNext' });
+      const errRn = await q2.ofType('error', 4000);
+      check('revealNext non-hôte → error NOT_HOST', errRn.code === 'NOT_HOST', errRn.code);
+
+      // Hôte : 1er pas → revealStep=1 diffusé à TOUS (vu par q3).
+      q1.send({ type: 'revealNext' });
+      const step1 = await q3.next((m) => m.type === 'revealStep', 'revealStep(1)', 4000);
+      check(
+        'revealNext (hôte) → curseur incrémenté + diffusé à tous',
+        step1.step === 1,
+        `step=${step1.step}`,
+      );
+
+      // Avancer jusqu'au bout ; le curseur atteint exactement `total`.
+      let last = step1.step;
+      for (let i = last; i < total; i++) {
+        q1.send({ type: 'revealNext' });
+        const m = await q1.next(
+          (x) => x.type === 'revealStep' && x.step > last,
+          `revealStep(${last + 1})`,
+          4000,
+        );
+        last = m.step;
+      }
+      check(
+        'revealNext : curseur atteint le total des étapes',
+        last === total,
+        `last=${last} total=${total}`,
+      );
+
+      // Borne haute : au bout, un revealNext de plus n'émet AUCUNE nouvelle étape.
+      q1.drain();
+      q1.send({ type: 'revealNext' });
+      let capped = true;
+      try {
+        await q1.next((m) => m.type === 'revealStep', 'revealStep(over)', 800);
+        capped = false;
+      } catch {
+        /* attendu : timeout, curseur borné */
+      }
+      check('revealNext borné en haut (au bout, plus d’incrément)', capped);
+
+      // Resync mid-reveal : une (re)connexion reçoit le revealStep COURANT.
+      q3.close();
+      await q1.next(
+        (m) =>
+          m.type === 'roomState' &&
+          m.state.players.some((p) => p.id === jq3.playerId && p.connecte === false),
+        'roomState(Rn q3 disconnected)',
+        6000,
+      );
+      const q3b = new Client(code);
+      await q3b.open();
+      clients.push(q3b);
+      q3b.send({ type: 'joinRoom', pseudo: 'Rn3', playerId: jq3.playerId });
+      await q3b.ofType('joined');
+      const revReco = await q3b.ofType('revealPayload', 4000);
+      check(
+        'resync mid-reveal → revealStep courant renvoyé dans le payload',
+        revReco.revealStep === total,
+        `step=${revReco.revealStep} total=${total}`,
       );
     }
   } catch (err) {

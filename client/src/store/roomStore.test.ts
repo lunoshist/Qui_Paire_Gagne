@@ -99,7 +99,7 @@ describe('reduce — messages de jeu', () => {
     expect(s3.submitted).toEqual(['p2', 'p3']);
   });
 
-  it('revealPayload stocke le payload de révélation', () => {
+  it('revealPayload stocke le payload de révélation + le curseur initial', () => {
     const msg = {
       type: 'revealPayload' as const,
       parPaire: [],
@@ -107,9 +107,41 @@ describe('reduce — messages de jeu', () => {
       soumissionsParJoueur: {},
       deltaScores: { p1: 3 },
       cumul: { p1: 3 },
+      revealStep: 0,
     };
     const s = reduce(withPlayer, { type: 'server', message: msg });
     expect(s.reveal).toBe(msg);
+    expect(s.revealStep).toBe(0);
+  });
+
+  it('revealPayload restaure le curseur courant (resync mid-reveal)', () => {
+    const msg = {
+      type: 'revealPayload' as const,
+      parPaire: [],
+      pommesPourries: [],
+      soumissionsParJoueur: {},
+      deltaScores: {},
+      cumul: {},
+      revealStep: 3,
+    };
+    const s = reduce(withPlayer, { type: 'server', message: msg });
+    expect(s.revealStep).toBe(3);
+  });
+
+  it('revealStep met à jour le curseur synchronisé (mode meneur)', () => {
+    const s1 = reduce(withPlayer, { type: 'server', message: { type: 'revealStep', step: 1 } });
+    expect(s1.revealStep).toBe(1);
+    const s2 = reduce(s1, { type: 'server', message: { type: 'revealStep', step: 2 } });
+    expect(s2.revealStep).toBe(2);
+  });
+
+  it('roundStart remet le curseur de révélation à zéro', () => {
+    const dirty = { ...withPlayer, revealStep: 4 };
+    const s = reduce(dirty, {
+      type: 'server',
+      message: { type: 'roundStart', manche: 2, cards: ['a', 'b'], deadline: 1 },
+    });
+    expect(s.revealStep).toBe(0);
   });
 
   it('gameOver stocke le classement final', () => {

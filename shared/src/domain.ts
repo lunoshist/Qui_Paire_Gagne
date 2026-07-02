@@ -44,8 +44,18 @@ export interface Player {
 /** Machine à états d'une partie (voir `docs/architecture.md`). */
 export type Phase = 'lobby' | 'dealing' | 'forming' | 'reveal' | 'scores' | 'finished';
 
-/** Tempo de la mise en scène de la révélation (D-008). */
-export type VitesseReveal = 'lent' | 'normal' | 'rapide';
+/**
+ * Mode de mise en scène de la révélation (D-008, révisé TASK-011).
+ *
+ * Les modes doivent VRAIMENT différer (retour commanditaire) — on est donc passé
+ * de 3 tempos indistincts (`lent`/`normal`/`rapide`) à 2 modes au comportement
+ * franchement distinct :
+ * - `meneur` (DÉFAUT) : révélation **une paire à la fois**, **synchronisée pour
+ *   tous par le serveur** ; l'hôte clique « Suivante » (message `revealNext`,
+ *   curseur `revealStep` autoritatif) → laisse aux auteurs le temps de commenter.
+ * - `rapide` : enchaînement **automatique côté client** (aucun message par étape).
+ */
+export type VitesseReveal = 'meneur' | 'rapide';
 
 /**
  * Variantes de scoring configurables par l'hôte.
@@ -71,7 +81,7 @@ export interface RoomSettings {
 export const DEFAULT_SETTINGS: RoomSettings = {
   nbManches: 4,
   dureeSablier: 90,
-  vitesseReveal: 'normal',
+  vitesseReveal: 'meneur',
   variantesScoring: {
     paireUnanimeZero: true,
     pommePourrieDouble: true,

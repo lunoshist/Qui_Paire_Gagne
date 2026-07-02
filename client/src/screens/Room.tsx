@@ -26,11 +26,10 @@ import {
 } from '../storage';
 
 const SABLIER_PRESETS = [30, 45, 60, 90, 120, 180, 300, 600];
-const VITESSES: VitesseReveal[] = ['lent', 'normal', 'rapide'];
+const VITESSES: VitesseReveal[] = ['meneur', 'rapide'];
 const VITESSE_LABEL: Record<VitesseReveal, string> = {
-  lent: 'Lent',
-  normal: 'Normal',
-  rapide: 'Rapide',
+  meneur: 'Meneur (pas à pas)',
+  rapide: 'Rapide (auto)',
 };
 
 /** Détermine l'intention de join initiale : intent Accueil, ou reconnexion. */
@@ -208,6 +207,9 @@ function RoomInner({
             reveal={room.reveal}
             players={state.players}
             iAmHost={iAmHost}
+            mode={state.settings.vitesseReveal}
+            revealStep={room.revealStep}
+            onRevealNext={room.revealNext}
             onAdvance={room.advance}
           />
         ) : state.phase === 'finished' && room.gameOver ? (

@@ -1,16 +1,34 @@
 /**
- * Écran Révélation (phase `reveal`) — FONCTIONNEL (la mise en scène animée riche
- * est l'objet de TASK-009). Rejoue le `revealPayload` : chaque paire distincte
- * (2 cartes), ses auteurs (jetons couleur) et ses points, avec traitement visuel
- * des cas 0 point (solo / unanime), puis les pommes pourries. Un panneau de scores
- * (cumul trié + delta) accompagne. L'hôte enchaîne avec « Continuer » (`advance`).
+ * Écran Révélation (phase `reveal`) — mise en scène pas-à-pas (TASK-011).
+ *
+ * Deux modes VRAIMENT distincts (réglage `vitesseReveal`) :
+ *  - **meneur** (défaut) : les éléments sont dévoilés UN PAR UN, **synchronisés
+ *    par le serveur** via le curseur `revealStep`. L'HÔTE clique « Suivante »
+ *    (`onRevealNext` → message `revealNext`) ; les autres suivent la même
+ *    progression (« le meneur dévoile… »). À la fin, l'hôte fait `advance`.
+ *  - **rapide** : enchaînement AUTOMATIQUE côté client (timer local), sans aucun
+ *    message par étape.
+ *
+ * Dans les deux cas : chaque paire dévoilée fait « tomber » ses points sur les
+ * scores (animation), avec gags pour les cas 0 point (solo / unanime), puis la
+ * finale des pommes pourries. Le panneau de scores affiche le cumul EN COURS
+ * (il monte au fil des révélations), pas le total final d'emblée.
  */
 
-import { useMemo, useState } from 'react';
-import type { PairResult, Player, PommePourrieResult, RevealPayloadMessage } from '@qpg/shared';
+import { useEffect, useMemo, useState } from 'react';
+import type {
+  PairResult,
+  Player,
+  PommePourrieResult,
+  RevealPayloadMessage,
+  VitesseReveal,
+} from '@qpg/shared';
 import { useCatalog } from '../catalog';
 import { Banner, Button, Panel } from '../ui/components';
 import { CardFace, Lightbox, PlayerToken } from '../ui/gameComponents';
+
+/** Cadence d'auto-révélation (ms/étape) en mode `rapide`. */
+const RAPIDE_STEP_MS = 1200;
 
 /** Vignette de carte cliquable qui ouvre le zoom plein écran (lightbox). */
 function ZoomableCard({
@@ -41,11 +59,18 @@ export function Reveal({
   reveal,
   players,
   iAmHost,
+  mode,
+  revealStep,
+  onRevealNext,
   onAdvance,
 }: {
   reveal: RevealPayloadMessage;
   players: Player[];
   iAmHost: boolean;
+  mode: VitesseReveal;
+  /** Curseur synchronisé (mode meneur). Ignoré en mode rapide. */
+  revealStep: number;
+  onRevealNext: () => void;
   onAdvance: () => void;
 }) {
   const catalog = useCatalog();
@@ -60,36 +85,109 @@ export function Reveal({
       ),
     [reveal.parPaire],
   );
-
-  // Pommes pourries partagées (≥1 sharer) — l'ordre payload suffit.
   const pommes = reveal.pommesPourries;
+
+  const hasPommes = pommes.length > 0;
+  // Étapes : 1 par paire + 1 étape finale pour le bloc des pommes pourries.
+  const totalSteps = paires.length + (hasPommes ? 1 : 0);
+
+  // --- Curseur d'affichage : serveur (meneur) OU timer local (rapide) ---
+  const [autoStep, setAutoStep] = useState(0);
+  useEffect(() => {
+    if (mode !== 'rapide') return;
+    if (autoStep >= totalSteps) return;
+    const t = setTimeout(() => setAutoStep((s) => Math.min(s + 1, totalSteps)), RAPIDE_STEP_MS);
+    return () => clearTimeout(t);
+  }, [mode, autoStep, totalSteps]);
+
+  const visibleCount =
+    mode === 'rapide' ? Math.min(autoStep, totalSteps) : Math.min(revealStep, totalSteps);
+
+  const visiblePairs = Math.min(visibleCount, paires.length);
+  const pommesVisible = hasPommes && visibleCount >= totalSteps;
+  const done = visibleCount >= totalSteps;
+
+  // --- Scores EN COURS : montent au fil des révélations ---
+  const running = useMemo(() => {
+    const acc: Record<string, number> = {};
+    for (const p of players)
+      acc[p.id] = (reveal.cumul[p.id] ?? 0) - (reveal.deltaScores[p.id] ?? 0);
+    for (let i = 0; i < visiblePairs; i++) {
+      const pr = paires[i];
+      if (pr.pointsParMaker > 0)
+        for (const id of pr.makers) acc[id] = (acc[id] ?? 0) + pr.pointsParMaker;
+    }
+    if (pommesVisible) {
+      for (const pp of pommes) {
+        if (pp.pointsParSharer > 0)
+          for (const id of pp.sharers) acc[id] = (acc[id] ?? 0) + pp.pointsParSharer;
+      }
+    }
+    return acc;
+  }, [players, reveal.cumul, reveal.deltaScores, paires, pommes, visiblePairs, pommesVisible]);
 
   const classement = useMemo(
     () =>
       [...players]
         .map((p) => ({
           player: p,
-          cumul: reveal.cumul[p.id] ?? p.scoreCumul,
-          delta: reveal.deltaScores[p.id] ?? 0,
+          cumul: running[p.id] ?? 0,
+          delta:
+            (running[p.id] ?? 0) - ((reveal.cumul[p.id] ?? 0) - (reveal.deltaScores[p.id] ?? 0)),
         }))
-        .sort((a, b) => b.cumul - a.cumul),
-    [players, reveal.cumul, reveal.deltaScores],
+        .sort((a, b) => b.cumul - a.cumul || a.player.pseudo.localeCompare(b.player.pseudo)),
+    [players, running, reveal.cumul, reveal.deltaScores],
   );
 
   return (
-    <div className="game-shell">
+    <div className="game-shell reveal-shell">
       <header className="reveal-header">
         <h2>🎬 Révélation</h2>
-        <p className="reveal-sub">Voici les paires formées et les points de la manche.</p>
+        {mode === 'meneur' ? (
+          <p className="reveal-sub">
+            {iAmHost
+              ? 'Tu es le meneur : dévoile les paires une à une, laisse les auteurs s’expliquer.'
+              : '🎙️ Le meneur dévoile les paires une à une…'}
+          </p>
+        ) : (
+          <p className="reveal-sub">Révélation express — tout s’enchaîne automatiquement.</p>
+        )}
+        {totalSteps > 0 && (
+          <div
+            className="reveal-progress"
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={totalSteps}
+            aria-valuenow={visibleCount}
+          >
+            <div
+              className="reveal-progress-bar"
+              style={{ width: `${(visibleCount / totalSteps) * 100}%` }}
+            />
+            <span className="reveal-progress-label">
+              {visibleCount} / {totalSteps}
+            </span>
+          </div>
+        )}
       </header>
 
       <section className="reveal-pairs" aria-label="Paires révélées">
-        {paires.map((pr, i) => (
-          <PairReveal key={i} pr={pr} byId={byId} catalog={catalog} onZoom={setZoomed} />
-        ))}
+        {visiblePairs === 0 && !pommesVisible ? (
+          <p className="reveal-waiting">
+            {mode === 'meneur' && !iAmHost
+              ? 'Le meneur va commencer…'
+              : 'La révélation va commencer…'}
+          </p>
+        ) : (
+          paires
+            .slice(0, visiblePairs)
+            .map((pr, i) => (
+              <PairReveal key={i} pr={pr} byId={byId} catalog={catalog} onZoom={setZoomed} />
+            ))
+        )}
       </section>
 
-      {pommes.length > 0 && (
+      {pommesVisible && (
         <section className="reveal-pommes" aria-label="Pommes pourries">
           <h3>🍎 Pommes pourries</h3>
           <div className="pommes-grid">
@@ -106,13 +204,15 @@ export function Reveal({
         </section>
       )}
 
-      <Panel title="Scores (cumul)">
+      <Panel title="Scores (en direct)">
         <ol className="score-list">
           {classement.map(({ player, cumul, delta }, i) => (
             <li key={player.id} className="score-row">
               <span className="score-rank">{i + 1}</span>
               <PlayerToken player={player} />
-              <span className="score-total">{cumul}</span>
+              <span key={cumul} className="score-total score-bump">
+                {cumul}
+              </span>
               <span className={`score-delta ${delta > 0 ? 'is-plus' : ''}`.trim()}>
                 {delta > 0 ? `+${delta}` : '+0'}
               </span>
@@ -122,12 +222,38 @@ export function Reveal({
       </Panel>
 
       <div className="game-actions">
-        {iAmHost ? (
-          <Button size="lg" block onClick={onAdvance}>
-            Continuer →
-          </Button>
-        ) : (
+        {mode === 'meneur' ? (
+          iAmHost ? (
+            done ? (
+              <Button size="lg" block onClick={onAdvance}>
+                Continuer →
+              </Button>
+            ) : (
+              <Button size="lg" block onClick={onRevealNext}>
+                {visibleCount === 0 ? 'Dévoiler la 1re paire 🎬' : 'Suivante →'}
+              </Button>
+            )
+          ) : done ? (
+            <Banner kind="info">En attente que l’hôte continue…</Banner>
+          ) : (
+            <Banner kind="info">
+              🎙️ Le meneur dévoile… ({visibleCount}/{totalSteps})
+            </Banner>
+          )
+        ) : iAmHost ? (
+          done ? (
+            <Button size="lg" block onClick={onAdvance}>
+              Continuer →
+            </Button>
+          ) : (
+            <Button variant="ghost" size="lg" block onClick={() => setAutoStep(totalSteps)}>
+              Passer ⏭
+            </Button>
+          )
+        ) : done ? (
           <Banner kind="info">En attente que l’hôte continue…</Banner>
+        ) : (
+          <Banner kind="info">Révélation en cours…</Banner>
         )}
       </div>
 
@@ -136,9 +262,10 @@ export function Reveal({
   );
 }
 
-function makersLabel(makers: number, points: number): { text: string; kind: string } {
-  if (makers <= 1) return { text: 'Personne d’autre… 0 point 😬', kind: 'zero' };
-  if (points === 0) return { text: 'Trop évident ! Tout le monde → 0 point 🤪', kind: 'zero' };
+/** Verdict d'une paire : distingue solo (dégonflé) et unanime (trop évident). */
+function pairVerdict(makers: number, points: number): { text: string; kind: string } {
+  if (makers <= 1) return { text: 'Personne d’autre… 0 point 😬', kind: 'solo' };
+  if (points === 0) return { text: 'Trop évident ! Tout le monde → 0 point 🤪', kind: 'unanime' };
   return { text: `+${points} chacun`, kind: 'plus' };
 }
 
@@ -153,9 +280,9 @@ function PairReveal({
   catalog: ReturnType<typeof useCatalog>;
   onZoom: (id: string) => void;
 }) {
-  const label = makersLabel(pr.makers.length, pr.pointsParMaker);
+  const verdict = pairVerdict(pr.makers.length, pr.pointsParMaker);
   return (
-    <article className={`pair-reveal is-${label.kind}`}>
+    <article className={`pair-reveal reveal-pop is-${verdict.kind}`}>
       <div className="pair-reveal-cards">
         <ZoomableCard id={pr.pair[0]} catalog={catalog} size="md" onZoom={onZoom} />
         <span className="pair-heart" aria-hidden="true">
@@ -173,7 +300,14 @@ function PairReveal({
           })
         )}
       </div>
-      <span className={`pair-reveal-points is-${label.kind}`}>{label.text}</span>
+      <span className={`pair-reveal-points is-${verdict.kind}`}>
+        {verdict.kind === 'plus' && (
+          <span className="points-fly" aria-hidden="true">
+            +{pr.pointsParMaker}
+          </span>
+        )}
+        {verdict.text}
+      </span>
     </article>
   );
 }
@@ -196,7 +330,9 @@ function PommeReveal({
       ? 'Tous la même 🤪 · 0 point'
       : `+${pp.pointsParSharer} chacun (double 🍎)`;
   return (
-    <article className={`pomme-reveal ${pp.pointsParSharer > 0 ? 'is-gold' : 'is-zero'}`}>
+    <article
+      className={`pomme-reveal reveal-pop ${pp.pointsParSharer > 0 ? 'is-gold' : 'is-zero'}`}
+    >
       <ZoomableCard id={pp.cardId} catalog={catalog} size="md" onZoom={onZoom} />
       <div className="pomme-reveal-makers">
         {pp.sharers.map((id) => {

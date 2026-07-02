@@ -96,6 +96,16 @@ export interface AdvanceMessage {
   type: 'advance';
 }
 
+/**
+ * (Mode `meneur`) L'hôte dévoile l'élément suivant de la révélation : le serveur
+ * incrémente le curseur autoritatif `revealStep` (borné au nombre d'éléments) et
+ * rediffuse l'étape courante à TOUS via `revealStep` — tout le monde voit la même
+ * paire au même instant. Sans effet hors phase `reveal` ou si déjà au bout.
+ */
+export interface RevealNextMessage {
+  type: 'revealNext';
+}
+
 /** Un joueur quitte la salle (+ fermeture du WebSocket). */
 export interface LeaveRoomMessage {
   type: 'leaveRoom';
@@ -119,6 +129,7 @@ export type ClientMessage =
   | StartGameMessage
   | SubmitPairsMessage
   | AdvanceMessage
+  | RevealNextMessage
   | LeaveRoomMessage
   | ReturnToLobbyMessage;
 
@@ -176,6 +187,21 @@ export interface RevealPayloadMessage {
   deltaScores: Record<string, number>;
   /** Score cumulé après la manche, par joueur. */
   cumul: Record<string, number>;
+  /**
+   * Curseur de révélation courant (mode `meneur`) : nombre d'éléments déjà
+   * dévoilés (0 à l'ouverture, valeur en cours lors d'un resync mid-reveal).
+   * Ignoré en mode `rapide` (l'auto-play est piloté côté client).
+   */
+  revealStep: number;
+}
+
+/**
+ * (Mode `meneur`) Nouvelle valeur du curseur de révélation, diffusée à tous après
+ * un `revealNext` de l'hôte : synchronise l'affichage pas-à-pas entre clients.
+ */
+export interface RevealStepMessage {
+  type: 'revealStep';
+  step: number;
 }
 
 /** Fin de partie : classement final. */
@@ -200,6 +226,7 @@ export type ServerMessage =
   | RoundStartMessage
   | PlayerSubmittedMessage
   | RevealPayloadMessage
+  | RevealStepMessage
   | GameOverMessage
   | ErrorMessage;
 

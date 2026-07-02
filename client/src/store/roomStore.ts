@@ -44,6 +44,12 @@ export interface RoomStoreState {
   submitted: string[];
   /** Payload de révélation de la manche (résultats + soumissions + scores), `null` sinon. */
   reveal: RevealPayloadMessage | null;
+  /**
+   * (Mode `meneur`) Curseur de révélation synchronisé par le serveur : nombre
+   * d'éléments dévoilés. Alimenté par `revealPayload` (valeur initiale / resync)
+   * puis par chaque `revealStep`. Ignoré en mode `rapide` (auto-play local).
+   */
+  revealStep: number;
   /** Résultat de fin de partie (classement final), `null` tant que la partie n'est pas finie. */
   gameOver: GameOverMessage | null;
 }
@@ -56,6 +62,7 @@ export const initialRoomState: RoomStoreState = {
   round: null,
   submitted: [],
   reveal: null,
+  revealStep: 0,
   gameOver: null,
 };
 
@@ -64,6 +71,7 @@ const CLEARED_ROUND = {
   round: null,
   submitted: [] as string[],
   reveal: null,
+  revealStep: 0,
   gameOver: null,
 } satisfies Partial<RoomStoreState>;
 
@@ -117,6 +125,7 @@ export function reduce(state: RoomStoreState, action: RoomAction): RoomStoreStat
             round: { manche: msg.manche, cards: msg.cards, deadline: msg.deadline },
             submitted: [],
             reveal: null,
+            revealStep: 0,
             gameOver: null,
           };
 
@@ -126,7 +135,12 @@ export function reduce(state: RoomStoreState, action: RoomAction): RoomStoreStat
             : { ...state, submitted: [...state.submitted, msg.playerId] };
 
         case 'revealPayload':
-          return { ...state, reveal: msg };
+          // Le payload porte le curseur courant (0 à l'ouverture, valeur en cours
+          // lors d'un resync mid-reveal) → synchronise l'affichage pas-à-pas.
+          return { ...state, reveal: msg, revealStep: msg.revealStep };
+
+        case 'revealStep':
+          return { ...state, revealStep: msg.step };
 
         case 'gameOver':
           return { ...state, gameOver: msg };
