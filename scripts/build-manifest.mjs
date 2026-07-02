@@ -53,7 +53,9 @@ function conceptTags(id) {
   return [...new Set([phrase, ...words])];
 }
 
-const files = readdirSync(IMAGES_DIR).filter((f) => /\.(jpe?g|png|webp)$/i.test(f)).sort();
+const files = readdirSync(IMAGES_DIR)
+  .filter((f) => /\.(jpe?g|png|webp)$/i.test(f))
+  .sort();
 const cards = [];
 const credits = [];
 
@@ -65,10 +67,18 @@ for (const file of files) {
   let source, license, attribution;
   if (p) {
     source = 'royalty-free';
-    license = p.license ? `${p.license}${p.license_version ? ' ' + p.license_version : ''}` : undefined;
-    attribution = { creator: p.creator || null, sourceUrl: p.source_url || null, provider: p.provider || null };
+    license = p.license
+      ? `${p.license}${p.license_version ? ' ' + p.license_version : ''}`
+      : undefined;
+    attribution = {
+      creator: p.creator || null,
+      sourceUrl: p.source_url || null,
+      provider: p.provider || null,
+    };
     if (p.license && p.license.toLowerCase().startsWith('by')) {
-      credits.push(`- **${id}** — ${p.title || ''} par ${p.creator || 'inconnu'} (${license}) — ${p.source_url || ''}`);
+      credits.push(
+        `- **${id}** — ${p.title || ''} par ${p.creator || 'inconnu'} (${license}) — ${p.source_url || ''}`,
+      );
     }
   } else {
     source = prev?.source || 'ai-illustration';
@@ -79,7 +89,13 @@ for (const file of files) {
   const tags =
     prev && prev.tags && Array.isArray(prev.tags.concepts) && prev.tags.concepts.length
       ? prev.tags
-      : { concepts: conceptTags(id), couleursDominantes: [], categorie: '', ambiance: [], formes: [] };
+      : {
+          concepts: conceptTags(id),
+          couleursDominantes: [],
+          categorie: '',
+          ambiance: [],
+          formes: [],
+        };
 
   const card = { id, subject: tags.concepts?.[0] || id, file: `images/${file}`, source, tags };
   if (license) card.license = license;
@@ -100,7 +116,10 @@ const credHeader =
   '# Crédits & licences des images\n\n' +
   'Images sous CC0 / domaine public : aucune attribution requise.\n' +
   'Images sous CC-BY (attribution requise) ci-dessous :\n\n';
-writeFileSync(CREDITS, credHeader + (credits.length ? credits.join('\n') : '(aucune pour l’instant)') + '\n');
+writeFileSync(
+  CREDITS,
+  credHeader + (credits.length ? credits.join('\n') : '(aucune pour l’instant)') + '\n',
+);
 
 const byLicense = cards.reduce((a, c) => ((a[c.source] = (a[c.source] || 0) + 1), a), {});
 console.log(`manifest.json généré : ${cards.length} cartes`, byLicense);

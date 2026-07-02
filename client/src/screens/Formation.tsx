@@ -27,7 +27,7 @@ import { PAIRS_PER_ROUND } from '@qpg/shared';
 import type { RoundInfo } from '../store/roomStore';
 import { useCatalog } from '../catalog';
 import { Banner, Button } from '../ui/components';
-import { CardFace, Countdown, PlayerToken } from '../ui/gameComponents';
+import { CardFace, Countdown, Lightbox, PlayerToken } from '../ui/gameComponents';
 import {
   createFormation,
   isComplete,
@@ -63,12 +63,15 @@ export function Formation({
     setFormation(createFormation(round.cards));
     setSelected(null);
     setSubmittedLocally(false);
+    setZoomed(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardsKey]);
 
   const [selected, setSelected] = useState<string | null>(null);
   const [activeDrag, setActiveDrag] = useState<string | null>(null);
   const [submittedLocally, setSubmittedLocally] = useState(false);
+  // Carte affichée en zoom plein écran (lightbox), ou null.
+  const [zoomed, setZoomed] = useState<string | null>(null);
 
   const iHaveSubmitted = submittedLocally || (myId != null && submitted.includes(myId));
   const complete = isComplete(formation);
@@ -224,80 +227,91 @@ export function Formation({
           </Banner>
         )}
 
-        {/* --- Emplacements de paires + pomme pourrie --- */}
-        <section className="pairs-area" aria-label="Mes paires">
-          {formation.slots.map((slot, i) => (
-            <PairSlot
-              key={i}
-              index={i}
-              cards={slot}
-              disabled={iHaveSubmitted}
-              onTapSlot={() => onSlotTap(i)}
-              renderCard={(id) => (
+        <div className="formation-layout">
+          {/* --- Pool : les grandes cartes-images (zone dominante) --- */}
+          <PoolArea>
+            {pool.length === 0 ? (
+              <span className="slot-empty">Toutes les cartes sont placées.</span>
+            ) : (
+              pool.map((id) => (
                 <PlayableCard
                   key={id}
                   id={id}
                   selected={selected === id}
                   disabled={iHaveSubmitted}
-                  droppable={false}
+                  droppable
                   onTap={() => onCardTap(id)}
+                  onZoom={() => setZoomed(id)}
                   catalog={catalog}
                 />
-              )}
-            />
-          ))}
-          <div className="pomme-slot">
-            <span className="slot-label">🍎 Pomme pourrie</span>
-            <div className="pomme-drop">
-              {pp ? (
-                <PlayableCard
-                  id={pp}
-                  selected={false}
-                  disabled
-                  droppable={false}
-                  onTap={() => undefined}
-                  catalog={catalog}
+              ))
+            )}
+          </PoolArea>
+
+          {/* --- Panneau compact : les 5 paires + pomme pourrie + valider --- */}
+          <aside className="pairs-panel" aria-label="Mes paires">
+            <section className="pairs-area">
+              {formation.slots.map((slot, i) => (
+                <PairSlot
+                  key={i}
+                  index={i}
+                  cards={slot}
+                  disabled={iHaveSubmitted}
+                  onTapSlot={() => onSlotTap(i)}
+                  renderCard={(id) => (
+                    <PlayableCard
+                      key={id}
+                      id={id}
+                      selected={selected === id}
+                      disabled={iHaveSubmitted}
+                      droppable={false}
+                      compact
+                      onTap={() => onCardTap(id)}
+                      onZoom={() => setZoomed(id)}
+                      catalog={catalog}
+                    />
+                  )}
                 />
-              ) : (
-                <span className="slot-empty">carte restante (auto)</span>
-              )}
-            </div>
-          </div>
-        </section>
+              ))}
+              <div className="pomme-slot">
+                <span className="slot-label">🍎 Pomme pourrie</span>
+                <div className="pomme-drop">
+                  {pp ? (
+                    <PlayableCard
+                      id={pp}
+                      selected={false}
+                      disabled
+                      droppable={false}
+                      compact
+                      onTap={() => undefined}
+                      onZoom={() => setZoomed(pp)}
+                      catalog={catalog}
+                    />
+                  ) : (
+                    <span className="slot-empty">carte restante (auto)</span>
+                  )}
+                </div>
+              </div>
 
-        {/* --- Pool des cartes non placées --- */}
-        <PoolArea>
-          {pool.length === 0 ? (
-            <span className="slot-empty">Toutes les cartes sont placées.</span>
-          ) : (
-            pool.map((id) => (
-              <PlayableCard
-                key={id}
-                id={id}
-                selected={selected === id}
-                disabled={iHaveSubmitted}
-                droppable
-                onTap={() => onCardTap(id)}
-                catalog={catalog}
-              />
-            ))
-          )}
-        </PoolArea>
-
-        <div className="game-actions">
-          <Button size="lg" block onClick={submit} disabled={iHaveSubmitted || !complete}>
-            {iHaveSubmitted
-              ? '✓ Paires envoyées'
-              : complete
-                ? '✓ Valider mes paires'
-                : `Forme les ${PAIRS_PER_ROUND} paires…`}
-          </Button>
+              <div className="game-actions">
+                <Button size="lg" block onClick={submit} disabled={iHaveSubmitted || !complete}>
+                  {iHaveSubmitted
+                    ? '✓ Paires envoyées'
+                    : complete
+                      ? '✓ Valider mes paires'
+                      : `Forme les ${PAIRS_PER_ROUND} paires…`}
+                </Button>
+              </div>
+            </section>
+          </aside>
         </div>
       </div>
 
       <DragOverlay>
         {activeDrag ? <CardFace id={activeDrag} catalog={catalog} size="md" /> : null}
       </DragOverlay>
+
+      {zoomed ? <Lightbox id={zoomed} catalog={catalog} onClose={() => setZoomed(null)} /> : null}
     </DndContext>
   );
 }
@@ -357,20 +371,29 @@ function PoolArea({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Carte jouable : draggable (+ droppable si au pool) + tap-to-pair. */
+/**
+ * Carte jouable : draggable (+ droppable si au pool) + tap-to-pair, avec un
+ * bouton de zoom dédié en surimpression. Le bouton de zoom est un frère du
+ * bouton-carte (pas imbriqué) : il ouvre la lightbox sans déclencher ni drag ni
+ * appariement. `compact` = miniature (dans le panneau des paires).
+ */
 function PlayableCard({
   id,
   selected,
   disabled,
   droppable,
+  compact = false,
   onTap,
+  onZoom,
   catalog,
 }: {
   id: string;
   selected: boolean;
   disabled: boolean;
   droppable: boolean;
+  compact?: boolean;
   onTap: () => void;
+  onZoom: () => void;
   catalog: ReturnType<typeof useCatalog>;
 }) {
   const drag = useDraggable({ id, disabled });
@@ -388,21 +411,36 @@ function PlayableCard({
   };
 
   return (
-    <button
-      ref={setRef}
-      type="button"
-      className={`playable-card ${selected ? 'is-selected' : ''} ${drop.isOver ? 'is-pair-target' : ''}`.trim()}
-      style={style}
-      disabled={disabled}
-      onClick={(e) => {
-        e.stopPropagation();
-        onTap();
-      }}
-      {...drag.listeners}
-      {...drag.attributes}
-      aria-pressed={selected}
-    >
-      <CardFace id={id} catalog={catalog} size="md" />
-    </button>
+    <div className={`card-cell ${compact ? 'is-compact' : ''}`.trim()}>
+      <button
+        ref={setRef}
+        type="button"
+        className={`playable-card ${selected ? 'is-selected' : ''} ${drop.isOver ? 'is-pair-target' : ''}`.trim()}
+        style={style}
+        disabled={disabled}
+        onClick={(e) => {
+          e.stopPropagation();
+          onTap();
+        }}
+        {...drag.listeners}
+        {...drag.attributes}
+        aria-pressed={selected}
+      >
+        <CardFace id={id} catalog={catalog} size="md" />
+      </button>
+      <button
+        type="button"
+        className="card-zoom-btn"
+        title="Agrandir la carte"
+        aria-label="Agrandir la carte"
+        onPointerDown={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          onZoom();
+        }}
+      >
+        🔍
+      </button>
+    </div>
   );
 }

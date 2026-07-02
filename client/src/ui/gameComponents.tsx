@@ -4,6 +4,7 @@
  * écrans). Réutilisent le design system D-007 (voir styles.css).
  */
 
+import { useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { Player } from '@qpg/shared';
 import type { CatalogMap } from '../catalog';
@@ -29,6 +30,52 @@ export function CardFace({
       ) : (
         <span className="card-fallback">{subject}</span>
       )}
+    </div>
+  );
+}
+
+/**
+ * Zoom plein écran (lightbox) d'une carte, pour en voir les détails sur mobile.
+ * Fermeture : clic sur le fond, bouton ✕, ou touche Échap. Ne participe à aucun
+ * appariement (rendu hors du DndContext, au niveau de l'écran).
+ */
+export function Lightbox({
+  id,
+  catalog,
+  onClose,
+}: {
+  id: string;
+  catalog: CatalogMap;
+  onClose: () => void;
+}) {
+  const subject = cardSubject(catalog, id);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+  return (
+    <div
+      className="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Carte agrandie : ${subject}`}
+      onClick={onClose}
+    >
+      <button
+        type="button"
+        className="lightbox-close"
+        onClick={onClose}
+        aria-label="Fermer le zoom"
+      >
+        ✕
+      </button>
+      <div className="lightbox-inner" onClick={(e) => e.stopPropagation()}>
+        <CardFace id={id} catalog={catalog} size="lg" />
+        <span className="lightbox-subject">{subject}</span>
+      </div>
     </div>
   );
 }

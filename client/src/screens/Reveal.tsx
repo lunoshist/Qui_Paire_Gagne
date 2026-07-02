@@ -6,11 +6,36 @@
  * (cumul trié + delta) accompagne. L'hôte enchaîne avec « Continuer » (`advance`).
  */
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { PairResult, Player, PommePourrieResult, RevealPayloadMessage } from '@qpg/shared';
 import { useCatalog } from '../catalog';
 import { Banner, Button, Panel } from '../ui/components';
-import { CardFace, PlayerToken } from '../ui/gameComponents';
+import { CardFace, Lightbox, PlayerToken } from '../ui/gameComponents';
+
+/** Vignette de carte cliquable qui ouvre le zoom plein écran (lightbox). */
+function ZoomableCard({
+  id,
+  catalog,
+  size,
+  onZoom,
+}: {
+  id: string;
+  catalog: ReturnType<typeof useCatalog>;
+  size?: 'sm' | 'md' | 'lg';
+  onZoom: (id: string) => void;
+}) {
+  return (
+    <button
+      type="button"
+      className="zoomable-card"
+      title="Agrandir la carte"
+      aria-label="Agrandir la carte"
+      onClick={() => onZoom(id)}
+    >
+      <CardFace id={id} catalog={catalog} size={size} />
+    </button>
+  );
+}
 
 export function Reveal({
   reveal,
@@ -25,6 +50,7 @@ export function Reveal({
 }) {
   const catalog = useCatalog();
   const byId = useMemo(() => new Map(players.map((p) => [p.id, p])), [players]);
+  const [zoomed, setZoomed] = useState<string | null>(null);
 
   // Ordre à crescendo : les 0 point d'abord, puis par nombre d'auteurs croissant.
   const paires = useMemo(
@@ -59,7 +85,7 @@ export function Reveal({
 
       <section className="reveal-pairs" aria-label="Paires révélées">
         {paires.map((pr, i) => (
-          <PairReveal key={i} pr={pr} byId={byId} catalog={catalog} />
+          <PairReveal key={i} pr={pr} byId={byId} catalog={catalog} onZoom={setZoomed} />
         ))}
       </section>
 
@@ -68,7 +94,13 @@ export function Reveal({
           <h3>🍎 Pommes pourries</h3>
           <div className="pommes-grid">
             {pommes.map((pp) => (
-              <PommeReveal key={pp.cardId} pp={pp} byId={byId} catalog={catalog} />
+              <PommeReveal
+                key={pp.cardId}
+                pp={pp}
+                byId={byId}
+                catalog={catalog}
+                onZoom={setZoomed}
+              />
             ))}
           </div>
         </section>
@@ -98,6 +130,8 @@ export function Reveal({
           <Banner kind="info">En attente que l’hôte continue…</Banner>
         )}
       </div>
+
+      {zoomed ? <Lightbox id={zoomed} catalog={catalog} onClose={() => setZoomed(null)} /> : null}
     </div>
   );
 }
@@ -112,20 +146,22 @@ function PairReveal({
   pr,
   byId,
   catalog,
+  onZoom,
 }: {
   pr: PairResult;
   byId: Map<string, Player>;
   catalog: ReturnType<typeof useCatalog>;
+  onZoom: (id: string) => void;
 }) {
   const label = makersLabel(pr.makers.length, pr.pointsParMaker);
   return (
     <article className={`pair-reveal is-${label.kind}`}>
       <div className="pair-reveal-cards">
-        <CardFace id={pr.pair[0]} catalog={catalog} size="md" />
+        <ZoomableCard id={pr.pair[0]} catalog={catalog} size="md" onZoom={onZoom} />
         <span className="pair-heart" aria-hidden="true">
           💞
         </span>
-        <CardFace id={pr.pair[1]} catalog={catalog} size="md" />
+        <ZoomableCard id={pr.pair[1]} catalog={catalog} size="md" onZoom={onZoom} />
       </div>
       <div className="pair-reveal-makers">
         {pr.makers.length === 0 ? (
@@ -146,10 +182,12 @@ function PommeReveal({
   pp,
   byId,
   catalog,
+  onZoom,
 }: {
   pp: PommePourrieResult;
   byId: Map<string, Player>;
   catalog: ReturnType<typeof useCatalog>;
+  onZoom: (id: string) => void;
 }) {
   const shared = pp.sharers.length > 1;
   const label = !shared
@@ -159,7 +197,7 @@ function PommeReveal({
       : `+${pp.pointsParSharer} chacun (double 🍎)`;
   return (
     <article className={`pomme-reveal ${pp.pointsParSharer > 0 ? 'is-gold' : 'is-zero'}`}>
-      <CardFace id={pp.cardId} catalog={catalog} size="sm" />
+      <ZoomableCard id={pp.cardId} catalog={catalog} size="md" onZoom={onZoom} />
       <div className="pomme-reveal-makers">
         {pp.sharers.map((id) => {
           const p = byId.get(id);

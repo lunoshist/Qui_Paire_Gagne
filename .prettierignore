@@ -8,3 +8,9 @@ package-lock.json
 docs
 AGENTS.md
 .claude
+
+# Catalogue généré / assets
+catalog/manifest.json
+catalog/CREDITS.md
+catalog/pool
+catalog/images

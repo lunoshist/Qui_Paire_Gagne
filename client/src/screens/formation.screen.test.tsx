@@ -89,6 +89,31 @@ describe('Écran Formation', () => {
     expect(pomme).toBe('c10');
   });
 
+  it('zoome une carte (lightbox) sans créer de paire', () => {
+    render(
+      <Formation round={round()} players={PLAYERS} myId="p1" submitted={[]} onSubmit={vi.fn()} />,
+    );
+
+    // Pas de dialog de zoom au départ.
+    expect(screen.queryByRole('dialog')).toBeNull();
+
+    // Le bouton de zoom de la carte c0 : frère du bouton-carte dans .card-cell.
+    const cardBtn = screen.getAllByText('c0')[0].closest('button');
+    const cell = cardBtn?.closest('.card-cell');
+    const zoomBtn = cell?.querySelector('.card-zoom-btn') as HTMLButtonElement;
+    expect(zoomBtn).toBeTruthy();
+
+    fireEvent.click(zoomBtn);
+
+    // La lightbox s'ouvre ; aucune sélection/paire n'a été déclenchée.
+    expect(screen.getByRole('dialog')).toBeTruthy();
+    expect(cardBtn?.getAttribute('aria-pressed')).toBe('false');
+
+    // Fermeture via le bouton ✕.
+    fireEvent.click(screen.getByLabelText(/Fermer le zoom/i));
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
   it('affiche l’état d’attente une fois soumis', () => {
     render(
       <Formation
