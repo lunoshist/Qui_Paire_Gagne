@@ -163,8 +163,11 @@ export interface RoundStartMessage {
   manche: number;
   /** Les 11 cardIds tirés pour la manche. */
   cards: string[];
-  /** Timestamp (ms) de fin de la phase `forming`. */
-  deadline: number;
+  /**
+   * Timestamp (ms) de fin de la phase `forming`, ou `null` en **temps illimité**
+   * (`sablierIllimite`) : aucun compte à rebours, résolution sur tous-soumis.
+   */
+  deadline: number | null;
 }
 
 /** Notification légère « X a soumis » (SANS le contenu des paires). */

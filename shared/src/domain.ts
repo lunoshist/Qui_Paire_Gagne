@@ -58,6 +58,38 @@ export type Phase = 'lobby' | 'dealing' | 'forming' | 'reveal' | 'scores' | 'fin
 export type VitesseReveal = 'meneur' | 'rapide';
 
 /**
+ * Mode de jeu (TASK-013). Deux barèmes/tailles de partie franchement distincts :
+ * - `classique` (DÉFAUT) : 3–8 joueurs, scoring compétitif habituel
+ *   (`computeRoundResult` : solo=0, unanime=0, sinon nb de makers, pomme ×2).
+ * - `duo` : EXACTEMENT 2 joueurs, scoring **coopératif** (`computeRoundResultDuo`)
+ *   — plus il y a de paires en commun, plus l'équipe marque (bonus, pas de malus).
+ */
+export type Mode = 'classique' | 'duo';
+
+/** Les modes disponibles (source de vérité pour la validation). */
+export const MODES: readonly Mode[] = ['classique', 'duo'] as const;
+
+/**
+ * Bornes de population par mode : le nombre de joueurs requis dépend du mode.
+ * - `classique` : 3 à 8 joueurs.
+ * - `duo` : exactement 2 joueurs (min = max = 2).
+ */
+export const PLAYER_BOUNDS: Record<Mode, { min: number; max: number }> = {
+  classique: { min: 3, max: 8 },
+  duo: { min: 2, max: 2 },
+};
+
+/** Nombre minimum de joueurs pour démarrer, selon le mode. */
+export function minPlayers(mode: Mode): number {
+  return PLAYER_BOUNDS[mode].min;
+}
+
+/** Nombre maximum de joueurs autorisés dans la salle, selon le mode. */
+export function maxPlayers(mode: Mode): number {
+  return PLAYER_BOUNDS[mode].max;
+}
+
+/**
  * Variantes de scoring configurables par l'hôte.
  * ⚠️ Les règles par défaut suivent D-003 (unanime = 0) — à recouper avec le livret officiel.
  */
@@ -70,17 +102,29 @@ export interface ScoringVariants {
 
 /** Réglages d'une salle, ajustables en lobby par l'hôte. */
 export interface RoomSettings {
+  /** Mode de jeu (`classique` par défaut). Détermine le barème ET la taille de partie. */
+  mode: Mode;
   nbManches: number;
   /** Durée du sablier de la phase `forming`, en secondes. */
   dureeSablier: number;
+  /**
+   * Temps illimité (TASK-013) : si `true`, aucun sablier ni alarme — la manche se
+   * résout uniquement quand tous les joueurs présents ont soumis. `dureeSablier`
+   * est ignoré (mais reste stocké/valide). Choix « flag booléen » retenu plutôt
+   * que `dureeSablier=0` : garde `dureeSablier` toujours dans sa plage valide et
+   * rend l'intention explicite côté protocole et UI.
+   */
+  sablierIllimite: boolean;
   vitesseReveal: VitesseReveal;
   variantesScoring: ScoringVariants;
 }
 
-/** Réglages par défaut d'une nouvelle salle (4 manches, sablier 90 s). */
+/** Réglages par défaut d'une nouvelle salle (mode classique, 4 manches, sablier 90 s). */
 export const DEFAULT_SETTINGS: RoomSettings = {
+  mode: 'classique',
   nbManches: 4,
   dureeSablier: 90,
+  sablierIllimite: false,
   vitesseReveal: 'meneur',
   variantesScoring: {
     paireUnanimeZero: true,
@@ -180,7 +224,11 @@ export type Scoreboard = ScoreEntry[];
 // Constantes de jeu
 // ---------------------------------------------------------------------------
 
-export const MIN_PLAYERS = 3;
-export const MAX_PLAYERS = 8;
+/**
+ * Bornes du mode `classique` (compat ascendante). Pour un nombre de joueurs
+ * dépendant du mode, préférer `minPlayers(mode)` / `maxPlayers(mode)`.
+ */
+export const MIN_PLAYERS = PLAYER_BOUNDS.classique.min;
+export const MAX_PLAYERS = PLAYER_BOUNDS.classique.max;
 export const CARDS_PER_ROUND = 11;
 export const PAIRS_PER_ROUND = 5;

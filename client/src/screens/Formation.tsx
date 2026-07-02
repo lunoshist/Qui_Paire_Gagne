@@ -79,12 +79,15 @@ export function Formation({
   const pp = pommePourrie(formation);
 
   // --- Sablier LOCAL basé sur la deadline (pas de tick serveur) -----------
+  // Temps illimité (deadline null) : aucun compte à rebours ni auto-soumission.
+  const illimite = round.deadline === null;
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
+    if (illimite) return;
     const id = setInterval(() => setNow(Date.now()), 250);
     return () => clearInterval(id);
-  }, []);
-  const remainingMs = round.deadline - now;
+  }, [illimite]);
+  const remainingMs = illimite ? Number.POSITIVE_INFINITY : (round.deadline ?? 0) - now;
 
   const submit = useCallback(() => {
     if (iHaveSubmitted) return;
@@ -99,11 +102,12 @@ export function Formation({
   submitRef.current = submit;
   const expiredHandled = useRef(false);
   useEffect(() => {
+    if (illimite) return; // pas d'échéance → jamais d'auto-soumission
     if (remainingMs > 0) return;
     if (expiredHandled.current) return;
     expiredHandled.current = true;
     submitRef.current();
-  }, [remainingMs]);
+  }, [illimite, remainingMs]);
   useEffect(() => {
     expiredHandled.current = false;
   }, [cardsKey]);
@@ -192,7 +196,13 @@ export function Formation({
       <div className="game-shell">
         <header className="game-topbar">
           <span className="game-manche">Manche {round.manche}</span>
-          <Countdown remainingMs={remainingMs} />
+          {illimite ? (
+            <span className="countdown" role="timer" aria-live="off" title="Temps illimité">
+              ⏳ ∞
+            </span>
+          ) : (
+            <Countdown remainingMs={remainingMs} />
+          )}
           <span className="finishers" aria-live="polite">
             {finishers.length > 0 ? (
               <>

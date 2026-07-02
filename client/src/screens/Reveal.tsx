@@ -60,6 +60,7 @@ export function Reveal({
   players,
   iAmHost,
   mode,
+  duo = false,
   revealStep,
   onRevealNext,
   onAdvance,
@@ -68,6 +69,8 @@ export function Reveal({
   players: Player[];
   iAmHost: boolean;
   mode: VitesseReveal;
+  /** Mode `duo` coopératif : les paires listées sont les paires COMMUNES (score d'équipe). */
+  duo?: boolean;
   /** Curseur synchronisé (mode meneur). Ignoré en mode rapide. */
   revealStep: number;
   onRevealNext: () => void;
@@ -143,6 +146,12 @@ export function Reveal({
     <div className="game-shell reveal-shell">
       <header className="reveal-header">
         <h2>🎬 Révélation</h2>
+        {duo && (
+          <Banner kind="info">
+            🤝 Duo coopératif — <strong>{paires.length} paire(s) en commun</strong> · score d’équipe{' '}
+            <strong>+{reveal.deltaScores[players[0]?.id] ?? 0}</strong> pour vous deux.
+          </Banner>
+        )}
         {mode === 'meneur' ? (
           <p className="reveal-sub">
             {iAmHost
@@ -182,7 +191,14 @@ export function Reveal({
           paires
             .slice(0, visiblePairs)
             .map((pr, i) => (
-              <PairReveal key={i} pr={pr} byId={byId} catalog={catalog} onZoom={setZoomed} />
+              <PairReveal
+                key={i}
+                pr={pr}
+                duo={duo}
+                byId={byId}
+                catalog={catalog}
+                onZoom={setZoomed}
+              />
             ))
         )}
       </section>
@@ -271,16 +287,21 @@ function pairVerdict(makers: number, points: number): { text: string; kind: stri
 
 function PairReveal({
   pr,
+  duo = false,
   byId,
   catalog,
   onZoom,
 }: {
   pr: PairResult;
+  duo?: boolean;
   byId: Map<string, Player>;
   catalog: ReturnType<typeof useCatalog>;
   onZoom: (id: string) => void;
 }) {
-  const verdict = pairVerdict(pr.makers.length, pr.pointsParMaker);
+  // En duo, toute paire affichée est une paire COMMUNE (l'équipe marque).
+  const verdict = duo
+    ? { text: 'Paire en commun 💞', kind: 'plus' }
+    : pairVerdict(pr.makers.length, pr.pointsParMaker);
   return (
     <article className={`pair-reveal reveal-pop is-${verdict.kind}`}>
       <div className="pair-reveal-cards">

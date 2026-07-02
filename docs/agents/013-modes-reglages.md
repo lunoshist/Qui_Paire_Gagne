@@ -47,14 +47,57 @@ Ajouter deux réglages de partie : un **mode 2 joueurs** avec scoring **coopéra
   paires communes, bonus). Reveal fonctionnel en duo (peut réutiliser la structure existante).
 
 ## Definition of Done (vérifiable)
-- [ ] `mode` duo jouable **à 2 joueurs** ; classique inchangé (3–8).
-- [ ] Scoring duo conforme au barème (1/2/4/8/13 + 2 poubelle commune), fonction pure **testée** (C=0..5, poubelle).
-- [ ] Temps illimité : aucune alarme, résolution sur tous-soumis, pas de compte à rebours affiché.
-- [ ] Lobby : réglages Mode + Temps illimité fonctionnels, gardes de démarrage adaptées.
-- [ ] `shared` mis à jour (documenté, tests verts) ; reveal/scores cohérents en duo.
-- [ ] Tests : unitaires scoring duo + intégration serveur (partie duo 2 joueurs → score correct ; partie illimitée
+- [x] `mode` duo jouable **à 2 joueurs** ; classique inchangé (3–8).
+- [x] Scoring duo conforme au barème (1/2/4/8/13 + 2 poubelle commune), fonction pure **testée** (C=0..5, poubelle).
+- [x] Temps illimité : aucune alarme, résolution sur tous-soumis, pas de compte à rebours affiché.
+- [x] Lobby : réglages Mode + Temps illimité fonctionnels, gardes de démarrage adaptées.
+- [x] `shared` mis à jour (documenté, tests verts) ; reveal/scores cohérents en duo.
+- [x] Tests : unitaires scoring duo + intégration serveur (partie duo 2 joueurs → score correct ; partie illimitée
       → résolution sur tous-soumis, pas d'alarme). Rapporter PASS/FAIL par cas.
-- [ ] `npm run typecheck`, `npm run lint`, `npm test` (+ integration), `npm run build` PASS. Docs non touchés (sauf ce brief).
+- [x] `npm run typecheck`, `npm run lint`, `npm test` (+ integration), `npm run build` PASS. Docs non touchés (sauf ce brief).
 
 ## Résultat (rempli au retour)
-_(à compléter par le tracker après vérification)_
+
+**Livré — toutes les vérifs PASS.** (2026-07-02)
+
+### Fichiers modifiés
+- **shared** : `domain.ts` (type `Mode`/`MODES`, `PLAYER_BOUNDS`, `minPlayers`/`maxPlayers`,
+  `RoomSettings.mode` + `RoomSettings.sablierIllimite`, `DEFAULT_SETTINGS`) ; `scoring.ts`
+  (`computeRoundResultDuo`, `duoTeamPoints`, `DUO_PAIR_POINTS`, `DUO_POMME_BONUS`) ;
+  `protocol.ts` (`RoundStartMessage.deadline: number | null`) ; `scoring.test.ts` (+ tests duo).
+- **server** : `GameRoom.ts` (sanitize mode/illimité + compat ascendante ; garde join `maxPlayers(mode)` ;
+  garde start min/max par mode + refus duo>2 en updateSettings ; `beginRound` deadline null sans alarme
+  en illimité ; `resolveRound` → dispatch `computeResult` selon mode) ; `test/integration.mjs` (+4 sections).
+- **client** : `store/roomStore.ts` (`RoundInfo.deadline` nullable, `missingPlayers`/`canStartGame` mode-dépendants) ;
+  `screens/Room.tsx` (sélecteur Mode + toggle Temps illimité, compteurs/bannières mode-dépendants, `duo` → Reveal) ;
+  `screens/Formation.tsx` (pas de compte à rebours ni auto-soumission en illimité) ; `screens/Reveal.tsx` (`duo` prop,
+  résumé « paires en commun » + score d'équipe).
+
+### Design / arbitrages
+- **Représentation mode** : `mode: 'classique' | 'duo'` dans `RoomSettings`. Bornes de population
+  centralisées dans `PLAYER_BOUNDS` (classique 3–8, duo 2–2) via `minPlayers()`/`maxPlayers()`.
+  `MIN_PLAYERS`/`MAX_PLAYERS` conservés (= bornes classique) pour compat ascendante.
+- **Temps illimité** : **flag booléen** `sablierIllimite` (choix retenu vs `dureeSablier=0`) — garde
+  `dureeSablier` toujours valide et rend l'intention explicite. Serveur : `deadline = null`, **aucune alarme
+  armée** (et purge d'une alarme résiduelle) ; résolution uniquement sur tous-soumis. Client : pas de `Countdown`
+  (affiche « ⏳ ∞ »), pas d'auto-soumission.
+- **Scoring duo** (pur, testé) : `C` = nb de paires communes (clés normalisées, doublons internes ignorés) ;
+  score d'équipe `DUO_PAIR_POINTS[C]` (`0,1,2,4,8,13`) `+2` si pomme pourrie commune ; `deltaScores`
+  identiques pour les 2. Astuce reveal : chaque paire commune porte un **point marginal** (`[1,1,2,4,5]`) dont la
+  somme reconstitue exactement le total → la mise en scène pas-à-pas existante affiche le barème (1→2→4→8→13)
+  sans logique de score spécifique côté client. Un participant sans soumission = soumission vide (équipe = 0 possible).
+
+### Vérifs par cas
+- **Unitaires scoring duo (shared, 47 tests scoring)** : `duoTeamPoints` barème 0/1/2/4/8/13 + bonus pomme ;
+  `computeRoundResultDuo` C=0..5 (délta d'équipe + somme marginale) ; pomme commune (+2) / différente (0) ;
+  C=5+pomme=15 ; ordre de cartes inversé compté commun ; doublon interne ignoré ; pureté. → **PASS**.
+- **Intégration serveur (49/49 PASS)**, dont nouveaux :
+  - `duo : startGame à 2 joueurs → roundStart` → PASS
+  - `duo C=5 + pomme commune → 15/15` → PASS ; `5 paires communes, somme marginale = 13` → PASS
+  - `duo C=3, pommes différentes → 4/4` → PASS
+  - `duo : 3e joueur refusé (ROOM_FULL)` → PASS ; `duo : démarrage à 1 joueur refusé (NOT_ENOUGH_PLAYERS)` → PASS
+  - `temps illimité : roundStart deadline null` → PASS ; `aucune résolution avant tous-soumis (pas d'alarme)` → PASS ;
+    `résolution sur tous-soumis (6/6/0)` → PASS
+  - Tous les tests classiques préexistants (1–16) → PASS (non-régression).
+- `npm run typecheck` → PASS · `npm run lint` → PASS · `npm test` (48 shared + 45 client) → PASS ·
+  `npm run test:integration -w @qpg/server` → 49/49 PASS · `npm run build` → PASS · `npm run format` (check) → PASS.

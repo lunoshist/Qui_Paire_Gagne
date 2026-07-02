@@ -6,7 +6,7 @@
  * d'état de connexion, plus des gardes dérivées (hôte, démarrage possible).
  */
 
-import { MIN_PLAYERS } from '@qpg/shared';
+import { maxPlayers, minPlayers } from '@qpg/shared';
 import type {
   GameOverMessage,
   PublicRoomState,
@@ -28,8 +28,8 @@ export interface RoundInfo {
   manche: number;
   /** Les 11 cardIds tirés pour la manche. */
   cards: string[];
-  /** Timestamp (ms) de fin de la phase `forming`. */
-  deadline: number;
+  /** Timestamp (ms) de fin de la phase `forming`, ou `null` en temps illimité. */
+  deadline: number | null;
 }
 
 /** État observable de la salle côté client. */
@@ -164,18 +164,25 @@ export function isHost(roomState: PublicRoomState | null, playerId: string | nul
   return !!roomState && !!playerId && roomState.hostId === playerId;
 }
 
-/** Nombre de joueurs manquants pour atteindre le minimum (0 si atteint). */
+/**
+ * Nombre de joueurs manquants pour atteindre le minimum du mode courant (0 si
+ * atteint). Le minimum dépend du mode (`duo` = 2, `classique` = 3).
+ */
 export function missingPlayers(roomState: PublicRoomState | null): number {
   const count = roomState?.players.length ?? 0;
-  return Math.max(0, MIN_PLAYERS - count);
+  const min = roomState ? minPlayers(roomState.settings.mode) : minPlayers('classique');
+  return Math.max(0, min - count);
 }
 
 /**
  * L'hôte peut-il lancer la partie ?
- * → phase lobby + hôte + au moins MIN_PLAYERS joueurs.
+ * → phase lobby + hôte + nombre de joueurs dans les bornes du mode
+ *   (`duo` = exactement 2, `classique` = 3 à 8).
  */
 export function canStartGame(roomState: PublicRoomState | null, playerId: string | null): boolean {
   if (!roomState || roomState.phase !== 'lobby') return false;
   if (!isHost(roomState, playerId)) return false;
-  return roomState.players.length >= MIN_PLAYERS;
+  const mode = roomState.settings.mode;
+  const n = roomState.players.length;
+  return n >= minPlayers(mode) && n <= maxPlayers(mode);
 }

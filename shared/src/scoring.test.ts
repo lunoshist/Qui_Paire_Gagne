@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
   computeRoundResult,
+  computeRoundResultDuo,
+  DUO_PAIR_POINTS,
+  DUO_POMME_BONUS,
+  duoTeamPoints,
   normalizePair,
   pairKey,
   scorePaire,
@@ -350,5 +354,122 @@ describe('computeRoundResult — cas limites', () => {
     expect(res.deltaScores.p1).toBe(2);
     expect(res.deltaScores.pX).toBe(2); // ajouté dynamiquement
     expect(res.deltaScores.p2).toBe(0);
+  });
+});
+
+// --------------------------------------------------------------------------
+// MODE DUO — barème coopératif (TASK-013)
+// --------------------------------------------------------------------------
+
+/** Construit 5 paires distinctes ; les `common` premières sont partagées par les 2. */
+function duoPairs(common: number): { a: [string, string][]; b: [string, string][] } {
+  const shared: [string, string][] = [
+    ['a', 'b'],
+    ['c', 'd'],
+    ['e', 'f'],
+    ['g', 'h'],
+    ['i', 'j'],
+  ];
+  // A garde toujours les 5 paires de référence.
+  const a = shared.map((p) => [...p] as [string, string]);
+  // B garde les `common` premières, puis des paires DIFFÉRENTES pour le reste.
+  const b: [string, string][] = shared.slice(0, common).map((p) => [...p] as [string, string]);
+  const fillers: [string, string][] = [
+    ['a', 'c'],
+    ['b', 'd'],
+    ['e', 'g'],
+    ['f', 'h'],
+    ['i', 'k'],
+  ];
+  for (let i = common; i < 5; i++) b.push(fillers[i]);
+  return { a, b };
+}
+
+describe('duoTeamPoints — barème', () => {
+  it('respecte 0→0, 1→1, 2→2, 3→4, 4→8, 5→13', () => {
+    expect(DUO_PAIR_POINTS).toEqual([0, 1, 2, 4, 8, 13]);
+    for (let c = 0; c <= 5; c++) expect(duoTeamPoints(c, false)).toBe(DUO_PAIR_POINTS[c]);
+  });
+  it('ajoute le bonus pomme commune (+2)', () => {
+    expect(duoTeamPoints(3, true)).toBe(4 + DUO_POMME_BONUS);
+    expect(duoTeamPoints(0, true)).toBe(DUO_POMME_BONUS);
+  });
+  it('borne le nombre de paires communes (garde)', () => {
+    expect(duoTeamPoints(9, false)).toBe(13);
+    expect(duoTeamPoints(-1, false)).toBe(0);
+  });
+});
+
+describe('computeRoundResultDuo — C = 0..5 (pomme non commune)', () => {
+  for (let c = 0; c <= 5; c++) {
+    it(`C=${c} → équipe ${DUO_PAIR_POINTS[c]} points aux DEUX joueurs`, () => {
+      const { a, b } = duoPairs(c);
+      const res = computeRoundResultDuo(sub('p1', a, 'X'), sub('p2', b, 'Y'));
+      const expected = DUO_PAIR_POINTS[c];
+      expect(res.deltaScores).toEqual({ p1: expected, p2: expected });
+      // Détail : une entrée parPaire par paire commune, makers = les 2 joueurs.
+      expect(res.parPaire).toHaveLength(c);
+      for (const pr of res.parPaire) expect(pr.makers.sort()).toEqual(['p1', 'p2']);
+      // La somme des points marginaux reconstitue le total d'équipe (reveal cohérent).
+      const somme = res.parPaire.reduce((s, pr) => s + pr.pointsParMaker, 0);
+      expect(somme).toBe(expected);
+    });
+  }
+});
+
+describe('computeRoundResultDuo — pomme pourrie', () => {
+  it('pomme commune → +2 d’équipe et une entrée partagée', () => {
+    const { a, b } = duoPairs(2); // 2 paires communes → 2 pts, + pomme commune → 4
+    const res = computeRoundResultDuo(sub('p1', a, 'Z'), sub('p2', b, 'Z'));
+    expect(res.deltaScores).toEqual({ p1: 4, p2: 4 });
+    const pomme = res.pommesPourries.find((pp) => pp.cardId === 'Z')!;
+    expect(pomme.sharers.sort()).toEqual(['p1', 'p2']);
+    expect(pomme.pointsParSharer).toBe(DUO_POMME_BONUS);
+  });
+
+  it('pommes différentes → aucun bonus, deux entrées à 0', () => {
+    const { a, b } = duoPairs(5); // 5 communes → 13, pas de bonus pomme
+    const res = computeRoundResultDuo(sub('p1', a, 'Z'), sub('p2', b, 'W'));
+    expect(res.deltaScores).toEqual({ p1: 13, p2: 13 });
+    expect(res.pommesPourries).toHaveLength(2);
+    for (const pp of res.pommesPourries) expect(pp.pointsParSharer).toBe(0);
+  });
+
+  it('C=5 + pomme commune → 15 chacun (max)', () => {
+    const { a, b } = duoPairs(5);
+    const res = computeRoundResultDuo(sub('p1', a, 'Z'), sub('p2', b, 'Z'));
+    expect(res.deltaScores).toEqual({ p1: 15, p2: 15 });
+  });
+});
+
+describe('computeRoundResultDuo — robustesse', () => {
+  it('ordre des cartes inversé dans une paire compte comme commune', () => {
+    const res = computeRoundResultDuo(sub('p1', [['a', 'b']], 'X'), sub('p2', [['b', 'a']], 'Y'));
+    expect(res.deltaScores).toEqual({ p1: 1, p2: 1 });
+    expect(res.parPaire).toHaveLength(1);
+    expect(res.parPaire[0].pair).toEqual(['a', 'b']); // normalisée
+  });
+
+  it('doublon interne à un joueur ne gonfle pas le compte de paires communes', () => {
+    const res = computeRoundResultDuo(
+      sub('p1', [
+        ['a', 'b'],
+        ['b', 'a'],
+      ]),
+      sub('p2', [['a', 'b']]),
+    );
+    expect(res.parPaire).toHaveLength(1);
+    expect(res.deltaScores).toEqual({ p1: 1, p2: 1 });
+  });
+
+  it('est pur (entrées non mutées, sortie identique)', () => {
+    const { a, b } = duoPairs(3);
+    const sA = sub('p1', a, 'Z');
+    const sB = sub('p2', b, 'Z');
+    const snap = JSON.stringify([sA, sB]);
+    const r1 = computeRoundResultDuo(sA, sB);
+    const r2 = computeRoundResultDuo(sA, sB);
+    expect(r1).toEqual(r2);
+    expect(JSON.stringify([sA, sB])).toBe(snap);
   });
 });

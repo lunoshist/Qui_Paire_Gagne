@@ -8,8 +8,8 @@
  */
 
 import { useState } from 'react';
-import type { Couleur, RoomSettings, VitesseReveal } from '@qpg/shared';
-import { MAX_PLAYERS, MIN_PLAYERS } from '@qpg/shared';
+import type { Couleur, Mode, RoomSettings, VitesseReveal } from '@qpg/shared';
+import { maxPlayers, minPlayers, MODES } from '@qpg/shared';
 import { Banner, Button, ColorPicker, Input, Panel, PlayerBadge, Select } from '../ui/components';
 import { canStartGame, isHost, missingPlayers } from '../store/roomStore';
 import { useRoom } from '../store/useRoom';
@@ -30,6 +30,10 @@ const VITESSES: VitesseReveal[] = ['meneur', 'rapide'];
 const VITESSE_LABEL: Record<VitesseReveal, string> = {
   meneur: 'Meneur (pas à pas)',
   rapide: 'Rapide (auto)',
+};
+const MODE_LABEL: Record<Mode, string> = {
+  classique: 'Classique (3–8 joueurs)',
+  duo: 'Duo coopératif (2 joueurs)',
 };
 
 /** Détermine l'intention de join initiale : intent Accueil, ou reconnexion. */
@@ -208,6 +212,7 @@ function RoomInner({
             players={state.players}
             iAmHost={iAmHost}
             mode={state.settings.vitesseReveal}
+            duo={state.settings.mode === 'duo'}
             revealStep={room.revealStep}
             onRevealNext={room.revealNext}
             onAdvance={room.advance}
@@ -232,7 +237,7 @@ function RoomInner({
         ) : (
           <>
             <div className="room-grid">
-              <Panel title={`Joueurs (${state.players.length}/${MAX_PLAYERS})`}>
+              <Panel title={`Joueurs (${state.players.length}/${maxPlayers(state.settings.mode)})`}>
                 <ul className="player-list">
                   {state.players.map((p) => (
                     <PlayerBadge
@@ -254,8 +259,14 @@ function RoomInner({
 
             {missingPlayers(state) > 0 && (
               <Banner kind="warn">
-                Il faut au moins {MIN_PLAYERS} joueurs pour démarrer (encore {missingPlayers(state)}
-                ).
+                Il faut au moins {minPlayers(state.settings.mode)} joueurs pour démarrer (encore{' '}
+                {missingPlayers(state)}).
+              </Banner>
+            )}
+            {state.settings.mode === 'duo' && state.players.length > maxPlayers('duo') && (
+              <Banner kind="warn">
+                Le mode duo se joue à {maxPlayers('duo')} joueurs exactement (actuellement{' '}
+                {state.players.length}).
               </Banner>
             )}
 
@@ -310,6 +321,26 @@ function SettingsPanel({
   return (
     <Panel title={`Réglages ${editable ? '' : '(hôte seul)'}`.trim()}>
       <div className="setting-row">
+        <span className="field-label">Mode</span>
+        {editable ? (
+          <Select
+            className="setting-control"
+            aria-label="Mode de jeu"
+            value={settings.mode}
+            onChange={(e) => onChange({ mode: e.target.value as Mode })}
+          >
+            {MODES.map((m) => (
+              <option key={m} value={m}>
+                {MODE_LABEL[m]}
+              </option>
+            ))}
+          </Select>
+        ) : (
+          <span className="setting-static">{MODE_LABEL[settings.mode]}</span>
+        )}
+      </div>
+
+      <div className="setting-row">
         <span className="field-label">Manches</span>
         {editable ? (
           <input
@@ -330,8 +361,25 @@ function SettingsPanel({
       </div>
 
       <div className="setting-row">
-        <span className="field-label">Sablier</span>
+        <span className="field-label">Temps illimité</span>
         {editable ? (
+          <label className="setting-control setting-toggle">
+            <input
+              type="checkbox"
+              aria-label="Temps illimité"
+              checked={settings.sablierIllimite}
+              onChange={(e) => onChange({ sablierIllimite: e.target.checked })}
+            />
+            <span>{settings.sablierIllimite ? 'Activé (pas de sablier)' : 'Désactivé'}</span>
+          </label>
+        ) : (
+          <span className="setting-static">{settings.sablierIllimite ? 'Oui' : 'Non'}</span>
+        )}
+      </div>
+
+      <div className="setting-row">
+        <span className="field-label">Sablier</span>
+        {editable && !settings.sablierIllimite ? (
           <Select
             className="setting-control"
             aria-label="Durée du sablier"
@@ -345,7 +393,9 @@ function SettingsPanel({
             ))}
           </Select>
         ) : (
-          <span className="setting-static">{settings.dureeSablier} s</span>
+          <span className="setting-static">
+            {settings.sablierIllimite ? '∞ (illimité)' : `${settings.dureeSablier} s`}
+          </span>
         )}
       </div>
 

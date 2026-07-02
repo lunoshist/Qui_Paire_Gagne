@@ -2,14 +2,17 @@ import {
   CARDS_PER_ROUND,
   COULEURS,
   computeRoundResult,
+  computeRoundResultDuo,
   DEFAULT_SETTINGS,
-  MAX_PLAYERS,
-  MIN_PLAYERS,
+  maxPlayers,
+  minPlayers,
+  MODES,
   PAIRS_PER_ROUND,
 } from '@qpg/shared';
 import type {
   ClientMessage,
   Couleur,
+  Mode,
   Pair,
   Player,
   PlayerSubmission,
@@ -50,8 +53,12 @@ type RoomData = PublicRoomState;
 interface RoundData {
   /** Les 11 cartes tirées pour la manche. */
   tirage: string[];
-  /** Timestamp (ms) de fin de la phase `forming` (arme aussi l'alarme DO). */
-  deadline: number;
+  /**
+   * Timestamp (ms) de fin de la phase `forming` (arme aussi l'alarme DO), ou
+   * `null` en **temps illimité** (`sablierIllimite`) : aucune alarme, résolution
+   * uniquement quand tous les joueurs présents ont soumis.
+   */
+  deadline: number | null;
   /**
    * Joueurs **participant** à la manche = ceux présents au démarrage du round.
    * Un joueur arrivé en cours de manche est spectateur (absent de cette liste) :
@@ -112,6 +119,14 @@ export class GameRoom implements DurableObject {
       // → on retombe sur le mode meneur (défaut) désormais.
       if (this.room && !VITESSES.includes(this.room.settings.vitesseReveal)) {
         this.room.settings.vitesseReveal = 'meneur';
+      }
+      // Compat ascendante (TASK-013) : réglages persistés avant l'ajout du mode de
+      // jeu et du temps illimité → valeurs par défaut (classique, sablier borné).
+      if (this.room && !MODES.includes(this.room.settings.mode)) {
+        this.room.settings.mode = 'classique';
+      }
+      if (this.room && typeof this.room.settings.sablierIllimite !== 'boolean') {
+        this.room.settings.sablierIllimite = false;
       }
     });
   }
@@ -251,9 +266,12 @@ export class GameRoom implements DurableObject {
     // --- Nouveau joueur : gardes ---
     // NB : rejoindre une partie EN COURS est autorisé → le nouveau venu est
     // spectateur de la manche courante puis intégré dès la manche suivante.
-    if (this.room && this.room.players.length >= MAX_PLAYERS) {
-      this.sendError(ws, 'ROOM_FULL', `Salle pleine (max ${MAX_PLAYERS} joueurs).`);
-      return;
+    if (this.room) {
+      const max = maxPlayers(this.room.settings.mode);
+      if (this.room.players.length >= max) {
+        this.sendError(ws, 'ROOM_FULL', `Salle pleine (max ${max} joueurs).`);
+        return;
+      }
     }
 
     const pseudo = (msg.pseudo ?? '').trim();
@@ -319,6 +337,16 @@ export class GameRoom implements DurableObject {
       this.sendError(ws, 'INVALID_SETTINGS', 'Réglages invalides.');
       return;
     }
+    // Le mode duo est limité à 2 joueurs : on refuse de basculer en duo tant que
+    // la salle en compte davantage (sinon lobby bloqué au démarrage).
+    if (clean.mode === 'duo' && this.room.players.length > maxPlayers('duo')) {
+      this.sendError(
+        ws,
+        'TOO_MANY_FOR_DUO',
+        `Le mode duo est limité à ${maxPlayers('duo')} joueurs.`,
+      );
+      return;
+    }
     this.room.settings = clean;
     await this.persist();
     this.broadcast();
@@ -335,8 +363,19 @@ export class GameRoom implements DurableObject {
       this.sendError(ws, 'ALREADY_STARTED', 'La partie est déjà lancée.');
       return;
     }
-    if (this.room.players.length < MIN_PLAYERS) {
-      this.sendError(ws, 'NOT_ENOUGH_PLAYERS', `Il faut au moins ${MIN_PLAYERS} joueurs.`);
+    const mode = this.room.settings.mode;
+    const min = minPlayers(mode);
+    const max = maxPlayers(mode);
+    if (this.room.players.length < min) {
+      this.sendError(ws, 'NOT_ENOUGH_PLAYERS', `Il faut au moins ${min} joueurs.`);
+      return;
+    }
+    if (this.room.players.length > max) {
+      this.sendError(
+        ws,
+        'TOO_MANY_PLAYERS',
+        `Ce mode est limité à ${max} joueurs (actuellement ${this.room.players.length}).`,
+      );
       return;
     }
     if (CARD_IDS.length < CARDS_PER_ROUND) {
@@ -380,7 +419,9 @@ export class GameRoom implements DurableObject {
     this.broadcast();
 
     const tirage = this.drawTirage();
-    const deadline = Date.now() + this.room.settings.dureeSablier * 1000;
+    // Temps illimité : aucune échéance ni alarme (résolution sur tous-soumis).
+    const illimite = this.room.settings.sablierIllimite;
+    const deadline = illimite ? null : Date.now() + this.room.settings.dureeSablier * 1000;
     // Participants = tous les joueurs présents au démarrage (les arrivants en
     // cours de manche seront spectateurs jusqu'à la prochaine).
     const participants = this.room.players.map((p) => p.id);
@@ -388,7 +429,13 @@ export class GameRoom implements DurableObject {
     this.room.phase = 'forming';
 
     // Alarme DO : résout la manche à l'échéance même si le DO hiberne entre-temps.
-    await this.storage.setAlarm(deadline);
+    // En temps illimité, aucune alarme n'est armée (et on purge une éventuelle
+    // alarme résiduelle d'une manche précédente).
+    if (deadline !== null) {
+      await this.storage.setAlarm(deadline);
+    } else {
+      await this.storage.deleteAlarm();
+    }
     await this.persist();
 
     this.broadcast();
@@ -519,7 +566,7 @@ export class GameRoom implements DurableObject {
       .map((id) => round.submissions[id])
       .filter((s): s is PlayerSubmission => Boolean(s));
 
-    const result = computeRoundResult(submissions, connectedIds);
+    const result = this.computeResult(round.participants, connectedIds, submissions);
 
     // Cumul des scores sur l'ensemble des joueurs.
     for (const player of this.room.players) {
@@ -533,6 +580,33 @@ export class GameRoom implements DurableObject {
 
     this.broadcast();
     this.broadcastReveal(result);
+  }
+
+  /**
+   * Calcule le résultat d'une manche selon le mode de jeu :
+   * - `duo` (coopératif) : score d'équipe sur les 2 participants (une soumission
+   *   vide est synthétisée pour un participant qui n'aurait pas soumis).
+   * - `classique` : décompte compétitif habituel sur les participants connectés.
+   */
+  private computeResult(
+    participants: string[],
+    connectedIds: string[],
+    submissions: PlayerSubmission[],
+  ): RoundResult {
+    const mode: Mode = this.room?.settings.mode ?? 'classique';
+    if (mode === 'duo' && participants.length === 2) {
+      const round = this.round;
+      const emptySub = (playerId: string): PlayerSubmission => ({
+        playerId,
+        paires: [],
+        pommePourrie: '',
+      });
+      const [idA, idB] = participants;
+      const subA = round?.submissions[idA] ?? emptySub(idA);
+      const subB = round?.submissions[idB] ?? emptySub(idB);
+      return computeRoundResultDuo(subA, subB);
+    }
+    return computeRoundResult(submissions, connectedIds);
   }
 
   private async handleAdvance(ws: WebSocket): Promise<void> {
@@ -877,9 +951,15 @@ function sanitizeSettings(s: RoomSettings | undefined): RoomSettings | null {
   ) {
     return null;
   }
+  // Mode & temps illimité (TASK-013) : optionnels et tolérants (compat ascendante
+  // avec des clients/persistances antérieurs) → défauts classique / borné.
+  const mode: Mode = MODES.includes(s.mode) ? s.mode : 'classique';
+  const sablierIllimite = typeof s.sablierIllimite === 'boolean' ? s.sablierIllimite : false;
   return {
+    mode,
     nbManches,
     dureeSablier: Math.round(dureeSablier),
+    sablierIllimite,
     vitesseReveal,
     variantesScoring: {
       paireUnanimeZero: variantesScoring.paireUnanimeZero,

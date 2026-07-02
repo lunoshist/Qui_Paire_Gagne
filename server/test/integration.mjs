@@ -855,6 +855,192 @@ async function main() {
         `step=${revReco.revealStep} total=${total}`,
       );
     }
+
+    // =====================================================================
+    // TASK-013 · Mode duo coopératif + temps illimité
+    // =====================================================================
+
+    /** Réglages complets pour un lobby (mode/illimité paramétrables). */
+    function fullSettings(over = {}) {
+      return {
+        mode: 'classique',
+        nbManches: 1,
+        dureeSablier: 60,
+        sablierIllimite: false,
+        vitesseReveal: 'rapide',
+        variantesScoring: { paireUnanimeZero: true, pommePourrieDouble: true },
+        ...over,
+      };
+    }
+
+    /** Monte une salle DUO de 2 joueurs prête à démarrer. Renvoie clients + ids. */
+    async function duoRoom(prefix, over = {}) {
+      const code = await createRoom();
+      const { c: d1, joined: jd1 } = await joinAndAck(code, { pseudo: `${prefix}1` });
+      clients.push(d1);
+      // L'hôte bascule en mode duo AVANT que le 2e joueur rejoigne.
+      d1.send({ type: 'updateSettings', settings: fullSettings({ mode: 'duo', ...over }) });
+      await d1.next(
+        (m) => m.type === 'roomState' && m.state.settings.mode === 'duo',
+        `roomState(${prefix} duo)`,
+      );
+      const { c: d2, joined: jd2 } = await joinAndAck(code, { pseudo: `${prefix}2` });
+      clients.push(d2);
+      await d1.next(
+        (m) => m.type === 'roomState' && m.state.players.length === 2,
+        `roomState(${prefix} 2)`,
+      );
+      return { code, d1, d2, jd1, jd2 };
+    }
+
+    // --- 17. DUO : C=5 paires communes + pomme commune → 15/15 (barème 5→13 + 2) ---
+    {
+      const { d1, d2, jd1, jd2 } = await duoRoom('Du5');
+      d1.send({ type: 'startGame' });
+      const rs = await d2.ofType('roundStart', 6000);
+      check('duo : startGame à 2 joueurs → roundStart', rs.manche === 1 && rs.cards.length === 11);
+      const c = rs.cards;
+      const identical = {
+        paires: [
+          [c[0], c[1]],
+          [c[2], c[3]],
+          [c[4], c[5]],
+          [c[6], c[7]],
+          [c[8], c[9]],
+        ],
+        pommePourrie: c[10],
+      };
+      d1.send({ type: 'submitPairs', ...identical });
+      d2.send({ type: 'submitPairs', ...identical });
+      const rev = await d2.ofType('revealPayload', 6000);
+      check(
+        'duo C=5 + pomme commune → 15 points d’équipe aux DEUX',
+        rev.deltaScores[jd1.playerId] === 15 && rev.deltaScores[jd2.playerId] === 15,
+        JSON.stringify(rev.deltaScores),
+      );
+      // Somme des points marginaux des paires communes = 13 (reveal cohérent).
+      const sommePaires = rev.parPaire.reduce((s, pr) => s + pr.pointsParMaker, 0);
+      check(
+        'duo : 5 paires communes listées, somme marginale = 13',
+        rev.parPaire.length === 5 && sommePaires === 13,
+        `n=${rev.parPaire.length} somme=${sommePaires}`,
+      );
+    }
+
+    // --- 18. DUO : C=3 communes, pommes différentes → 4/4 (barème 3→4, pas de bonus) ---
+    {
+      const { d1, d2, jd1, jd2 } = await duoRoom('Du3');
+      d1.send({ type: 'startGame' });
+      const rs = await d2.ofType('roundStart', 6000);
+      const c = rs.cards;
+      d1.send({
+        type: 'submitPairs',
+        paires: [
+          [c[0], c[1]],
+          [c[2], c[3]],
+          [c[4], c[5]],
+          [c[6], c[7]],
+          [c[8], c[9]],
+        ],
+        pommePourrie: c[10],
+      });
+      d2.send({
+        type: 'submitPairs',
+        paires: [
+          [c[0], c[1]],
+          [c[2], c[3]],
+          [c[4], c[5]],
+          [c[6], c[8]],
+          [c[7], c[10]],
+        ],
+        pommePourrie: c[9],
+      });
+      const rev = await d2.ofType('revealPayload', 6000);
+      check(
+        'duo C=3, pommes différentes → 4 points d’équipe aux DEUX',
+        rev.deltaScores[jd1.playerId] === 4 && rev.deltaScores[jd2.playerId] === 4,
+        JSON.stringify(rev.deltaScores),
+      );
+    }
+
+    // --- 19. Gardes de population selon le mode ---
+    {
+      // Duo : un 3e joueur est refusé (salle pleine à 2).
+      const { code } = await duoRoom('Dug');
+      const c3 = new Client(code);
+      await c3.open();
+      clients.push(c3);
+      c3.send({ type: 'joinRoom', pseudo: 'Dug3' });
+      const errFull = await c3.ofType('error', 4000);
+      check(
+        'duo : 3e joueur refusé (ROOM_FULL, max 2)',
+        errFull.code === 'ROOM_FULL',
+        errFull.code,
+      );
+
+      // Duo à 1 seul joueur : démarrage refusé (NOT_ENOUGH_PLAYERS).
+      const solo = await createRoom();
+      const { c: s1 } = await joinAndAck(solo, { pseudo: 'Solo1' });
+      clients.push(s1);
+      s1.send({ type: 'updateSettings', settings: fullSettings({ mode: 'duo' }) });
+      await s1.next(
+        (m) => m.type === 'roomState' && m.state.settings.mode === 'duo',
+        'roomState(Solo duo)',
+      );
+      s1.send({ type: 'startGame' });
+      const errFew = await s1.ofType('error', 4000);
+      check(
+        'duo : démarrage à 1 joueur refusé (NOT_ENOUGH_PLAYERS)',
+        errFew.code === 'NOT_ENOUGH_PLAYERS',
+        errFew.code,
+      );
+    }
+
+    // --- 20. Temps illimité : deadline null, pas d'alarme, résolution sur tous-soumis ---
+    {
+      const code = await createRoom();
+      const { c: u1, joined: ju1 } = await joinAndAck(code, { pseudo: 'Un1' });
+      clients.push(u1);
+      const { c: u2 } = await joinAndAck(code, { pseudo: 'Un2' });
+      clients.push(u2);
+      const { c: u3 } = await joinAndAck(code, { pseudo: 'Un3' });
+      clients.push(u3);
+      await u1.next(
+        (m) => m.type === 'roomState' && m.state.players.length === 3,
+        'roomState(Un 3)',
+      );
+      u1.send({
+        type: 'updateSettings',
+        settings: fullSettings({ sablierIllimite: true, dureeSablier: 10 }),
+      });
+      await u1.next(
+        (m) => m.type === 'roomState' && m.state.settings.sablierIllimite === true,
+        'roomState(Un illimité)',
+      );
+      u1.send({ type: 'startGame' });
+      const rs = await u3.ofType('roundStart', 6000);
+      check('temps illimité : roundStart deadline null (pas de sablier)', rs.deadline === null);
+
+      const subs = buildSubs(rs.cards);
+      u1.send({ type: 'submitPairs', ...subs.p1 });
+      u2.send({ type: 'submitPairs', ...subs.p2 });
+      // 2/3 ont soumis : sans alarme, AUCUNE résolution ne doit survenir.
+      await sleep(1500);
+      const prematureReveal = u3.raw.some((s) => s.includes('"revealPayload"'));
+      check(
+        'temps illimité : aucune résolution avant tous-soumis (pas d’alarme)',
+        !prematureReveal,
+      );
+
+      // Le dernier soumet → résolution immédiate.
+      u3.send({ type: 'submitPairs', ...subs.p3 });
+      const rev = await u3.ofType('revealPayload', 6000);
+      check(
+        'temps illimité : résolution sur tous-soumis (deltas conformes 6/6/0)',
+        rev.deltaScores[ju1.playerId] === 6,
+        JSON.stringify(rev.deltaScores),
+      );
+    }
   } catch (err) {
     check('exécution sans exception', false, String(err && err.stack ? err.stack : err));
   } finally {
