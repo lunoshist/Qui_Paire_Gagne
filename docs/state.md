@@ -46,10 +46,16 @@ Prochain : découper Phase 2 en briefs builders et lancer la construction (scaff
 - `catalog/images/` + `manifest.json` actuels (12) = provisoires (contiennent l'ambulance ratée) → le vrai catalogue
   sera reconstruit à partir des survivants après curation. Images servies en statique via Pages.
 
+## 🎮 Boucle de jeu
+- **TASK-007 (serveur) FINIE** : GameRoom joue une manche complète (tirage, sablier via alarme DO, soumissions secrètes,
+  scores, enchaînement, gameOver). 22/22 tests intégration. Committé `3738886`.
+- **TASK-008 (client) dispatchée** : store étendu (roundStart/playerSubmitted/revealPayload/gameOver) + écran Formation
+  (drag&drop/tap, sablier, soumission) + Révélation/Scores/Victoire fonctionnels + pipeline d'assets (catalog→client).
+- À suivre : TASK-009 = polish de la révélation animée (storyboard + tempos D-008).
+
 ## ⏭️ Prochaine action immédiate
-- Laisser tourner/relancer les collectes jusqu'à ~3000 (itératif ; ajouter concepts + sources Wikimedia si besoin).
-- **Phase 4 (boucle de jeu) EN PARALLÈLE** (approuvé) : algo de tirage, distribution 11 cartes, formation (drag&drop),
-  scoring serveur (`computeRoundResult`), révélation animée. Peut utiliser un set provisoire de cartes pour le dev.
+- Vérifier/intégrer TASK-008 → **jeu jouable de bout en bout**, redéployer.
+- Collectes catalogue : laisser tourner/relancer vers ~3000 (ajouter Wikimedia + concepts). Commanditaire cure `catalog/pool/`.
 - Ordre proposé : (1) **lot pilote de cartes** via générateur gratuit sans clé (Pollinations/Flux) + tags →
   débloque l'affichage des 11 cartes ; (2) **algo de tirage** ; (3) **TASK-005 : distribution + formation (drag&drop)** ;
   (4) résolution/scoring serveur (réutilise `computeRoundResult`) ; (5) **révélation animée** ; (6) scores + enchaînement.
