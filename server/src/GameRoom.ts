@@ -116,7 +116,12 @@ export class GameRoom implements DurableObject {
     }
   }
 
-  async webSocketClose(ws: WebSocket, code: number, _reason: string, _wasClean: boolean): Promise<void> {
+  async webSocketClose(
+    ws: WebSocket,
+    code: number,
+    _reason: string,
+    _wasClean: boolean,
+  ): Promise<void> {
     const playerId = this.attachmentOf(ws);
     if (playerId) {
       // En lobby, une déconnexion retire la place ; en partie, on la conserve
@@ -146,7 +151,10 @@ export class GameRoom implements DurableObject {
   // Lobby
   // -------------------------------------------------------------------------
 
-  private async handleJoin(ws: WebSocket, msg: Extract<ClientMessage, { type: 'joinRoom' }>): Promise<void> {
+  private async handleJoin(
+    ws: WebSocket,
+    msg: Extract<ClientMessage, { type: 'joinRoom' }>,
+  ): Promise<void> {
     if (this.attachmentOf(ws)) {
       this.sendError(ws, 'ALREADY_JOINED', 'Ce socket a déjà rejoint la salle.');
       return;
@@ -187,7 +195,10 @@ export class GameRoom implements DurableObject {
         code: this.code ?? 'ROOM',
         hostId: '',
         players: [],
-        settings: { ...DEFAULT_SETTINGS, variantesScoring: { ...DEFAULT_SETTINGS.variantesScoring } },
+        settings: {
+          ...DEFAULT_SETTINGS,
+          variantesScoring: { ...DEFAULT_SETTINGS.variantesScoring },
+        },
         phase: 'lobby',
         mancheCourante: 0,
       };

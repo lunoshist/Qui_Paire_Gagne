@@ -40,10 +40,7 @@ export default {
     // Création d'une salle.
     if (url.pathname === '/api/rooms' && request.method === 'POST') {
       const code = generateRoomCode();
-      return Response.json(
-        { code },
-        { headers: { ...CORS_HEADERS } },
-      );
+      return Response.json({ code }, { headers: { ...CORS_HEADERS } });
     }
 
     // Connexion WebSocket à une salle.
@@ -53,16 +50,21 @@ export default {
       }
       const code = (url.searchParams.get('room') ?? '').toUpperCase();
       if (!/^[A-Z]{4}$/.test(code)) {
-        return new Response('Missing or invalid ?room=CODE (4 uppercase letters).', { status: 400 });
+        return new Response('Missing or invalid ?room=CODE (4 uppercase letters).', {
+          status: 400,
+        });
       }
       const id = env.GAME_ROOM.idFromName(code);
       const stub = env.GAME_ROOM.get(id);
       return stub.fetch(request);
     }
 
-    return new Response('Qui Paire Gagne — game server. POST /api/rooms then GET /api/ws?room=CODE.', {
-      status: 200,
-      headers: { 'content-type': 'text/plain; charset=utf-8' },
-    });
+    return new Response(
+      'Qui Paire Gagne — game server. POST /api/rooms then GET /api/ws?room=CODE.',
+      {
+        status: 200,
+        headers: { 'content-type': 'text/plain; charset=utf-8' },
+      },
+    );
   },
 } satisfies ExportedHandler<Env>;

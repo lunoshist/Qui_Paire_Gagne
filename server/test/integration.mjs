@@ -162,7 +162,9 @@ async function main() {
 
     check(
       'playerId renvoyé à chaque joueur (distinct)',
-      j1.playerId && j2.playerId && j3.playerId &&
+      j1.playerId &&
+        j2.playerId &&
+        j3.playerId &&
         new Set([j1.playerId, j2.playerId, j3.playerId]).size === 3,
       `${j1.playerId} / ${j2.playerId} / ${j3.playerId}`,
     );
@@ -203,7 +205,11 @@ async function main() {
       settings: { ...stSettings.state.settings, nbManches: 3 },
     });
     const errNotHost = await c2.ofType('error');
-    check('updateSettings non-hôte → error NOT_HOST', errNotHost.code === 'NOT_HOST', errNotHost.code);
+    check(
+      'updateSettings non-hôte → error NOT_HOST',
+      errNotHost.code === 'NOT_HOST',
+      errNotHost.code,
+    );
 
     // --- 5b. startGame refusé à 2 joueurs (room B) ---
     const codeB = await createRoom();
@@ -278,7 +284,7 @@ async function main() {
     }
   }
 
-  console.log('\n==== Résultats test d\'intégration lobby ====');
+  console.log("\n==== Résultats test d'intégration lobby ====");
   for (const r of results) console.log(r);
   console.log(`\n${passed} PASS / ${failed} FAIL`);
   process.exit(failed === 0 ? 0 : 1);
