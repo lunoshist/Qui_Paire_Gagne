@@ -2,6 +2,12 @@
 
 > À LIRE EN PREMIER. Mettre à jour à chaque avancée/décision. _MàJ : 2026-07-01._
 
+## 🎉 JEU COMPLET EN LIGNE & JOUABLE (2026-07-02)
+- **https://qui-paire-gagne.pages.dev** — partie complète : lobby → 11 cartes → formation (drag&drop/tap) → sablier →
+  révélation → scores → manches → victoire. Testé en prod (3 joueurs, tirage 11, scoring exact 14/14/0).
+- Serveur (round logic) + client (jeu) déployés ; catalogue = **295 cartes curées** par le commanditaire (curation en cours, redéployable via `scripts/build-manifest.mjs` + redeploy).
+- Reste : enrichir/curer le catalogue, algo de tirage par ambiguïté (tags riches), polish révélation animée (TASK-009), reconnexion en pleine manche.
+
 ## 🎯 Phase courante
 **Phase 1 TERMINÉE → entrée Phase 2 (fondations techniques).** Toute la réflexion produit/design est consignée
 (`architecture.md`, `design-ux.md`, `catalog.md`). Décisions D-001→D-008 actées.
