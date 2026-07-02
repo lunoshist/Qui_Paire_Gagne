@@ -42,6 +42,14 @@
     {
       "id": "treasure-chest", "subject": "coffre au tresor", "file": "images/treasure-chest.jpg", "source": "ai-illustration",
       "tags": { "concepts": ["tresor", "richesse", "pirate", "or", "secret", "aventure"], "couleursDominantes": ["or", "marron"], "categorie": "objet", "ambiance": ["aventure"], "formes": ["rectangulaire", "coffre"] }
+    },
+    {
+      "id": "compass", "subject": "boussole", "file": "images/compass.jpg", "source": "ai-realistic",
+      "tags": { "concepts": ["direction", "voyage", "aventure", "orientation", "nord", "exploration", "mer"], "couleursDominantes": ["or", "blanc"], "categorie": "objet", "ambiance": ["neutre", "aventure"], "formes": ["rond", "etoile"] }
+    },
+    {
+      "id": "telephone", "subject": "telephone retro", "file": "images/telephone.jpg", "source": "ai-illustration",
+      "tags": { "concepts": ["communication", "vintage", "retro", "appel", "nostalgie", "maison"], "couleursDominantes": ["sepia", "marron"], "categorie": "objet", "ambiance": ["retro", "nostalgique"], "formes": ["rond", "cadran"] }
     }
   ]
 }
