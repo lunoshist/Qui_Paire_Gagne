@@ -8,10 +8,16 @@
 - Serveur (round logic) + client (jeu) déployés ; catalogue = **295 cartes curées** par le commanditaire (curation en cours, redéployable via `scripts/build-manifest.mjs` + redeploy).
 - Reste : enrichir/curer le catalogue, algo de tirage par ambiguïté (tags riches), polish révélation animée (TASK-009), reconnexion en pleine manche.
 
-## 🎯 Phase courante
-**Phase 1 TERMINÉE → entrée Phase 2 (fondations techniques).** Toute la réflexion produit/design est consignée
-(`architecture.md`, `design-ux.md`, `catalog.md`). Décisions D-001→D-008 actées.
-Prochain : découper Phase 2 en briefs builders et lancer la construction (scaffold monorepo en premier).
+## 🎯 Phase courante — PEAUFINAGE post-playtest #1 (backlog D-014)
+Jeu en ligne et jouable. Retours du 1er playtest en cours de traitement, dans l'ordre :
+- **TASK-009 (en cours)** : cartes en GRAND + zoom (prio n°1).
+- **TASK-010 (à venir)** : flows/scénarios — rejouer en fin de partie, rejoindre en cours, **reconnexion en pleine
+  manche**, relancer/changer réglage, tous cas limites. « Tout envisager. »
+- **TASK-011 (à venir)** : révélation — par défaut 1 paire à la fois **avancée par l'hôte** ; mode rapide = auto actuel ;
+  reveal scores/fin plus impactant.
+- Design (non prioritaire) ; **CI/CD** = TASK-012 (`scripts/deploy.sh` dispo en attendant).
+- **Génération d'images en boucle** (3 styles) + curation par le commanditaire : en continu, en parallèle.
+Détails complets : voir **D-014**.
 
 ## ✅ Fait
 - Règles officielles recherchées et consignées.

@@ -146,7 +146,29 @@ Append-only. Une entrée = un choix structurant. Format :
      après curation par le commanditaire.
 - **Statut** : acté (annule l'approche de curation par l'agent de D-012 ; le multi-sources + traçabilité de D-012 tient).
 
+### D-014 · Retours playtest #1 + backlog priorisé
+- **Date** : 2026-07-02
+- **Contexte** : 1er playtest de la version en ligne. Jeu fonctionnel, mais liste de peaufinage.
+- **Retours (tous à traiter, pas seulement les exemples cités)** :
+  1. **[PRIO 1] Cartes trop petites** → les images doivent occuper la majeure partie de l'écran (surtout mobile),
+     paires secondaires + **zoom**. → TASK-009 (en cours).
+  2. **Design pas beau** (subjectif) → revoir style/design. **NON prioritaire.** → tâche design ultérieure.
+  3. **Flows & scénarios manquants** (important, « tout envisager », pas que les exemples) : fin de partie sans
+     recréer une room (rejouer/relancer) ; **rejoindre une partie en cours** ; **reconnexion en pleine manche** (ne
+     pas rester bloqué sur « La partie démarre… ») ; **relancer/recommencer** pour inclure qqn ou changer un réglage ;
+     + tous les autres cas limites (hôte qui part en jeu, joueur qui quitte, etc.). → TASK-010.
+  4. **Révélation** : trop rapide + les 3 modes ne diffèrent pas. Attendu : **par défaut, paires révélées UNE PAR UNE,
+     l'HÔTE passe à la suivante** (laisser le temps de s'expliquer) ; **mode rapide** = l'auto actuel. **Reveal des
+     scores / fin de partie plus impactant et soigné.** → TASK-011.
+  5. **Pas assez d'illustrations** → générer **en boucle**, 3 styles : très détaillé / **fond uni couleur** / contexte
+     sobre. → génération continue lancée (`harvest_ai3.py` → `catalog/pool/ai-*`).
+  6. **Automatisation / CI-CD** : que le commanditaire ajoute des images sans que l'agent redéploie. → `scripts/deploy.sh`
+     (self-service, dispo maintenant) ; **CI/CD complet** (GitHub Actions / Pages Git) = TASK-012 (nécessite repo GitHub).
+- **Ordre retenu** : TASK-009 (cartes en grand) → TASK-010 (flows/reconnexion/rejouer) → TASK-011 (révélation) →
+  design + TASK-012 (CI/CD). Génération d'images + curation en continu en parallèle.
+- **Statut** : acté (backlog).
+
 ---
 
 ## Décisions en attente
-- _(aucune bloquante.)_
+- **CI/CD complet** : le repo est-il sur GitHub ? (nécessaire pour GitHub Actions). Sinon, `scripts/deploy.sh` suffit en self-service.
