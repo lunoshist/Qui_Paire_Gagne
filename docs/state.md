@@ -18,13 +18,16 @@ Prochain : découper Phase 2 en briefs builders et lancer la construction (scaff
 ## 🔄 En cours
 - Présentation du plan détaillé au commanditaire pour validation avant d'attaquer la Phase 1 en profondeur.
 
+## 🌍 EN LIGNE
+- **Jeu (lobby)** : https://qui-paire-gagne.pages.dev · **Worker** : https://qui-paire-gagne-server.lunoshist.workers.dev
+- Déploiement validé en prod (2026-07-02). Procédure de redéploiement : `docs/deployment.md`.
+
 ## ⏭️ Prochaine action immédiate
-- **Phase 2 FINIE (hors déploiement).** TASK-001→004 livrées + vérifiées + commitées. **Lobby jouable en local.**
-- Deux pistes parallèles possibles :
-  - **Déploiement** (mettre en ligne le lobby) → nécessite `! npx wrangler@latest login` du commanditaire.
-  - **Phase 4 — boucle de jeu** (TASK-005+) : distribution des 11 cartes, formation (drag&drop), révélation, scores.
-    Peut avancer SANS déploiement (dev local). Dépend d'un catalogue minimal → cf. Phase 3 (lot pilote).
-- Décision de séquencement à confirmer avec le commanditaire (déployer d'abord le lobby, ou coder la boucle de jeu).
+- **Phase 2 TERMINÉE** (lobby en ligne). Prochaine grande étape : **Phase 3 (lot pilote catalogue) + Phase 4 (boucle de jeu)**.
+- Ordre proposé : (1) **lot pilote de cartes** via générateur gratuit sans clé (Pollinations/Flux) + tags →
+  débloque l'affichage des 11 cartes ; (2) **algo de tirage** ; (3) **TASK-005 : distribution + formation (drag&drop)** ;
+  (4) résolution/scoring serveur (réutilise `computeRoundResult`) ; (5) **révélation animée** ; (6) scores + enchaînement.
+- Génération d'images via Workers AI possible aussi (compte dispo), mais Pollinations reste plus simple pour le pilote.
 
 ## 🔌 Contrat serveur figé (pour le client — TASK-004)
 - Créer : `POST /api/rooms` → `{code}` (4 lettres). Rejoindre : WS `GET /api/ws?room=CODE`, 1er msg `joinRoom{pseudo,couleur?,avatar?,playerId?}`.

@@ -35,6 +35,10 @@ de façon **transparente** en lisant les fichiers ci-dessous, sans rien redemand
 - **Builders (sous-agents)** : reçoivent **une seule tâche précise + une Definition of Done
   vérifiable**. Un brief = un fichier dans `docs/agents/`.
 
+## 🌍 En ligne (prod)
+- Jeu : https://qui-paire-gagne.pages.dev · Worker : https://qui-paire-gagne-server.lunoshist.workers.dev
+- Déploiement + commandes de redéploiement : `docs/deployment.md`.
+
 ## Repère rapide
 - Le jeu : 3–8 joueurs, 11 photos/manche, 5 paires + 1 « pomme pourrie », 4 manches. Jeu de
   **consensus / association d'idées** (deviner les paires que feront les autres), pas de memory.

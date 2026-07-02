@@ -92,6 +92,15 @@ Append-only. Une entrée = un choix structurant. Format :
 - **Pourquoi** : simple, standard, dans l'écosystème Cloudflare acté (D-005), sans dépendance superflue.
 - **Statut** : acté.
 
+### D-010 · Déploiement en production
+- **Date** : 2026-07-02
+- **Choix** : 1er déploiement en ligne sur Cloudflare (compte lunoshist@gmail.com, auth wrangler OAuth). Worker sur
+  `qui-paire-gagne-server.lunoshist.workers.dev`, front sur `qui-paire-gagne.pages.dev` (Pages, branche `main`).
+  Redéploiement **manuel** pour l'instant (CI/CD plus tard). Détails + commandes : `docs/deployment.md`.
+- **Pourquoi** : valider tôt le pipeline « gratuit 24/24 » en réel (fait, chaîne WS vérifiée en prod) — choix de
+  séquencement du commanditaire (déployer le lobby d'abord).
+- **Statut** : acté.
+
 ---
 
 ## Décisions en attente
