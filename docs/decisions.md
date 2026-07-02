@@ -127,6 +127,25 @@ Append-only. Une entrée = un choix structurant. Format :
      Préférer CC0/PDM. Un `catalog/manifest.json` fait foi (source, licence, tags).
 - **Statut** : acté.
 
+### D-013 · Catalogue = VOLUME + curation par le commanditaire (annule la sur-curation par l'agent)
+- **Date** : 2026-07-02
+- **Contexte / erreurs déclencheuses** : l'agent a (1) raté son QC (ambulance défectueuse validée, 2 avants), (2)
+  trop filtré (« hors-sujet » rejeté à tort), (3) **perdu des images validées** (ballons, boussole) car stockées
+  seulement dans le scratchpad éphémère. Le commanditaire était mécontent, à juste titre.
+- **Choix** :
+  1. **Objectif VOLUME : 3000+ images.** L'agent **collecte massivement** (IA créées + libres de droit trouvées),
+     **sans filtrer** (paysages/images imparfaites OK). Le **commanditaire cure lui-même** (supprime ce qui ne va pas).
+  2. **Zéro QC de rejet par l'agent** sur le pool (jugement esthétique de l'agent jugé non fiable). L'agent peut
+     seulement écarter un fichier corrompu/vide.
+  3. **Tout va dans `catalog/pool/`** (dossier LOCAL persistant, gitignoré car volumineux + curé). Sous-dossiers par
+     source/concept. Provenance+licence conservées pour le libre de droit (`_sources.jsonl`).
+  4. **Process fix critique** : ne JAMAIS laisser l'unique copie d'images dans `/tmp` (éphémère) → toujours écrire
+     dans le répertoire de travail persistant.
+  5. **Illustrations IA** : demander un **fond/contexte/décor** (pas de fond uni).
+  6. Le catalogue jouable final (`catalog/images/` + `manifest.json`) sera construit **à partir des survivants**
+     après curation par le commanditaire.
+- **Statut** : acté (annule l'approche de curation par l'agent de D-012 ; le multi-sources + traçabilité de D-012 tient).
+
 ---
 
 ## Décisions en attente

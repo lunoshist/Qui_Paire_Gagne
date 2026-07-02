@@ -6,3 +6,7 @@ coverage/
 .DS_Store
 .env
 client/.env
+
+# Pool brut d'images du catalogue (volumineux, curé manuellement par le commanditaire).
+# Persiste sur le disque local ; seules les images retenues seront committées dans catalog/images/.
+catalog/pool/

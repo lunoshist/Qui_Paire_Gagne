@@ -37,10 +37,19 @@ Prochain : découper Phase 2 en briefs builders et lancer la construction (scaff
 - **Lot de production #1 EN COURS** (script direct `scratchpad/batch1.py`, 12 sujets × [1 illu IA + 2 libres de droit]).
   → au retour : **QC visuel par le tracker** (choisir le meilleur médium/candidat par sujet), tagging, `catalog/manifest.json`.
 
+## 🃏 Catalogue — NOUVELLE STRATÉGIE : volume + curation par le commanditaire (D-013)
+- ⚠️ Revirement : l'agent NE cure PAS. Objectif **3000+ images**, tout dans `catalog/pool/` (local, gitignoré), le
+  **commanditaire supprime** ce qu'il ne veut pas. Ne plus jamais stocker l'unique copie dans /tmp (éphémère).
+- **72 images récupérées** des pilotes/lots dans `catalog/pool/{pilote-v1,pilote-v2,lot1,lot1-fix}/` (ballons + boussole retrouvés).
+- **Collectes en cours** (background) : `harvest_rf.py` → `catalog/pool/rf/` (Openverse CC0/PDM/BY, ~120 concepts, provenance dans `_sources.jsonl`) ;
+  `harvest_ai.py` → `catalog/pool/ai-illu/` (illustrations IA AVEC fond/contexte, consigne commanditaire).
+- `catalog/images/` + `manifest.json` actuels (12) = provisoires (contiennent l'ambulance ratée) → le vrai catalogue
+  sera reconstruit à partir des survivants après curation. Images servies en statique via Pages.
+
 ## ⏭️ Prochaine action immédiate
-- QC du lot #1 (vision) → sélection + manifeste + assets committés dans `catalog/images/`.
-- Poursuivre le catalogue par lots (viser ≥100 cartes). Puis **Phase 4 (boucle de jeu)** : algo de tirage,
-  distribution 11 cartes, formation (drag&drop), scoring serveur (`computeRoundResult`), révélation.
+- Laisser tourner/relancer les collectes jusqu'à ~3000 (itératif ; ajouter concepts + sources Wikimedia si besoin).
+- **Phase 4 (boucle de jeu) EN PARALLÈLE** (approuvé) : algo de tirage, distribution 11 cartes, formation (drag&drop),
+  scoring serveur (`computeRoundResult`), révélation animée. Peut utiliser un set provisoire de cartes pour le dev.
 - Ordre proposé : (1) **lot pilote de cartes** via générateur gratuit sans clé (Pollinations/Flux) + tags →
   débloque l'affichage des 11 cartes ; (2) **algo de tirage** ; (3) **TASK-005 : distribution + formation (drag&drop)** ;
   (4) résolution/scoring serveur (réutilise `computeRoundResult`) ; (5) **révélation animée** ; (6) scores + enchaînement.
