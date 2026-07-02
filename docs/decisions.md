@@ -101,6 +101,32 @@ Append-only. Une entrée = un choix structurant. Format :
   séquencement du commanditaire (déployer le lobby d'abord).
 - **Statut** : acté.
 
+### D-011 · Correction de la direction artistique des cartes (remplace le « Dixit » de D-002)
+- **Date** : 2026-07-02
+- **Contexte** : le pilote v1 (style Dixit onirique/surréaliste) a été **rejeté** par le commanditaire. Qualité
+  d'image saluée, mais mauvaise approche : sujets flous/composites absurdes → illisibles → pas d'associations possibles.
+- **Choix** : chaque carte = **un concept/objet central CLAIR et reconnaissable** dans un contexte lisible (comme le
+  vrai jeu : ambulance, chiffres sur tableau noir…). Associations = attributs d'un sujet net (objet, formes, couleurs,
+  contexte). **Grande variété** de concepts/ambiances/contextes/formes/palettes. On abandonne le Dixit/surréaliste.
+- **Reste ouvert** : médium **illustration nette vs photo réaliste** → test A/B dans le pilote v2 (D-006/TASK-006).
+- **Statut** : acté (annule le volet « Dixit » de D-002 ; le reste de D-002 — pas de pictos simples — tient).
+
+### D-012 · Stratégie de production du catalogue (multi-sources + QC + licences)
+- **Date** : 2026-07-02
+- **Contexte** : pilote v2 validé (direction OK). Retour commanditaire : illustration en majorité, **réaliste quand ça
+  sert mieux** (ex. boussole), **+ images libres de droit** du web pour compléter. Défauts constatés à filtrer
+  (parapluie à double toile, fil de téléphone dans le vide, ambulance pas assez « française », sujet « tableau » à éviter).
+- **Choix** :
+  1. **3 sources, choisies au cas par cas par sujet** : (a) **illustration IA** (Pollinations/Flux), (b) **réaliste IA**,
+     (c) **image libre de droit** via **Openverse** (filtre **CC0 / domaine public** → pas d'attribution obligatoire ;
+     fallback Wikimedia). Méthode : récupérer plusieurs candidats/sujet → **je choisis le meilleur au QC**.
+  2. **Contrôle qualité visuel (par le tracker)** : inspecter chaque image (vision) et **rejeter** défauts anatomiques/
+     objets incohérents, dépictions inexactes (spécificité culturelle : ex. ambulance FR/EU), sujets illisibles ou
+     **basés sur du texte/chiffres** (rendu IA médiocre → à éviter comme concept).
+  3. **Traçabilité licence** : pour chaque image du web, stocker licence + provider + URL source (+ créateur si requis).
+     Préférer CC0/PDM. Un `catalog/manifest.json` fait foi (source, licence, tags).
+- **Statut** : acté.
+
 ---
 
 ## Décisions en attente

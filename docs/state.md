@@ -22,8 +22,25 @@ Prochain : découper Phase 2 en briefs builders et lancer la construction (scaff
 - **Jeu (lobby)** : https://qui-paire-gagne.pages.dev · **Worker** : https://qui-paire-gagne-server.lunoshist.workers.dev
 - Déploiement validé en prod (2026-07-02). Procédure de redéploiement : `docs/deployment.md`.
 
+## 🎨 Catalogue — pilote v1 REJETÉ, pilote v2 en cours
+- **Pilote v1 (Dixit/onirique) REJETÉ** par le commanditaire (sujets flous/surréalistes → pas d'associations). Voir D-011.
+  Ancienne galerie : https://pilot.qui-paire-gagne.pages.dev (à ignorer / remplacer).
+- **Direction corrigée (D-011)** : concept central CLAIR + variété (ambiances/contextes/formes/couleurs). Cf. `catalog.md` § Style révisé.
+- **Pilote v2 FAIT** (16/16, généré en direct par le tracker après coupures d'agents) : galerie **https://pilot2.qui-paire-gagne.pages.dev**
+  (5 sujets ×2 médiums côte à côte + 6 sujets variés). Direction corrigée validée visuellement (sujets clairs, variété OK). **En attente : choix du médium (illustration/photo/mix).**
+- ⚠️ TODO prod : résolution (Pollinations rend du 768 malgré 1024) → upscale/meilleure résolution avant prod de masse.
+
+## 🎨 Catalogue — direction VALIDÉE (v2), production multi-sources lancée
+- Retour commanditaire sur pilote v2 : direction bien meilleure. **Médium au cas par cas** (illustration surtout,
+  réaliste parfois ex. boussole) **+ images libres de droit** (Openverse CC0/PDM, testé OK). Défauts à filtrer au QC
+  (parapluie double toile, fil de téléphone dans le vide, ambulance pas assez FR, éviter sujets texte/chiffres). Cf. D-011, D-012.
+- **Lot de production #1 EN COURS** (script direct `scratchpad/batch1.py`, 12 sujets × [1 illu IA + 2 libres de droit]).
+  → au retour : **QC visuel par le tracker** (choisir le meilleur médium/candidat par sujet), tagging, `catalog/manifest.json`.
+
 ## ⏭️ Prochaine action immédiate
-- **Phase 2 TERMINÉE** (lobby en ligne). Prochaine grande étape : **Phase 3 (lot pilote catalogue) + Phase 4 (boucle de jeu)**.
+- QC du lot #1 (vision) → sélection + manifeste + assets committés dans `catalog/images/`.
+- Poursuivre le catalogue par lots (viser ≥100 cartes). Puis **Phase 4 (boucle de jeu)** : algo de tirage,
+  distribution 11 cartes, formation (drag&drop), scoring serveur (`computeRoundResult`), révélation.
 - Ordre proposé : (1) **lot pilote de cartes** via générateur gratuit sans clé (Pollinations/Flux) + tags →
   débloque l'affichage des 11 cartes ; (2) **algo de tirage** ; (3) **TASK-005 : distribution + formation (drag&drop)** ;
   (4) résolution/scoring serveur (réutilise `computeRoundResult`) ; (5) **révélation animée** ; (6) scores + enchaînement.

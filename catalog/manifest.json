@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "updated": "2026-07-02",
+  "note": "Catalogue de cartes. tags = concepts/couleursDominantes/categorie/ambiance/formes (alimentent l'algo de tirage). source: ai-illustration | ai-realistic | royalty-free. license/attribution requis si royalty-free.",
+  "cards": [
+    {
+      "id": "ambulance", "subject": "ambulance", "file": "images/ambulance.jpg", "source": "ai-illustration",
+      "tags": { "concepts": ["urgence", "medical", "transport", "secours", "hopital", "vitesse"], "couleursDominantes": ["blanc", "orange", "rouge"], "categorie": "vehicule", "ambiance": ["dramatique", "serieux"], "formes": ["rectangulaire", "vehicule"] }
+    },
+    {
+      "id": "umbrella", "subject": "parapluie rouge", "file": "images/umbrella.jpg", "source": "ai-illustration",
+      "tags": { "concepts": ["pluie", "protection", "meteo", "abri", "automne"], "couleursDominantes": ["rouge"], "categorie": "objet", "ambiance": ["neutre"], "formes": ["rond", "dome"] }
+    },
+    {
+      "id": "hot-air-balloon", "subject": "montgolfiere", "file": "images/hot-air-balloon.jpg", "source": "ai-illustration",
+      "tags": { "concepts": ["voyage", "ciel", "aventure", "vol", "reve", "liberte"], "couleursDominantes": ["multicolore", "bleu"], "categorie": "vehicule", "ambiance": ["joyeux", "leger"], "formes": ["rond", "ovale"] }
+    },
+    {
+      "id": "birthday-cake", "subject": "gateau d'anniversaire", "file": "images/birthday-cake.jpg", "source": "ai-illustration",
+      "tags": { "concepts": ["fete", "anniversaire", "enfance", "sucre", "celebration", "bougie"], "couleursDominantes": ["rose", "creme"], "categorie": "nourriture", "ambiance": ["joyeux"], "formes": ["rond"] }
+    },
+    {
+      "id": "watermelon", "subject": "pasteque", "file": "images/watermelon.jpg", "source": "ai-illustration",
+      "tags": { "concepts": ["ete", "fruit", "fraicheur", "nourriture", "vacances"], "couleursDominantes": ["rouge", "vert"], "categorie": "nourriture", "ambiance": ["joyeux", "estival"], "formes": ["triangle", "part"] }
+    },
+    {
+      "id": "cactus", "subject": "cactus en pot", "file": "images/cactus.jpg", "source": "ai-illustration",
+      "tags": { "concepts": ["desert", "plante", "nature", "resistance", "piquant", "chaleur"], "couleursDominantes": ["vert", "marron"], "categorie": "plante", "ambiance": ["neutre", "aride"], "formes": ["vertical", "piquant"] }
+    },
+    {
+      "id": "butterfly", "subject": "papillon", "file": "images/butterfly.jpg", "source": "ai-illustration",
+      "tags": { "concepts": ["nature", "insecte", "liberte", "transformation", "printemps", "legerete"], "couleursDominantes": ["multicolore"], "categorie": "animal", "ambiance": ["leger", "colore"], "formes": ["symetrique", "ailes"] }
+    },
+    {
+      "id": "anchor", "subject": "ancre", "file": "images/anchor.jpg", "source": "ai-illustration",
+      "tags": { "concepts": ["mer", "bateau", "marin", "stabilite", "voyage", "port"], "couleursDominantes": ["bleu", "argent"], "categorie": "objet", "ambiance": ["neutre", "marin"], "formes": ["symetrique", "metallique"] }
+    },
+    {
+      "id": "candle", "subject": "bougie allumee", "file": "images/candle.jpg", "source": "ai-illustration",
+      "tags": { "concepts": ["lumiere", "feu", "calme", "temps", "memoire", "chaleur"], "couleursDominantes": ["orange", "jaune"], "categorie": "objet", "ambiance": ["calme", "chaleureux"], "formes": ["vertical", "cylindre"] }
+    },
+    {
+      "id": "treasure-chest", "subject": "coffre au tresor", "file": "images/treasure-chest.jpg", "source": "ai-illustration",
+      "tags": { "concepts": ["tresor", "richesse", "pirate", "or", "secret", "aventure"], "couleursDominantes": ["or", "marron"], "categorie": "objet", "ambiance": ["aventure"], "formes": ["rectangulaire", "coffre"] }
+    }
+  ]
+}

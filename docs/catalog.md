@@ -7,9 +7,18 @@ Le catalogue n'est **pas** une simple banque d'images : c'est un **système** = 
 permettant de composer des **tirages de 11 cartes volontairement ambigus**. Sans ambiguïté, les paires
 deviennent évidentes → le jeu de consensus s'effondre. C'est la pièce la plus structurante du projet.
 
-## Style (acté D-002)
-Illustrations **détaillées et évocatrices, style Dixit** (surréaliste/onirique, plusieurs lectures possibles).
-Pas de pictos simples. Richesse visuelle = fonctionnelle (empêche l'association unique évidente).
+## Style (RÉVISÉ 2026-07-02 — voir D-011 ; ancien « Dixit » ABANDONNÉ)
+**⚠️ PAS de style Dixit / surréaliste / onirique.** Le pilote v1 (dreamy, sujets composites flous) a été rejeté :
+sujets illisibles → aucune association possible. Direction correcte :
+- **Un concept/objet central CLAIR et immédiatement reconnaissable** par carte (ex. une ambulance ; des chiffres
+  à la craie sur un tableau noir ; un parapluie rouge). On doit identifier le sujet au premier coup d'œil.
+- **Contexte/arrière-plan lisible** (souvent assez épuré) qui soutient la lecture ET ajoute des attributs associables.
+- Les associations viennent des **attributs d'un sujet net** : objet, **formes**, **couleurs dominantes**,
+  **contexte**, concepts évoqués (ex. ambulance → urgence/médical/transport/rouge/sirène).
+- **VARIÉTÉ obligatoire** sur tout le catalogue : concepts, ambiances (joyeux, calme, dramatique, froid, nocturne…),
+  contextes, formes, palettes. Ne PAS tout uniformiser dans une seule ambiance.
+- Ni pictos simples (D-002), ni scènes surréalistes ambiguës. Richesse détaillée MAIS lisible.
+- Médium (illustration nette vs photo réaliste) : **à trancher via pilote v2** (test A/B).
 
 ## Génération (acté D-002 + D-006 : coût minimal/gratuit)
 - **Outil principal** : **Cloudflare Workers AI** (Flux schnell / SDXL) — free tier, même écosystème que
@@ -62,9 +71,35 @@ paire triviale ni carte isolée → le consensus redevient un vrai pari.
 Jeu original ≈ 300 images. Cible pour la rejouabilité : **≥ 150–300 illustrations** de qualité.
 Générer par lots ; commencer par un lot pilote pour valider le style avant de produire en masse.
 
+## Production multi-sources (D-012)
+3 sources choisies **au cas par cas par sujet** :
+- **Illustration IA** (Pollinations/Flux) — médium par défaut.
+- **Réaliste IA** — quand un rendu réaliste sert mieux le sujet.
+- **Libre de droit** — Openverse, filtre **CC0/PDM** (domaine public, pas d'attribution requise). Testé OK
+  (résultats + URL + licence + provider). Fallback : Wikimedia Commons.
+
+**Méthode** : pour chaque sujet, rassembler plusieurs candidats (illustration IA + libre de droit) → **QC visuel
+par le tracker** (choix du meilleur médium, rejet des défauts) → tagging → entrée dans le manifeste.
+
+**QC — rejeter** : défauts anatomiques/objets incohérents (ex. parapluie à double toile, fil de téléphone dans le
+vide), dépictions inexactes (spécificité culturelle : ambulance FR/EU), sujets illisibles, **sujets basés sur
+texte/chiffres** (rendu IA médiocre → éviter le concept, ex. « tableau de chiffres »).
+
+## Manifeste (`catalog/manifest.json`) — source de vérité du catalogue
+```
+Card {
+  id, subject, file,                        // fichier dans catalog/images/
+  source: 'ai-illustration'|'ai-realistic'|'royalty-free',
+  license?, attribution?: {creator, sourceUrl, provider},   // requis si royalty-free
+  tags: { concepts[], couleursDominantes[], categorie, ambiance[], formes[] }
+}
+```
+Le manifeste alimente l'affichage ET l'algo de tirage. Assets committés dans `catalog/images/`.
+
 ## Étapes (Phase 3)
-- [ ] Fixer outil + budget (D-006).
-- [ ] Lot pilote (~15–30 images) → valider style + taggabilité + rendu d'un vrai tirage de 11.
-- [ ] Production du catalogue complet.
-- [ ] Tagging / métadonnées (agent vision + curation).
-- [ ] Implémentation de l'algo de tirage + jeu de tests d'ambiguïté.
+- [x] Outil + direction validés (D-006, D-011, D-012).
+- [x] Pilotes v1 (rejeté) et v2 (validé) → direction « concept central clair + variété + multi-sources ».
+- [ ] 🔄 Lot de production #1 (candidats IA + libre de droit) → QC tracker → manifeste (en cours).
+- [ ] Production du reste du catalogue par lots (viser ≥100 cartes jouables).
+- [ ] Tagging / métadonnées + `manifest.json`.
+- [ ] Implémentation de l'algo de tirage + tests d'ambiguïté.
