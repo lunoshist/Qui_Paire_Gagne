@@ -19,10 +19,12 @@ Prochain : découper Phase 2 en briefs builders et lancer la construction (scaff
 - Présentation du plan détaillé au commanditaire pour validation avant d'attaquer la Phase 1 en profondeur.
 
 ## ⏭️ Prochaine action immédiate
-- **Phase 2 — Fondations.** TASK-001, TASK-002, **TASK-003 (DO room + lobby, 12/12 intégration)** livrées + vérifiées + commitées.
-- **TASK-004 dispatchée** : client React — écrans Accueil + Salle d'attente, store WS synchronisé.
-- Ensuite : **premier déploiement** (nécessite `wrangler login` du commanditaire), puis Phase 4 (boucle de jeu :
-  distribution/formation/révélation/scores, `// TODO TASK-005`), Phase 3 (lot pilote catalogue).
+- **Phase 2 FINIE (hors déploiement).** TASK-001→004 livrées + vérifiées + commitées. **Lobby jouable en local.**
+- Deux pistes parallèles possibles :
+  - **Déploiement** (mettre en ligne le lobby) → nécessite `! npx wrangler@latest login` du commanditaire.
+  - **Phase 4 — boucle de jeu** (TASK-005+) : distribution des 11 cartes, formation (drag&drop), révélation, scores.
+    Peut avancer SANS déploiement (dev local). Dépend d'un catalogue minimal → cf. Phase 3 (lot pilote).
+- Décision de séquencement à confirmer avec le commanditaire (déployer d'abord le lobby, ou coder la boucle de jeu).
 
 ## 🔌 Contrat serveur figé (pour le client — TASK-004)
 - Créer : `POST /api/rooms` → `{code}` (4 lettres). Rejoindre : WS `GET /api/ws?room=CODE`, 1er msg `joinRoom{pseudo,couleur?,avatar?,playerId?}`.
@@ -35,6 +37,9 @@ Prochain : découper Phase 2 en briefs builders et lancer la construction (scaff
 - **Pomme pourrie unanime = 0** : hypothèse par symétrie (D-003), à recouper avec le livret officiel (TODO dans `scoring.ts`).
 - **`variantesScoring`** : pas encore câblé dans `computeRoundResult` (règles par défaut). Évolution de signature
   possible (passer `RoomSettings`) quand on ajoutera des variantes.
+- **Reprise de place en LOBBY** : au rechargement de page en lobby, le serveur retire le joueur à la déconnexion →
+  re-join = nouvelle entrée (nouveau playerId/couleur, hôte possiblement réattribué). La reprise exacte via `playerId`
+  marche une fois la partie lancée. Fix futur : délai de grâce côté serveur en lobby (TASK-003, à rouvrir).
 
 ## ⚠️ Dépendance à venir (commanditaire)
 - **Compte Cloudflare** : créé par le commanditaire (2026-07-01). Méthode d'accès retenue = **`wrangler login`

@@ -5,8 +5,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   test: {
-    // Test trivial et pur : pas besoin de DOM ni de WebSocket.
-    environment: 'node',
-    include: ['src/**/*.test.ts'],
+    // jsdom : nécessaire aux smoke tests de rendu (RTL). Les tests purs
+    // (réducteur, URLs, routeur) s'exécutent tout aussi bien dans cet env.
+    environment: 'jsdom',
+    globals: true,
+    include: ['src/**/*.test.{ts,tsx}'],
   },
 });
