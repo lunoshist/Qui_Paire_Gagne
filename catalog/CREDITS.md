@@ -265,3 +265,60 @@ Images sous CC-BY (attribution requise) ci-dessous :
 - **deer-02** — Deer par ZapTheDingbat (by 2.0) — https://www.flickr.com/photos/80476901@N00/3677003284
 - **deer-04** — Red Deer Stag par Smudge 9000 (by 2.0) — https://www.flickr.com/photos/7599112@N08/2207401280
 - **deer-17** — Deer on the green par It's No Game (by 2.0) — https://www.flickr.com/photos/29057345@N04/48371947136
+- **desert-15** — Desert par mtshaw (by 2.0) — https://www.flickr.com/photos/47033593@N03/5652560413
+- **desk-lamp-02** — Unusually designed desk lamp with large glowing filaments par Ivan Radic (by 2.0) — https://www.flickr.com/photos/26344495@N05/47250093172
+- **desk-lamp-07** — WLA nyhistorical 1910 desk lamp par Wikipedia Loves Art participant 'the_adverse_possessors' (by 2.5) — https://commons.wikimedia.org/w/index.php?curid=8884349
+- **desk-lamp-18** — Gilbert rohde per hermann miller, inc., tavolino paldao ectoplatic n. 4106, zeeland MI 1940 ca., con cobra desk lamp, greta magnusson grossman, 1948-49 par Sailko (by 3.0) — https://commons.wikimedia.org/w/index.php?curid=64689629
+- **desk-lamp-19** — desk lamp par Random McRandomhead (by 2.0) — https://www.flickr.com/photos/41541935@N00/1111575702
+- **diamond-16** — Diamond Fuji. par skyseeker (by 2.0) — https://www.flickr.com/photos/40422902@N00/379078974
+- **diamond-20** — Diamond on Blue par Koshyk (by 2.0) — https://www.flickr.com/photos/97235261@N00/4595127567
+- **dice-04** — Dice par Mak Ting Him (by 2.0) — https://www.flickr.com/photos/61412481@N06/6404790907
+- **dice-06** — Dice par Steve A Johnson (by 2.0) — https://www.flickr.com/photos/14529257@N03/5650007098
+- **dog-01** — Dogs 013 par mrspattinsonn (by 2.0) — https://www.flickr.com/photos/57508638@N06/5323961120
+- **dog-03** — Dog par indamage (by 2.0) — https://www.flickr.com/photos/55298774@N07/6177938643
+- **dog-10** — Roxy At the Dog Park par MSVG (by 2.0) — https://www.flickr.com/photos/13907834@N00/9386968830
+- **dolphin-04** — Dolphin Encounter par Just Taken Pics (by 2.0) — https://www.flickr.com/photos/63797645@N00/98391847
+- **dolphin-08** — Dolphin Jumping in Wake par The Pug Father (by 2.0) — https://www.flickr.com/photos/76929828@N00/458562896
+- **domino-05** — Domino's Pizza par The Pizza Review (by 2.0) — https://www.flickr.com/photos/23909884@N07/3572925000
+- **domino-08** — Domino par Jeff Pioquinto, SJ (by 2.0) — https://www.flickr.com/photos/90412460@N00/15482576136
+- **domino-11** — Domino par adampiggott (by 2.0) — https://www.flickr.com/photos/15171232@N02/3105164653
+- **domino-18** — domino par barryskeates (by 2.0) — https://www.flickr.com/photos/31059504@N08/6803420982
+- **dragon-02** — Dragon Tree Forest par D-Stanley (by 2.0) — https://www.flickr.com/photos/79721788@N00/14935658766
+- **dragon-05** — Dragon par T. Cowart (by 2.0) — https://www.flickr.com/photos/16042012@N00/3210914135
+- **dragon-09** — Dollar Dragon par soozafone (by 2.0) — https://www.flickr.com/photos/62198235@N04/7012720629
+- **dress-01** — Dress par be creator (by 2.0) — https://www.flickr.com/photos/119678691@N02/29055595412
+- **dress-02** — Wedding Dress - Lan Chi par Mac Vincente | ® © (by 2.0) — https://www.flickr.com/photos/53579370@N07/8035928857
+- **dress-07** — Wedding Dress par Tokuriki (by 2.0) — https://www.flickr.com/photos/59722994@N00/52859916
+- **dress-13** — Ball Gown Wedding Dress par HalloweenFashion (by 2.0) — https://www.flickr.com/photos/67179800@N06/6171304343
+- **drum-01** — Snare drum par YannickWhee (by 2.0) — https://www.flickr.com/photos/143309222@N07/28915068650
+- **drum-02** — Digital Drum par Vladimir Morozov (by 2.0) — https://www.flickr.com/photos/27429206@N02/4715894559
+- **drum-03** — Wadaiko Japanese Drum Live Performance par VinothChandar (by 2.0) — https://www.flickr.com/photos/44345361@N06/15208510484
+- **egg-03** — Polymer Covered Eggs par It's all about color (by 2.0) — https://www.flickr.com/photos/54851145@N02/5172909046
+- **egg-09** — Two eggs sunny side up, bacon, and home fries with cheddar cheese par @joefoodie (by 2.0) — https://www.flickr.com/photos/98178986@N00/1473232665
+- **electric-fan-03** — Lasko floor fan and Palm Air table fan, standard electric fans, San Mateo, California, USA par Wonderlane (by 2.0) — https://www.flickr.com/photos/71401718@N00/3134754840
+- **elephant-08** — Muddy Elephant par justin (by 2.0) — https://www.flickr.com/photos/35034345586@N01/360206569
+- **elephant-16** — Addo Elephant National Park par exfordy (by 2.0) — https://www.flickr.com/photos/32659528@N00/429421469
+- **eye-03** — Eyes par lizzerW (by 2.0) — https://www.flickr.com/photos/71264463@N03/7050272915
+- **eye-05** — London Eye par jimmyharris (by 2.0) — https://www.flickr.com/photos/50216172@N00/2523480499
+- **eyeglasses-01** — I'm done reading my magazine, I quit. magazine & eyeglasses par photosteve101 (by 2.0) — https://www.flickr.com/photos/42931449@N07/6092424291
+- **fairy-09** — Fairy Pumpkin House (Explored) par tinyfroglet (by 2.0) — https://www.flickr.com/photos/20868483@N00/2990741426
+- **feather-14** — Flight feathers par Don McCullough (by 2.0) — https://www.flickr.com/photos/69214385@N04/9147320709
+- **fern-06** — Fern Cover par Ian Sane (by 2.0) — https://www.flickr.com/photos/31246066@N04/15324107428
+- **fern-17** — Fern Rock Nature Trail (6) par Nicholas_T (by 2.0) — https://www.flickr.com/photos/14922165@N00/15946946349
+- **ferry-03** — Ships that pass in the day; Gozo to Malta Ferry par foxypar4 (by 2.0) — https://www.flickr.com/photos/43145783@N00/3131081737
+- **fire-04** — fire par ((brian)) (by 2.0) — https://www.flickr.com/photos/38885123@N00/2614374247
+- **fire-14** — FIRE par kjarrett (by 2.0) — https://www.flickr.com/photos/29304822@N00/7984193597
+- **fire-16** — Earth, Air, Fire and Water par Tony Fischer Photography (by 2.0) — https://www.flickr.com/photos/22714323@N06/4762616144
+- **fire-truck-08** — Hillsboro Fire & Rescue Spartan Fire Truck par born1945 (by 2.0) — https://www.flickr.com/photos/12567713@N00/7126607053
+- **fish-04** — Fish par PhotogragherGirl (by 2.0) — https://www.flickr.com/photos/21469929@N05/2456788026
+- **flag-02** — American Flag par slgckgc (by 2.0) — https://www.flickr.com/photos/14771153@N04/10803653416
+- **flag-06** — German Flag, Berlin par Will Palmer (by 2.0) — https://www.flickr.com/photos/91181411@N00/378563092
+- **flamingo-02** — Flamingos' heart par Omar.Bariffi (by 2.0) — https://www.flickr.com/photos/31713068@N08/5829429878
+- **flamingo-20** — Flamingo par Thanks for over 2 million views!! (by 2.0) — https://www.flickr.com/photos/113086034@N04/33086609502
+- **flashlight-10** — Flashlight par Cezary Borysiuk (by 2.0) — https://www.flickr.com/photos/37209452@N02/4497211501
+- **flute-07** — Champagne flute and bottle par Taken on September 22, 2005 (by 2.0) — https://commons.wikimedia.org/w/index.php?curid=1446052
+- **footprint-06** — footprints in desert sand par zbigphotography (1M+ views) (by 2.0) — https://www.flickr.com/photos/45098669@N06/8559321112
+- **forest-03** — Forest par jungle_group (by 2.0) — https://www.flickr.com/photos/21854362@N04/2109776257
+- **fox-01** — fox pile par katieillustration (by 2.0) — https://www.flickr.com/photos/81337976@N02/7726714906
+- **fox-05** — fox par digitalprimate (by 2.0) — https://www.flickr.com/photos/11558320@N00/521409209
+- **fried-egg-04** — Fried eggs par Pierre-Olivier (by 2.0) — https://www.flickr.com/photos/8215047@N02/4902298804

@@ -2,7 +2,7 @@
  "version": 2,
  "updated": "2026-07-02",
  "note": "Généré par scripts/build-manifest.mjs depuis catalog/images/. Tags concepts dérivés du nom ; enrichissement (couleurs/catégorie/ambiance) à venir. Provenance/licence embarquée pour les images libres de droit.",
- "count": 295,
+ "count": 355,
  "cards": [
   {
    "id": "accordion-01",
@@ -6282,6 +6282,1280 @@
    "attribution": {
     "creator": "It's No Game",
     "sourceUrl": "https://www.flickr.com/photos/29057345@N04/48371947136",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "desert-15",
+   "subject": "desert",
+   "file": "images/desert-15.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "desert"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "mtshaw",
+    "sourceUrl": "https://www.flickr.com/photos/47033593@N03/5652560413",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "desk-lamp-02",
+   "subject": "desk lamp",
+   "file": "images/desk-lamp-02.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "desk lamp",
+     "desk",
+     "lamp"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Ivan Radic",
+    "sourceUrl": "https://www.flickr.com/photos/26344495@N05/47250093172",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "desk-lamp-07",
+   "subject": "desk lamp",
+   "file": "images/desk-lamp-07.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "desk lamp",
+     "desk",
+     "lamp"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.5",
+   "attribution": {
+    "creator": "Wikipedia Loves Art participant 'the_adverse_possessors'",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=8884349",
+    "provider": "wikimedia"
+   }
+  },
+  {
+   "id": "desk-lamp-18",
+   "subject": "desk lamp",
+   "file": "images/desk-lamp-18.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "desk lamp",
+     "desk",
+     "lamp"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 3.0",
+   "attribution": {
+    "creator": "Sailko",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=64689629",
+    "provider": "wikimedia"
+   }
+  },
+  {
+   "id": "desk-lamp-19",
+   "subject": "desk lamp",
+   "file": "images/desk-lamp-19.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "desk lamp",
+     "desk",
+     "lamp"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Random McRandomhead",
+    "sourceUrl": "https://www.flickr.com/photos/41541935@N00/1111575702",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "diamond-16",
+   "subject": "diamond",
+   "file": "images/diamond-16.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "diamond"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "skyseeker",
+    "sourceUrl": "https://www.flickr.com/photos/40422902@N00/379078974",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "diamond-20",
+   "subject": "diamond",
+   "file": "images/diamond-20.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "diamond"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Koshyk",
+    "sourceUrl": "https://www.flickr.com/photos/97235261@N00/4595127567",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dice-04",
+   "subject": "dice",
+   "file": "images/dice-04.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dice"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Mak Ting Him",
+    "sourceUrl": "https://www.flickr.com/photos/61412481@N06/6404790907",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dice-06",
+   "subject": "dice",
+   "file": "images/dice-06.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dice"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Steve A Johnson",
+    "sourceUrl": "https://www.flickr.com/photos/14529257@N03/5650007098",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dog-01",
+   "subject": "dog",
+   "file": "images/dog-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dog"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "mrspattinsonn",
+    "sourceUrl": "https://www.flickr.com/photos/57508638@N06/5323961120",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dog-03",
+   "subject": "dog",
+   "file": "images/dog-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dog"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "indamage",
+    "sourceUrl": "https://www.flickr.com/photos/55298774@N07/6177938643",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dog-10",
+   "subject": "dog",
+   "file": "images/dog-10.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dog"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "MSVG",
+    "sourceUrl": "https://www.flickr.com/photos/13907834@N00/9386968830",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dolphin-04",
+   "subject": "dolphin",
+   "file": "images/dolphin-04.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dolphin"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Just Taken Pics",
+    "sourceUrl": "https://www.flickr.com/photos/63797645@N00/98391847",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dolphin-08",
+   "subject": "dolphin",
+   "file": "images/dolphin-08.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dolphin"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "The Pug Father",
+    "sourceUrl": "https://www.flickr.com/photos/76929828@N00/458562896",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "domino-05",
+   "subject": "domino",
+   "file": "images/domino-05.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "domino"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "The Pizza Review",
+    "sourceUrl": "https://www.flickr.com/photos/23909884@N07/3572925000",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "domino-08",
+   "subject": "domino",
+   "file": "images/domino-08.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "domino"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Jeff Pioquinto, SJ",
+    "sourceUrl": "https://www.flickr.com/photos/90412460@N00/15482576136",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "domino-11",
+   "subject": "domino",
+   "file": "images/domino-11.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "domino"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "adampiggott",
+    "sourceUrl": "https://www.flickr.com/photos/15171232@N02/3105164653",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "domino-18",
+   "subject": "domino",
+   "file": "images/domino-18.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "domino"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "barryskeates",
+    "sourceUrl": "https://www.flickr.com/photos/31059504@N08/6803420982",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dragon-02",
+   "subject": "dragon",
+   "file": "images/dragon-02.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dragon"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "D-Stanley",
+    "sourceUrl": "https://www.flickr.com/photos/79721788@N00/14935658766",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dragon-05",
+   "subject": "dragon",
+   "file": "images/dragon-05.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dragon"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "T. Cowart",
+    "sourceUrl": "https://www.flickr.com/photos/16042012@N00/3210914135",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dragon-09",
+   "subject": "dragon",
+   "file": "images/dragon-09.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dragon"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "soozafone",
+    "sourceUrl": "https://www.flickr.com/photos/62198235@N04/7012720629",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dress-01",
+   "subject": "dress",
+   "file": "images/dress-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dress"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "be creator",
+    "sourceUrl": "https://www.flickr.com/photos/119678691@N02/29055595412",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dress-02",
+   "subject": "dress",
+   "file": "images/dress-02.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dress"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Mac Vincente | ® ©",
+    "sourceUrl": "https://www.flickr.com/photos/53579370@N07/8035928857",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dress-07",
+   "subject": "dress",
+   "file": "images/dress-07.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dress"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Tokuriki",
+    "sourceUrl": "https://www.flickr.com/photos/59722994@N00/52859916",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "dress-13",
+   "subject": "dress",
+   "file": "images/dress-13.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "dress"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "HalloweenFashion",
+    "sourceUrl": "https://www.flickr.com/photos/67179800@N06/6171304343",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "drum-01",
+   "subject": "drum",
+   "file": "images/drum-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "drum"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "YannickWhee",
+    "sourceUrl": "https://www.flickr.com/photos/143309222@N07/28915068650",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "drum-02",
+   "subject": "drum",
+   "file": "images/drum-02.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "drum"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Vladimir Morozov",
+    "sourceUrl": "https://www.flickr.com/photos/27429206@N02/4715894559",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "drum-03",
+   "subject": "drum",
+   "file": "images/drum-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "drum"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "VinothChandar",
+    "sourceUrl": "https://www.flickr.com/photos/44345361@N06/15208510484",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "egg-03",
+   "subject": "egg",
+   "file": "images/egg-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "egg"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "It's all about color",
+    "sourceUrl": "https://www.flickr.com/photos/54851145@N02/5172909046",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "egg-09",
+   "subject": "egg",
+   "file": "images/egg-09.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "egg"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "@joefoodie",
+    "sourceUrl": "https://www.flickr.com/photos/98178986@N00/1473232665",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "electric-fan-03",
+   "subject": "electric fan",
+   "file": "images/electric-fan-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "electric fan",
+     "electric",
+     "fan"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Wonderlane",
+    "sourceUrl": "https://www.flickr.com/photos/71401718@N00/3134754840",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "elephant-08",
+   "subject": "elephant",
+   "file": "images/elephant-08.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "elephant"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "justin",
+    "sourceUrl": "https://www.flickr.com/photos/35034345586@N01/360206569",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "elephant-16",
+   "subject": "elephant",
+   "file": "images/elephant-16.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "elephant"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "exfordy",
+    "sourceUrl": "https://www.flickr.com/photos/32659528@N00/429421469",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "eye-03",
+   "subject": "eye",
+   "file": "images/eye-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "eye"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "lizzerW",
+    "sourceUrl": "https://www.flickr.com/photos/71264463@N03/7050272915",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "eye-05",
+   "subject": "eye",
+   "file": "images/eye-05.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "eye"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "jimmyharris",
+    "sourceUrl": "https://www.flickr.com/photos/50216172@N00/2523480499",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "eyeglasses-01",
+   "subject": "eyeglasses",
+   "file": "images/eyeglasses-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "eyeglasses"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "photosteve101",
+    "sourceUrl": "https://www.flickr.com/photos/42931449@N07/6092424291",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "fairy-09",
+   "subject": "fairy",
+   "file": "images/fairy-09.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "fairy"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "tinyfroglet",
+    "sourceUrl": "https://www.flickr.com/photos/20868483@N00/2990741426",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "feather-07",
+   "subject": "feather",
+   "file": "images/feather-07.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "feather"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "cc0 1.0",
+   "attribution": {
+    "creator": "gemsling",
+    "sourceUrl": "https://www.flickr.com/photos/23876767@N00/416891927",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "feather-14",
+   "subject": "feather",
+   "file": "images/feather-14.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "feather"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Don McCullough",
+    "sourceUrl": "https://www.flickr.com/photos/69214385@N04/9147320709",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "fern-06",
+   "subject": "fern",
+   "file": "images/fern-06.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "fern"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Ian Sane",
+    "sourceUrl": "https://www.flickr.com/photos/31246066@N04/15324107428",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "fern-17",
+   "subject": "fern",
+   "file": "images/fern-17.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "fern"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Nicholas_T",
+    "sourceUrl": "https://www.flickr.com/photos/14922165@N00/15946946349",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "ferry-03",
+   "subject": "ferry",
+   "file": "images/ferry-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "ferry"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "foxypar4",
+    "sourceUrl": "https://www.flickr.com/photos/43145783@N00/3131081737",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "fire-04",
+   "subject": "fire",
+   "file": "images/fire-04.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "fire"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "((brian))",
+    "sourceUrl": "https://www.flickr.com/photos/38885123@N00/2614374247",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "fire-14",
+   "subject": "fire",
+   "file": "images/fire-14.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "fire"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "kjarrett",
+    "sourceUrl": "https://www.flickr.com/photos/29304822@N00/7984193597",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "fire-16",
+   "subject": "fire",
+   "file": "images/fire-16.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "fire"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Tony Fischer Photography",
+    "sourceUrl": "https://www.flickr.com/photos/22714323@N06/4762616144",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "fire-truck-08",
+   "subject": "fire truck",
+   "file": "images/fire-truck-08.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "fire truck",
+     "fire",
+     "truck"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "born1945",
+    "sourceUrl": "https://www.flickr.com/photos/12567713@N00/7126607053",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "fish-03",
+   "subject": "fish",
+   "file": "images/fish-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "fish"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "cc0 1.0",
+   "attribution": {
+    "creator": "Mathias Appel",
+    "sourceUrl": "https://www.flickr.com/photos/91501748@N07/25512150434",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "fish-04",
+   "subject": "fish",
+   "file": "images/fish-04.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "fish"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "PhotogragherGirl",
+    "sourceUrl": "https://www.flickr.com/photos/21469929@N05/2456788026",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "flag-02",
+   "subject": "flag",
+   "file": "images/flag-02.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "flag"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "slgckgc",
+    "sourceUrl": "https://www.flickr.com/photos/14771153@N04/10803653416",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "flag-06",
+   "subject": "flag",
+   "file": "images/flag-06.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "flag"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Will Palmer",
+    "sourceUrl": "https://www.flickr.com/photos/91181411@N00/378563092",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "flamingo-02",
+   "subject": "flamingo",
+   "file": "images/flamingo-02.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "flamingo"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Omar.Bariffi",
+    "sourceUrl": "https://www.flickr.com/photos/31713068@N08/5829429878",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "flamingo-20",
+   "subject": "flamingo",
+   "file": "images/flamingo-20.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "flamingo"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Thanks for over 2 million views!!",
+    "sourceUrl": "https://www.flickr.com/photos/113086034@N04/33086609502",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "flashlight-10",
+   "subject": "flashlight",
+   "file": "images/flashlight-10.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "flashlight"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Cezary Borysiuk",
+    "sourceUrl": "https://www.flickr.com/photos/37209452@N02/4497211501",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "flute-01",
+   "subject": "flute",
+   "file": "images/flute-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "flute"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "cc0 1.0",
+   "attribution": {
+    "creator": "Finnish National Gallery",
+    "sourceUrl": "https://www.flickr.com/photos/127104863@N05/29433099636",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "flute-07",
+   "subject": "flute",
+   "file": "images/flute-07.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "flute"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Taken on September 22, 2005",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1446052",
+    "provider": "wikimedia"
+   }
+  },
+  {
+   "id": "footprint-06",
+   "subject": "footprint",
+   "file": "images/footprint-06.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "footprint"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "zbigphotography (1M+ views)",
+    "sourceUrl": "https://www.flickr.com/photos/45098669@N06/8559321112",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "forest-03",
+   "subject": "forest",
+   "file": "images/forest-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "forest"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "jungle_group",
+    "sourceUrl": "https://www.flickr.com/photos/21854362@N04/2109776257",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "fox-01",
+   "subject": "fox",
+   "file": "images/fox-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "fox"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "katieillustration",
+    "sourceUrl": "https://www.flickr.com/photos/81337976@N02/7726714906",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "fox-05",
+   "subject": "fox",
+   "file": "images/fox-05.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "fox"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "digitalprimate",
+    "sourceUrl": "https://www.flickr.com/photos/11558320@N00/521409209",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "fried-egg-04",
+   "subject": "fried egg",
+   "file": "images/fried-egg-04.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "fried egg",
+     "fried",
+     "egg"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Pierre-Olivier",
+    "sourceUrl": "https://www.flickr.com/photos/8215047@N02/4902298804",
     "provider": "flickr"
    }
   },
