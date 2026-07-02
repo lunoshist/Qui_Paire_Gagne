@@ -10,6 +10,10 @@
  *  5. startGame refusé à 2 joueurs / accepté à 3 (phase → dealing)
  *  6. un joueur (hôte) quitte → promotion d'hôte
  *  7. reconnexion via playerId
+ *  8. manche complète : startGame → roundStart (11 cartes distinctes) → submit×3 →
+ *     revealPayload (scores conformes) → advance → manche 2 → gameOver (classement trié)
+ *  9. anti-fuite : aucune soumission (ni reveal) diffusée avant que tous aient soumis
+ * 10. résolution par ALARME (échéance du sablier, sans soumission → 0 pt)
  *
  * Usage : node server/test/integration.mjs   (depuis la racine du repo)
  */
@@ -44,8 +48,12 @@ class Client {
     this.ws = new WebSocket(`${WS_BASE}/api/ws?room=${code}`);
     this.queue = [];
     this.waiters = [];
+    /** Journal brut de TOUS les messages reçus (jamais consommé) — pour le test anti-fuite. */
+    this.raw = [];
     this.ws.addEventListener('message', (ev) => {
-      const msg = JSON.parse(typeof ev.data === 'string' ? ev.data : ev.data.toString());
+      const rawStr = typeof ev.data === 'string' ? ev.data : ev.data.toString();
+      this.raw.push(rawStr);
+      const msg = JSON.parse(rawStr);
       this.queue.push(msg);
       this._pump();
     });
@@ -270,6 +278,239 @@ async function main() {
       rejoined.playerId === j3.playerId &&
         rejoined.state.players.find((p) => p.id === j3.playerId)?.connecte === true,
     );
+
+    // =====================================================================
+    // TASK-007 · Logique serveur d'une manche
+    // =====================================================================
+
+    /**
+     * Construit 3 soumissions déterministes à partir des 11 cartes tirées
+     * (indexées 0..10). Scores attendus (3 joueurs, variantes par défaut) :
+     *  - paire (c0,c1) : P1+P2 (2 makers) → +2 chacun
+     *  - paire (c2,c3) : P1+P2+P3 (unanime) → 0
+     *  - pomme pourrie c10 : P1+P2 (2 sharers) → +4 chacun ; c9 (P3) solo → 0
+     *  → deltas attendus : P1=6, P2=6, P3=0
+     */
+    function buildSubs(c) {
+      return {
+        p1: {
+          paires: [
+            [c[0], c[1]],
+            [c[2], c[3]],
+            [c[4], c[5]],
+            [c[6], c[7]],
+            [c[8], c[9]],
+          ],
+          pommePourrie: c[10],
+        },
+        p2: {
+          paires: [
+            [c[0], c[1]],
+            [c[2], c[3]],
+            [c[4], c[7]],
+            [c[5], c[8]],
+            [c[6], c[9]],
+          ],
+          pommePourrie: c[10],
+        },
+        p3: {
+          paires: [
+            [c[2], c[3]],
+            [c[0], c[4]],
+            [c[1], c[5]],
+            [c[6], c[8]],
+            [c[7], c[10]],
+          ],
+          pommePourrie: c[9],
+        },
+      };
+    }
+
+    // --- 8. Manche complète : start → roundStart → submit×3 → reveal → advance → gameOver ---
+    const codeR = await createRoom();
+    const { c: r1, joined: jr1 } = await joinAndAck(codeR, { pseudo: 'Rose' });
+    clients.push(r1);
+    const { c: r2, joined: jr2 } = await joinAndAck(codeR, { pseudo: 'Sam' });
+    clients.push(r2);
+    const { c: r3, joined: jr3 } = await joinAndAck(codeR, { pseudo: 'Tara' });
+    clients.push(r3);
+    await r1.next((m) => m.type === 'roomState' && m.state.players.length === 3, 'roomStateR(3)');
+
+    // Réglages : 2 manches, sablier long (le test soumet manuellement, l'alarme ne doit pas tirer).
+    r1.send({
+      type: 'updateSettings',
+      settings: {
+        nbManches: 2,
+        dureeSablier: 60,
+        vitesseReveal: 'normal',
+        variantesScoring: { paireUnanimeZero: true, pommePourrieDouble: true },
+      },
+    });
+    await r1.next(
+      (m) => m.type === 'roomState' && m.state.settings.nbManches === 2,
+      'roomStateR(settings)',
+    );
+
+    r1.send({ type: 'startGame' });
+    const rs1 = await r3.ofType('roundStart', 6000);
+    check(
+      'roundStart manche 1 : 11 cartes DISTINCTES + deadline',
+      rs1.manche === 1 &&
+        Array.isArray(rs1.cards) &&
+        rs1.cards.length === 11 &&
+        new Set(rs1.cards).size === 11 &&
+        typeof rs1.deadline === 'number' &&
+        rs1.deadline > Date.now(),
+      `manche=${rs1.manche} n=${rs1.cards?.length} distinct=${new Set(rs1.cards).size}`,
+    );
+
+    const subs1 = buildSubs(rs1.cards);
+    // Deux joueurs soumettent d'abord (pour le test anti-fuite avant reveal).
+    r1.send({ type: 'submitPairs', ...subs1.p1 });
+    await r3.next(
+      (m) => m.type === 'playerSubmitted' && m.playerId === jr1.playerId,
+      'submitted(r1)',
+    );
+    r2.send({ type: 'submitPairs', ...subs1.p2 });
+    await r3.next(
+      (m) => m.type === 'playerSubmitted' && m.playerId === jr2.playerId,
+      'submitted(r2)',
+    );
+
+    // --- 9. Anti-fuite : aucune soumission (ni reveal) diffusée avant que tous aient soumis ---
+    const leakBeforeReveal = r3.raw.some(
+      (s) =>
+        s.includes('"revealPayload"') || s.includes('"paires"') || s.includes('"pommePourrie"'),
+    );
+    const submittedMsgs = r3.raw
+      .filter((s) => s.includes('"playerSubmitted"'))
+      .map((s) => JSON.parse(s));
+    const submittedKeysClean = submittedMsgs.every(
+      (m) => Object.keys(m).sort().join(',') === 'playerId,type',
+    );
+    check(
+      'anti-fuite : aucune soumission/reveal diffusé avant reveal',
+      !leakBeforeReveal && submittedMsgs.length >= 2 && submittedKeysClean,
+      `leak=${leakBeforeReveal} playerSubmitted=${submittedMsgs.length} cleanKeys=${submittedKeysClean}`,
+    );
+
+    // Dernier joueur soumet → résolution immédiate (tous connectés soumis).
+    r3.send({ type: 'submitPairs', ...subs1.p3 });
+    const reveal1 = await r3.ofType('revealPayload', 6000);
+    const okDelta1 =
+      reveal1.deltaScores[jr1.playerId] === 6 &&
+      reveal1.deltaScores[jr2.playerId] === 6 &&
+      reveal1.deltaScores[jr3.playerId] === 0;
+    const okCumul1 =
+      reveal1.cumul[jr1.playerId] === 6 &&
+      reveal1.cumul[jr2.playerId] === 6 &&
+      reveal1.cumul[jr3.playerId] === 0;
+    check(
+      'revealPayload manche 1 : deltaScores conformes (6/6/0)',
+      okDelta1,
+      JSON.stringify(reveal1.deltaScores),
+    );
+    check(
+      'revealPayload manche 1 : cumul conforme (6/6/0)',
+      okCumul1,
+      JSON.stringify(reveal1.cumul),
+    );
+    check(
+      'revealPayload : soumissions révélées (au reveal seulement)',
+      reveal1.soumissionsParJoueur &&
+        reveal1.soumissionsParJoueur[jr1.playerId] &&
+        Array.isArray(reveal1.soumissionsParJoueur[jr1.playerId].paires),
+    );
+
+    // Attendre la phase reveal côté état public, puis advance (hôte).
+    await r1.next(
+      (m) => m.type === 'roomState' && m.state.phase === 'reveal',
+      'roomStateR(reveal1)',
+    );
+    r1.send({ type: 'advance' });
+    const rs2 = await r3.ofType('roundStart', 6000);
+    check(
+      'advance → manche 2 démarrée (nouveau roundStart)',
+      rs2.manche === 2 && rs2.cards.length === 11,
+      `manche=${rs2.manche}`,
+    );
+
+    // Manche 2 : tous soumettent → reveal → advance → gameOver.
+    const subs2 = buildSubs(rs2.cards);
+    r1.send({ type: 'submitPairs', ...subs2.p1 });
+    r2.send({ type: 'submitPairs', ...subs2.p2 });
+    r3.send({ type: 'submitPairs', ...subs2.p3 });
+    const reveal2 = await r3.ofType('revealPayload', 6000);
+    check(
+      'revealPayload manche 2 : cumul cumulé sur 2 manches (12/12/0)',
+      reveal2.cumul[jr1.playerId] === 12 &&
+        reveal2.cumul[jr2.playerId] === 12 &&
+        reveal2.cumul[jr3.playerId] === 0,
+      JSON.stringify(reveal2.cumul),
+    );
+
+    await r1.next(
+      (m) => m.type === 'roomState' && m.state.phase === 'reveal',
+      'roomStateR(reveal2)',
+    );
+    r1.send({ type: 'advance' });
+    const over = await r3.ofType('gameOver', 6000);
+    const sortedDesc = over.classement.every(
+      (e, i) => i === 0 || over.classement[i - 1].score >= e.score,
+    );
+    check(
+      'gameOver après nbManches : classement trié + scores finaux',
+      over.classement.length === 3 &&
+        sortedDesc &&
+        over.classement[0].score === 12 &&
+        over.classement[2].score === 0 &&
+        over.scoresFinaux[jr3.playerId] === 0,
+      JSON.stringify(over.classement),
+    );
+    const stFinished = await r1.next(
+      (m) => m.type === 'roomState' && m.state.phase === 'finished',
+      'roomStateR(finished)',
+    );
+    check('phase finished après gameOver', stFinished.state.phase === 'finished');
+    void jr3;
+
+    // --- 10. Résolution par ALARME (échéance du sablier, sans soumission) ---
+    const codeAlarm = await createRoom();
+    const { c: a1 } = await joinAndAck(codeAlarm, { pseudo: 'Ug' });
+    clients.push(a1);
+    const { c: a2, joined: ja2 } = await joinAndAck(codeAlarm, { pseudo: 'Vi' });
+    clients.push(a2);
+    const { c: a3, joined: ja3 } = await joinAndAck(codeAlarm, { pseudo: 'Wu' });
+    clients.push(a3);
+    await a1.next(
+      (m) => m.type === 'roomState' && m.state.players.length === 3,
+      'roomStateAlarm(3)',
+    );
+    // dureeSablier minimal accepté par le serveur (validation ≥ 10 s) ; 1 manche.
+    a1.send({
+      type: 'updateSettings',
+      settings: {
+        nbManches: 1,
+        dureeSablier: 10,
+        vitesseReveal: 'normal',
+        variantesScoring: { paireUnanimeZero: true, pommePourrieDouble: true },
+      },
+    });
+    await a1.next(
+      (m) => m.type === 'roomState' && m.state.settings.dureeSablier === 10,
+      'roomStateAlarm(settings)',
+    );
+    a1.send({ type: 'startGame' });
+    const rsA = await a1.ofType('roundStart', 6000);
+    // Personne ne soumet : la résolution ne peut venir que de l'ALARME à l'échéance.
+    const revealAlarm = await a3.ofType('revealPayload', 15000);
+    const allZero =
+      revealAlarm.deltaScores[ja2.playerId] === 0 && revealAlarm.deltaScores[ja3.playerId] === 0;
+    check(
+      'résolution par ALARME à l’échéance du sablier (aucune soumission → 0 pt)',
+      allZero && Date.now() >= rsA.deadline,
+      `deltas=${JSON.stringify(revealAlarm.deltaScores)}`,
+    );
   } catch (err) {
     check('exécution sans exception', false, String(err && err.stack ? err.stack : err));
   } finally {
@@ -284,7 +525,7 @@ async function main() {
     }
   }
 
-  console.log("\n==== Résultats test d'intégration lobby ====");
+  console.log("\n==== Résultats test d'intégration (lobby + manche TASK-007) ====");
   for (const r of results) console.log(r);
   console.log(`\n${passed} PASS / ${failed} FAIL`);
   process.exit(failed === 0 ? 0 : 1);
