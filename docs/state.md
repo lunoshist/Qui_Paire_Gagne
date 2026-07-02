@@ -9,14 +9,16 @@
 - Reste : enrichir/curer le catalogue, algo de tirage par ambiguïté (tags riches), polish révélation animée (TASK-009), reconnexion en pleine manche.
 
 ## 🎯 Phase courante — PEAUFINAGE post-playtest #1 (backlog D-014)
-Jeu en ligne et jouable. Retours du 1er playtest en cours de traitement, dans l'ordre :
-- **TASK-009 (en cours)** : cartes en GRAND + zoom (prio n°1).
-- **TASK-010 (à venir)** : flows/scénarios — rejouer en fin de partie, rejoindre en cours, **reconnexion en pleine
-  manche**, relancer/changer réglage, tous cas limites. « Tout envisager. »
-- **TASK-011 (à venir)** : révélation — par défaut 1 paire à la fois **avancée par l'hôte** ; mode rapide = auto actuel ;
-  reveal scores/fin plus impactant.
-- Design (non prioritaire) ; **CI/CD** = TASK-012 (`scripts/deploy.sh` dispo en attendant).
-- **Génération d'images en boucle** (3 styles) + curation par le commanditaire : en continu, en parallèle.
+Jeu en ligne et jouable. Avancement des retours :
+- **TASK-009 ✅ déployé** : cartes en GRAND + zoom (lightbox).
+- **TASK-010 ✅ déployé** : flows — reconnexion sans blocage, rejouer/relancer même salle (`returnToLobby`),
+  rejoindre en cours (spectateur), promotion d'hôte en jeu.
+- **TASK-011 ✅ (déploiement en cours)** : révélation 2 modes distincts — **Meneur pas-à-pas** (défaut, synchronisé,
+  hôte avance via `revealNext`) vs **Rapide** (auto) ; scores animés ; Victoire confettis+podium.
+  ⚠️ Change D-008 : `VitesseReveal` simplifié à `meneur|rapide` (les 3 tempos ne différaient pas → plainte).
+- **RESTE** : design (non prioritaire) ; **CI/CD complet** (TASK-012, en attente réponse GitHub ; `scripts/deploy.sh` en self-service) ;
+  enrichissement des tags pour l'algo de tirage par ambiguïté.
+- **Génération d'images en boucle** (3 styles) + curation par le commanditaire : en continu.
 Détails complets : voir **D-014**.
 
 ## ✅ Fait

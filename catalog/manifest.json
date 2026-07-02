@@ -2,25 +2,8 @@
  "version": 2,
  "updated": "2026-07-02",
  "note": "Généré par scripts/build-manifest.mjs depuis catalog/images/. Tags concepts dérivés du nom ; enrichissement (couleurs/catégorie/ambiance) à venir. Provenance/licence embarquée pour les images libres de droit.",
- "count": 415,
+ "count": 429,
  "cards": [
-  {
-   "id": "Pasted image",
-   "subject": "Pasted image",
-   "file": "images/Pasted image.png",
-   "source": "ai-illustration",
-   "tags": {
-    "concepts": [
-     "Pasted image",
-     "Pasted",
-     "image"
-    ],
-    "couleursDominantes": [],
-    "categorie": "",
-    "ambiance": [],
-    "formes": []
-   }
-  },
   {
    "id": "accordion-01",
    "subject": "accordion",
@@ -5573,6 +5556,21 @@
    }
   },
   {
+   "id": "cowboy-02",
+   "subject": "cowboy",
+   "file": "images/cowboy-02.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "cowboy"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
    "id": "cowboy-hat-08",
    "subject": "cowboy hat",
    "file": "images/cowboy-hat-08.jpg",
@@ -5593,6 +5591,21 @@
     "creator": "Joelk75",
     "sourceUrl": "https://www.flickr.com/photos/75001512@N00/8127417436",
     "provider": "flickr"
+   }
+  },
+  {
+   "id": "cowboy",
+   "subject": "cowboy",
+   "file": "images/cowboy.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "cowboy"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
    }
   },
   {
@@ -6500,6 +6513,66 @@
    }
   },
   {
+   "id": "digital-01",
+   "subject": "digital",
+   "file": "images/digital-01.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "digital"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "digital-02",
+   "subject": "digital",
+   "file": "images/digital-02.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "digital"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "digital-03",
+   "subject": "digital",
+   "file": "images/digital-03.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "digital"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "digital-04",
+   "subject": "digital",
+   "file": "images/digital-04.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "digital"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
    "id": "dog-01",
    "subject": "dog",
    "file": "images/dog-01.jpg",
@@ -7365,6 +7438,21 @@
    }
   },
   {
+   "id": "flag-1",
+   "subject": "flag",
+   "file": "images/flag-1.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "flag"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
    "id": "flamingo-02",
    "subject": "flamingo",
    "file": "images/flamingo-02.jpg",
@@ -7491,6 +7579,21 @@
    }
   },
   {
+   "id": "footprint",
+   "subject": "footprint",
+   "file": "images/footprint.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "footprint"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
    "id": "forest-03",
    "subject": "forest",
    "file": "images/forest-03.jpg",
@@ -7551,6 +7654,21 @@
     "creator": "digitalprimate",
     "sourceUrl": "https://www.flickr.com/photos/11558320@N00/521409209",
     "provider": "flickr"
+   }
+  },
+  {
+   "id": "france",
+   "subject": "france",
+   "file": "images/france.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "france"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
    }
   },
   {
@@ -7686,6 +7804,21 @@
    }
   },
   {
+   "id": "genie",
+   "subject": "genie",
+   "file": "images/genie.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "genie"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
    "id": "ghost-01",
    "subject": "ghost",
    "file": "images/ghost-01.jpg",
@@ -7704,6 +7837,57 @@
     "creator": "jonfeinstein",
     "sourceUrl": "https://www.flickr.com/photos/73197296@N00/4081061740",
     "provider": "flickr"
+   }
+  },
+  {
+   "id": "ghost-01",
+   "subject": "ghost",
+   "file": "images/ghost-01.png",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "ghost"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "jonfeinstein",
+    "sourceUrl": "https://www.flickr.com/photos/73197296@N00/4081061740",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "ghost-02",
+   "subject": "ghost",
+   "file": "images/ghost-02.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "ghost"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "ghost-03",
+   "subject": "ghost",
+   "file": "images/ghost-03.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "ghost"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
    }
   },
   {
@@ -8779,6 +8963,21 @@
    }
   },
   {
+   "id": "knite-02",
+   "subject": "knite",
+   "file": "images/knite-02.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "knite"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
    "id": "knite",
    "subject": "knite",
    "file": "images/knite.png",
@@ -8837,6 +9036,21 @@
    "tags": {
     "concepts": [
      "ruche"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "simpsons",
+   "subject": "simpsons",
+   "file": "images/simpsons.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "simpsons"
     ],
     "couleursDominantes": [],
     "categorie": "",
