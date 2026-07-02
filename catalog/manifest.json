@@ -2,8 +2,25 @@
  "version": 2,
  "updated": "2026-07-02",
  "note": "Généré par scripts/build-manifest.mjs depuis catalog/images/. Tags concepts dérivés du nom ; enrichissement (couleurs/catégorie/ambiance) à venir. Provenance/licence embarquée pour les images libres de droit.",
- "count": 355,
+ "count": 415,
  "cards": [
+  {
+   "id": "Pasted image",
+   "subject": "Pasted image",
+   "file": "images/Pasted image.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "Pasted image",
+     "Pasted",
+     "image"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
   {
    "id": "accordion-01",
    "subject": "accordion",
@@ -7560,6 +7577,812 @@
    }
   },
   {
+   "id": "frog-09",
+   "subject": "frog",
+   "file": "images/frog-09.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "frog"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "g_kovacs",
+    "sourceUrl": "https://www.flickr.com/photos/21923568@N00/234866027",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "frog-19",
+   "subject": "frog",
+   "file": "images/frog-19.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "frog"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "AZRainman",
+    "sourceUrl": "https://www.flickr.com/photos/10646468@N02/2093251882",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "full-moon-01",
+   "subject": "full moon",
+   "file": "images/full-moon-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "full moon",
+     "full",
+     "moon"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "darrenprice187",
+    "sourceUrl": "https://www.flickr.com/photos/100769237@N03/15896364887",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "galaxy-03",
+   "subject": "galaxy",
+   "file": "images/galaxy-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "galaxy"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "NASA Hubble",
+    "sourceUrl": "https://www.flickr.com/photos/144614754@N02/50174847881",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "genie-lamp-06",
+   "subject": "genie lamp",
+   "file": "images/genie-lamp-06.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "genie lamp",
+     "genie",
+     "lamp"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 4.0",
+   "attribution": {
+    "creator": "RafaelScopel",
+    "sourceUrl": "https://sketchfab.com/3d-models/1f517175aa1649e9baa72f964b938448",
+    "provider": "sketchfab"
+   }
+  },
+  {
+   "id": "ghost-01",
+   "subject": "ghost",
+   "file": "images/ghost-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "ghost"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "jonfeinstein",
+    "sourceUrl": "https://www.flickr.com/photos/73197296@N00/4081061740",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "gift-box-09",
+   "subject": "gift box",
+   "file": "images/gift-box-09.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "gift box",
+     "gift",
+     "box"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "FutUndBeidl",
+    "sourceUrl": "https://www.flickr.com/photos/61423903@N06/8085629858",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "giraffe-19",
+   "subject": "giraffe",
+   "file": "images/giraffe-19.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "giraffe"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "jdnx",
+    "sourceUrl": "https://www.flickr.com/photos/21442511@N08/4565230826",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "glacier-01",
+   "subject": "glacier",
+   "file": "images/glacier-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "glacier"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "NASA Goddard Photo and Video",
+    "sourceUrl": "https://www.flickr.com/photos/24662369@N07/8741348411",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "glacier-09",
+   "subject": "glacier",
+   "file": "images/glacier-09.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "glacier"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "NASA Goddard Photo and Video",
+    "sourceUrl": "https://www.flickr.com/photos/24662369@N07/8741348179",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "globe-01",
+   "subject": "globe",
+   "file": "images/globe-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "globe"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "FDR Presidential Library & Museum",
+    "sourceUrl": "https://www.flickr.com/photos/54078784@N08/6121046890",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "globe-19",
+   "subject": "globe",
+   "file": "images/globe-19.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "globe"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "rvacapinta",
+    "sourceUrl": "https://www.flickr.com/photos/34427465953@N01/3035228108",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "glove-02",
+   "subject": "glove",
+   "file": "images/glove-02.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "glove"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "el cajon yacht club",
+    "sourceUrl": "https://www.flickr.com/photos/60944636@N00/41485368352",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "grapes-16",
+   "subject": "grapes",
+   "file": "images/grapes-16.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "grapes"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Zest-pk",
+    "sourceUrl": "https://www.flickr.com/photos/10573648@N05/923930277",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "greenhouse-08",
+   "subject": "greenhouse",
+   "file": "images/greenhouse-08.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "greenhouse"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "bert_m_b",
+    "sourceUrl": "https://www.flickr.com/photos/88138723@N00/2399007139",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "guitar-03",
+   "subject": "guitar",
+   "file": "images/guitar-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "guitar"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Larry Ziffle",
+    "sourceUrl": "https://www.flickr.com/photos/61051701@N00/7543590466",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "guitar-07",
+   "subject": "guitar",
+   "file": "images/guitar-07.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "guitar"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "fictures",
+    "sourceUrl": "https://www.flickr.com/photos/53838941@N00/6825615",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hamburger-08",
+   "subject": "hamburger",
+   "file": "images/hamburger-08.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hamburger"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "chichacha",
+    "sourceUrl": "https://www.flickr.com/photos/10673045@N04/2323760575",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hammer-01",
+   "subject": "hammer",
+   "file": "images/hammer-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hammer"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "HomeSpot HQ",
+    "sourceUrl": "https://www.flickr.com/photos/86639298@N02/8559722063",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hammer-04",
+   "subject": "hammer",
+   "file": "images/hammer-04.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hammer"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "cc0 1.0",
+   "attribution": {
+    "creator": "takomabibelot",
+    "sourceUrl": "https://www.flickr.com/photos/38782010@N00/1400033038",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hammer-13",
+   "subject": "hammer",
+   "file": "images/hammer-13.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hammer"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "RapportHousing&Care",
+    "sourceUrl": "https://www.flickr.com/photos/74687947@N05/6886106621",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hammer-14",
+   "subject": "hammer",
+   "file": "images/hammer-14.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hammer"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Images_of_Money",
+    "sourceUrl": "https://www.flickr.com/photos/59937401@N07/5857072659",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hammer-15",
+   "subject": "hammer",
+   "file": "images/hammer-15.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hammer"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "DVIDSHUB",
+    "sourceUrl": "https://www.flickr.com/photos/28650594@N03/5927955944",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hammer-20",
+   "subject": "hammer",
+   "file": "images/hammer-20.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hammer"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "el cajon yacht club",
+    "sourceUrl": "https://www.flickr.com/photos/60944636@N00/11284390083",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hand-01",
+   "subject": "hand",
+   "file": "images/hand-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hand"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Lauro Roger McAllister - www.lrmck.com",
+    "sourceUrl": "https://www.flickr.com/photos/9155165@N03/8808985531",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hand-02",
+   "subject": "hand",
+   "file": "images/hand-02.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hand"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "cogdogblog",
+    "sourceUrl": "https://www.flickr.com/photos/37996646802@N01/5227755871",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hand-08",
+   "subject": "hand",
+   "file": "images/hand-08.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hand"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "xlordashx",
+    "sourceUrl": "https://www.flickr.com/photos/42199279@N00/16046151755",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "headphones-03",
+   "subject": "headphones",
+   "file": "images/headphones-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "headphones"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "janoma.cl",
+    "sourceUrl": "https://www.flickr.com/photos/16982168@N05/4597488781",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "headphones-20",
+   "subject": "headphones",
+   "file": "images/headphones-20.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "headphones"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "photosteve101",
+    "sourceUrl": "https://www.flickr.com/photos/42931449@N07/5771025070",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "heart-02",
+   "subject": "heart",
+   "file": "images/heart-02.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "heart"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "katerha",
+    "sourceUrl": "https://www.flickr.com/photos/8489692@N03/4334102263",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "heart-04",
+   "subject": "heart",
+   "file": "images/heart-04.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "heart"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "takacsi75",
+    "sourceUrl": "https://www.flickr.com/photos/13519089@N03/4854022673",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "heart-11",
+   "subject": "heart",
+   "file": "images/heart-11.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "heart"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Kate#2112",
+    "sourceUrl": "https://www.flickr.com/photos/50196384@N05/16338378660",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hedgehog-01",
+   "subject": "hedgehog",
+   "file": "images/hedgehog-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hedgehog"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "idalingi",
+    "sourceUrl": "https://www.flickr.com/photos/80144273@N00/20097296",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hedgehog-04",
+   "subject": "hedgehog",
+   "file": "images/hedgehog-04.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hedgehog"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "It's No Game",
+    "sourceUrl": "https://www.flickr.com/photos/29057345@N04/6526995487",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "helicopter-08",
+   "subject": "helicopter",
+   "file": "images/helicopter-08.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "helicopter"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Sergey Vladimirov",
+    "sourceUrl": "https://www.flickr.com/photos/65783662@N00/3856568537",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "honey-jar-11",
+   "subject": "honey jar",
+   "file": "images/honey-jar-11.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "honey jar",
+     "honey",
+     "jar"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "cc0 1.0",
+   "attribution": {
+    "creator": "Krzysztof%20Puszczy%u0144ski",
+    "sourceUrl": "https://stocksnap.io/photo/honey-jars-97LJAKWL36",
+    "provider": "stocksnap"
+   }
+  },
+  {
+   "id": "horse-01",
+   "subject": "horse",
+   "file": "images/horse-01.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "horse"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Paolo Camera",
+    "sourceUrl": "https://www.flickr.com/photos/81265351@N00/8054927083",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "horse-04",
+   "subject": "horse",
+   "file": "images/horse-04.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "horse"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "David Paul Ohmer",
+    "sourceUrl": "https://www.flickr.com/photos/50965924@N00/3571783564",
+    "provider": "flickr"
+   }
+  },
+  {
    "id": "hot-air-balloon",
    "subject": "voyage",
    "file": "images/hot-air-balloon.jpg",
@@ -7586,6 +8409,439 @@
      "rond",
      "ovale"
     ]
+   }
+  },
+  {
+   "id": "hot-dog-03",
+   "subject": "hot dog",
+   "file": "images/hot-dog-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hot dog",
+     "hot",
+     "dog"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "dutchlad",
+    "sourceUrl": "https://www.flickr.com/photos/7420988@N02/3044353793",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hourglass-04",
+   "subject": "hourglass",
+   "file": "images/hourglass-04.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hourglass"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "John-Morgan",
+    "sourceUrl": "https://www.flickr.com/photos/24742305@N00/5203635748",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "hourglass-20",
+   "subject": "hourglass",
+   "file": "images/hourglass-20.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "hourglass"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "iBaguz",
+    "sourceUrl": "https://www.flickr.com/photos/21503637@N05/2190157362",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "ice-cream-15",
+   "subject": "ice cream",
+   "file": "images/ice-cream-15.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "ice cream",
+     "ice",
+     "cream"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "jelene",
+    "sourceUrl": "https://www.flickr.com/photos/70831250@N00/3400224598",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "ice-cream-16",
+   "subject": "ice cream",
+   "file": "images/ice-cream-16.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "ice cream",
+     "ice",
+     "cream"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Sean MacEntee",
+    "sourceUrl": "https://www.flickr.com/photos/18090920@N07/20603563003",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "igloo-03",
+   "subject": "igloo",
+   "file": "images/igloo-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "igloo"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Ken's Oven",
+    "sourceUrl": "https://www.flickr.com/photos/35323150@N02/3453616870",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "jigsaw-07",
+   "subject": "jigsaw",
+   "file": "images/jigsaw-07.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "jigsaw"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Electric-Eye",
+    "sourceUrl": "https://www.flickr.com/photos/35111587@N00/4054093512",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "jigsaw-13",
+   "subject": "jigsaw",
+   "file": "images/jigsaw-13.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "jigsaw"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Horia Varlan",
+    "sourceUrl": "https://www.flickr.com/photos/10361931@N06/4536149424",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "jigsaw-15",
+   "subject": "jigsaw",
+   "file": "images/jigsaw-15.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "jigsaw"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Horia Varlan",
+    "sourceUrl": "https://www.flickr.com/photos/10361931@N06/4519955517",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "jigsaw-18",
+   "subject": "jigsaw",
+   "file": "images/jigsaw-18.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "jigsaw"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "jelleprins",
+    "sourceUrl": "https://www.flickr.com/photos/8650681@N04/1550421289",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "key-03",
+   "subject": "key",
+   "file": "images/key-03.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "key"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "takacsi75",
+    "sourceUrl": "https://www.flickr.com/photos/13519089@N03/1380483002",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "key-05",
+   "subject": "key",
+   "file": "images/key-05.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "key"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "~Brenda-Starr~",
+    "sourceUrl": "https://www.flickr.com/photos/37753256@N08/3466560105",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "kite-02",
+   "subject": "kite",
+   "file": "images/kite-02.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "kite"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "- Ariful H Bhuiyan -",
+    "sourceUrl": "https://www.flickr.com/photos/8081658@N07/3328279776",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "kite-08",
+   "subject": "kite",
+   "file": "images/kite-08.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "kite"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "Conal Gallagher",
+    "sourceUrl": "https://www.flickr.com/photos/75083336@N00/15095794775",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "kite-15",
+   "subject": "kite",
+   "file": "images/kite-15.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "kite"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 2.0",
+   "attribution": {
+    "creator": "- Ariful H Bhuiyan -",
+    "sourceUrl": "https://www.flickr.com/photos/8081658@N07/3328969842",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "knight-armor-04",
+   "subject": "knight armor",
+   "file": "images/knight-armor-04.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "knight armor",
+     "knight",
+     "armor"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "by 3.0",
+   "attribution": {
+    "creator": "Dezidor",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=4063665",
+    "provider": "wikimedia"
+   }
+  },
+  {
+   "id": "knight-armor-08",
+   "subject": "knight armor",
+   "file": "images/knight-armor-08.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "knight armor",
+     "knight",
+     "armor"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "cc0 1.0",
+   "attribution": {
+    "creator": null,
+    "sourceUrl": "https://www.rawpixel.com/image/5912229/image-public-domain-free-metal",
+    "provider": "rawpixel"
+   }
+  },
+  {
+   "id": "knite",
+   "subject": "knite",
+   "file": "images/knite.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "knite"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "koala-15",
+   "subject": "koala",
+   "file": "images/koala-15.jpg",
+   "source": "royalty-free",
+   "tags": {
+    "concepts": [
+     "koala"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   },
+   "license": "cc0 1.0",
+   "attribution": {
+    "creator": "Bernard Spragg",
+    "sourceUrl": "https://www.flickr.com/photos/88123769@N02/9080276709",
+    "provider": "flickr"
+   }
+  },
+  {
+   "id": "ladder-01",
+   "subject": "ladder",
+   "file": "images/ladder-01.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "ladder"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "ruche",
+   "subject": "ruche",
+   "file": "images/ruche.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "ruche"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
    }
   },
   {

@@ -322,3 +322,55 @@ Images sous CC-BY (attribution requise) ci-dessous :
 - **fox-01** — fox pile par katieillustration (by 2.0) — https://www.flickr.com/photos/81337976@N02/7726714906
 - **fox-05** — fox par digitalprimate (by 2.0) — https://www.flickr.com/photos/11558320@N00/521409209
 - **fried-egg-04** — Fried eggs par Pierre-Olivier (by 2.0) — https://www.flickr.com/photos/8215047@N02/4902298804
+- **frog-09** — Frog par g_kovacs (by 2.0) — https://www.flickr.com/photos/21923568@N00/234866027
+- **frog-19** — Cyclops Frog par AZRainman (by 2.0) — https://www.flickr.com/photos/10646468@N02/2093251882
+- **full-moon-01** — full moon par darrenprice187 (by 2.0) — https://www.flickr.com/photos/100769237@N03/15896364887
+- **galaxy-03** — Spiral Galaxy NGC 2775 par NASA Hubble (by 2.0) — https://www.flickr.com/photos/144614754@N02/50174847881
+- **genie-lamp-06** — Genie Lamp par RafaelScopel (by 4.0) — https://sketchfab.com/3d-models/1f517175aa1649e9baa72f964b938448
+- **ghost-01** — ghost par jonfeinstein (by 2.0) — https://www.flickr.com/photos/73197296@N00/4081061740
+- **gift-box-09** — Gift Boxes par FutUndBeidl (by 2.0) — https://www.flickr.com/photos/61423903@N06/8085629858
+- **giraffe-19** — Giraffe! par jdnx (by 2.0) — https://www.flickr.com/photos/21442511@N08/4565230826
+- **glacier-01** — Glaciers and Sea Level Rise par NASA Goddard Photo and Video (by 2.0) — https://www.flickr.com/photos/24662369@N07/8741348411
+- **glacier-09** — Glaciers and Sea Level Rise par NASA Goddard Photo and Video (by 2.0) — https://www.flickr.com/photos/24662369@N07/8741348179
+- **globe-01** — FDR’s World Map Globe par FDR Presidential Library & Museum (by 2.0) — https://www.flickr.com/photos/54078784@N08/6121046890
+- **globe-19** — Globes par rvacapinta (by 2.0) — https://www.flickr.com/photos/34427465953@N01/3035228108
+- **glove-02** — Leather gloves par el cajon yacht club (by 2.0) — https://www.flickr.com/photos/60944636@N00/41485368352
+- **grapes-16** — grapes par Zest-pk (by 2.0) — https://www.flickr.com/photos/10573648@N05/923930277
+- **greenhouse-08** — Greenhouse Interior par bert_m_b (by 2.0) — https://www.flickr.com/photos/88138723@N00/2399007139
+- **guitar-03** — Gibson Guitars 21 par Larry Ziffle (by 2.0) — https://www.flickr.com/photos/61051701@N00/7543590466
+- **guitar-07** — electric guitars par fictures (by 2.0) — https://www.flickr.com/photos/53838941@N00/6825615
+- **hamburger-08** — Here's another shot of Hamburger! par chichacha (by 2.0) — https://www.flickr.com/photos/10673045@N04/2323760575
+- **hammer-01** — Hammer par HomeSpot HQ (by 2.0) — https://www.flickr.com/photos/86639298@N02/8559722063
+- **hammer-13** — Abbeyfield Kent-Homes Under The Hammer-Cynthia par RapportHousing&Care (by 2.0) — https://www.flickr.com/photos/74687947@N05/6886106621
+- **hammer-14** — Piggy Bank being Smashed with Hammer par Images_of_Money (by 2.0) — https://www.flickr.com/photos/59937401@N07/5857072659
+- **hammer-15** — Air Force provides critical CAS during Operation Hammer Down II [Image 1 of 7] par DVIDSHUB (by 2.0) — https://www.flickr.com/photos/28650594@N03/5927955944
+- **hammer-20** — THOR's hammer and K-BAR DSC_1107 par el cajon yacht club (by 2.0) — https://www.flickr.com/photos/60944636@N00/11284390083
+- **hand-01** — Universe in my hands par Lauro Roger McAllister - www.lrmck.com (by 2.0) — https://www.flickr.com/photos/9155165@N03/8808985531
+- **hand-02** — Hands of Time par cogdogblog (by 2.0) — https://www.flickr.com/photos/37996646802@N01/5227755871
+- **hand-08** — Hands par xlordashx (by 2.0) — https://www.flickr.com/photos/42199279@N00/16046151755
+- **headphones-03** — Headphones par janoma.cl (by 2.0) — https://www.flickr.com/photos/16982168@N05/4597488781
+- **headphones-20** — Music - an art for itself - Headphones and music notes / musical notation system par photosteve101 (by 2.0) — https://www.flickr.com/photos/42931449@N07/5771025070
+- **heart-02** — “There are many things in life that will catch your eye, but only a few will catch your heart...pursue those.”~Michael Nolan par katerha (by 2.0) — https://www.flickr.com/photos/8489692@N03/4334102263
+- **heart-04** — Transparent Heart par takacsi75 (by 2.0) — https://www.flickr.com/photos/13519089@N03/4854022673
+- **heart-11** — A bolt through the heart... par Kate#2112 (by 2.0) — https://www.flickr.com/photos/50196384@N05/16338378660
+- **hedgehog-01** — Hedgehog babies 刺蝟寶寶 par idalingi (by 2.0) — https://www.flickr.com/photos/80144273@N00/20097296
+- **hedgehog-04** — Hedgehog scavenging par It's No Game (by 2.0) — https://www.flickr.com/photos/29057345@N04/6526995487
+- **helicopter-08** — Ka-52 Helicopter at MAKS-2009 aeroshow par Sergey Vladimirov (by 2.0) — https://www.flickr.com/photos/65783662@N00/3856568537
+- **horse-01** — Jockey & Horse par Paolo Camera (by 2.0) — https://www.flickr.com/photos/81265351@N00/8054927083
+- **horse-04** — Lexington Kentucky - Donamire Farm 'The Good-Life for Horse' par David Paul Ohmer (by 2.0) — https://www.flickr.com/photos/50965924@N00/3571783564
+- **hot-dog-03** — Hot Dog Dog par dutchlad (by 2.0) — https://www.flickr.com/photos/7420988@N02/3044353793
+- **hourglass-04** — Hourglass par John-Morgan (by 2.0) — https://www.flickr.com/photos/24742305@N00/5203635748
+- **hourglass-20** — Hourglass par iBaguz (by 2.0) — https://www.flickr.com/photos/21503637@N05/2190157362
+- **ice-cream-15** — ice cream triple bg par jelene (by 2.0) — https://www.flickr.com/photos/70831250@N00/3400224598
+- **ice-cream-16** — Ice Cream par Sean MacEntee (by 2.0) — https://www.flickr.com/photos/18090920@N07/20603563003
+- **igloo-03** — Igloo and Penguins par Ken's Oven (by 2.0) — https://www.flickr.com/photos/35323150@N02/3453616870
+- **jigsaw-07** — jigsaw puzzle pieces par Electric-Eye (by 2.0) — https://www.flickr.com/photos/35111587@N00/4054093512
+- **jigsaw-13** — The word no made from jigsaw puzzle pieces par Horia Varlan (by 2.0) — https://www.flickr.com/photos/10361931@N06/4536149424
+- **jigsaw-15** — Thick arrow made from jigsaw puzzle pieces par Horia Varlan (by 2.0) — https://www.flickr.com/photos/10361931@N06/4519955517
+- **jigsaw-18** — The new Jigsaw! par jelleprins (by 2.0) — https://www.flickr.com/photos/8650681@N04/1550421289
+- **key-03** — Keys par takacsi75 (by 2.0) — https://www.flickr.com/photos/13519089@N03/1380483002
+- **key-05** — Keys 1 par ~Brenda-Starr~ (by 2.0) — https://www.flickr.com/photos/37753256@N08/3466560105
+- **kite-02** — Black Kite par - Ariful H Bhuiyan - (by 2.0) — https://www.flickr.com/photos/8081658@N07/3328279776
+- **kite-08** — Kite par Conal Gallagher (by 2.0) — https://www.flickr.com/photos/75083336@N00/15095794775
+- **kite-15** — Black Kite {Milvus migrans} par - Ariful H Bhuiyan - (by 2.0) — https://www.flickr.com/photos/8081658@N07/3328969842
+- **knight-armor-04** — Horse Knight Armor, Hermitage hall 243 (The Knight's hall) par Dezidor (by 3.0) — https://commons.wikimedia.org/w/index.php?curid=4063665
