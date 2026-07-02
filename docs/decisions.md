@@ -168,7 +168,24 @@ Append-only. Une entrée = un choix structurant. Format :
   design + TASK-012 (CI/CD). Génération d'images + curation en continu en parallèle.
 - **Statut** : acté (backlog).
 
+### D-015 · Retours playtest #2 + CI/CD
+- **Date** : 2026-07-02
+- **CI/CD** : repo GitHub confirmé (`git@github.com:lunoshist/Qui_Paire_Gagne.git`). GitHub Actions
+  (`.github/workflows/deploy.yml`) : sur push `main` → build-manifest + vérifs + build client + deploy Pages & Worker.
+  Provenance committée (`catalog/sources.jsonl`) pour que la CI régénère le manifeste avec licences. **Secrets requis
+  côté GitHub** : `CLOUDFLARE_API_TOKEN` (à créer par le commanditaire) + `CLOUDFLARE_ACCOUNT_ID` (049327e1f82b31adaae285895bd8cb89).
+  `scripts/deploy.sh` reste le déploiement self-service local.
+- **Retours playtest #2 (backlog)** :
+  1. **Mode 2 joueurs coopératif** + barème bonus (paires communes 1→1/2→2/3→4/4→8/5→13, +2 poubelle commune) → TASK-013 (en cours).
+  2. **Temps illimité** (sablier infini) → TASK-013.
+  3. **Images croppées** (`object-fit: cover`) → passer en `contain` → passe design (TASK-014).
+  4. **Reveal : la paire courante doit être en GROS**, plus visible que les autres → TASK-014.
+  5. **Design** (maintenant prioritaire) : **espacements** (padding/marges/bordures incohérents) + **hiérarchie**
+     visuelle entre contenus → TASK-014 (passe design).
+- **Ordre** : CI/CD (fait, secrets à ajouter) ‖ TASK-013 (modes, en cours) → TASK-014 (design + crop + reveal-emphasis).
+- **Statut** : acté.
+
 ---
 
 ## Décisions en attente
-- **CI/CD complet** : le repo est-il sur GitHub ? (nécessaire pour GitHub Actions). Sinon, `scripts/deploy.sh` suffit en self-service.
+- _(aucune bloquante — en attente que le commanditaire ajoute les 2 secrets GitHub pour activer le CI/CD.)_
