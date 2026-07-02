@@ -33,7 +33,15 @@ npx wrangler pages deploy client/dist --project-name qui-paire-gagne --branch ma
 - Page Pages : `HTTP/2 200`, `content-type text/html`.
 - E2E WebSocket contre le worker déployé : `POST /api/rooms` → code, connexion WS + `joinRoom` → `joined` (playerId+host). **PASS.**
 
+## CI/CD — ACTIF (2026-07-02)
+- **GitHub Actions** (`.github/workflows/deploy.yml`) : sur push `main` → `npm ci` + `build-manifest` + typecheck/lint/test
+  + build client + `wrangler pages deploy` + `wrangler deploy` (Worker). **Vérifié fonctionnel** (run #2 sur commit
+  poussé → success → déploiement Pages `1e13283e` créé par le CI, sans intervention manuelle).
+- Secrets GitHub (repo lunoshist/Qui_Paire_Gagne) : `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` (ajoutés par le commanditaire).
+- **Workflow commanditaire** : ajouter/retirer des images dans `catalog/images/` → `git add/commit/push` → déploiement automatique.
+- Provenance : `catalog/sources.jsonl` (committé) permet à la CI de régénérer le manifeste avec licences.
+- `scripts/deploy.sh` reste dispo en déploiement manuel local.
+
 ## TODO déploiement (plus tard)
-- **CI/CD** : automatiser `push → deploy` (GitHub Actions + wrangler, ou intégration Git de Pages). Aujourd'hui = manuel.
 - Éventuel **domaine custom** si souhaité.
 - Re-tester la dispo 24/24 après quelques jours (hibernation DO).
