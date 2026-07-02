@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "wrangler dev",
     "typecheck": "tsc --noEmit",
+    "test:integration": "node test/integration.mjs",
     "deploy": "wrangler deploy"
   },
   "dependencies": {

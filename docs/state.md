@@ -19,11 +19,17 @@ Prochain : découper Phase 2 en briefs builders et lancer la construction (scaff
 - Présentation du plan détaillé au commanditaire pour validation avant d'attaquer la Phase 1 en profondeur.
 
 ## ⏭️ Prochaine action immédiate
-- **Phase 2 — Fondations.** TASK-001 (scaffold) + TASK-002 (contrat partagé + score pur) **livrées + vérifiées**.
-  Premier **commit git** effectué (milestones activés par le commanditaire).
-- **TASK-003 dispatchée** : Durable Object « room » + lobby (create/join/settings/start) + broadcasts d'état.
-- Files d'attente : TASK-004 (client Accueil + Salle d'attente), déploiement (compte Cloudflare),
-  Phase 3 (lot pilote catalogue), Phase 4 (boucle de jeu).
+- **Phase 2 — Fondations.** TASK-001, TASK-002, **TASK-003 (DO room + lobby, 12/12 intégration)** livrées + vérifiées + commitées.
+- **TASK-004 dispatchée** : client React — écrans Accueil + Salle d'attente, store WS synchronisé.
+- Ensuite : **premier déploiement** (nécessite `wrangler login` du commanditaire), puis Phase 4 (boucle de jeu :
+  distribution/formation/révélation/scores, `// TODO TASK-005`), Phase 3 (lot pilote catalogue).
+
+## 🔌 Contrat serveur figé (pour le client — TASK-004)
+- Créer : `POST /api/rooms` → `{code}` (4 lettres). Rejoindre : WS `GET /api/ws?room=CODE`, 1er msg `joinRoom{pseudo,couleur?,avatar?,playerId?}`.
+- Le serveur répond `joined {playerId, state}` (⚠️ lire `playerId` ICI, pas dans `roomState`), puis diffuse `roomState`.
+- Erreurs : `GAME_STARTED`, `ROOM_FULL`, `INVALID_PSEUDO`, `NOT_HOST`, `NOT_ENOUGH_PLAYERS`, etc.
+- Bornes settings serveur : `nbManches` 1–20, `dureeSablier` 10–600 s → l'UI doit s'aligner.
+- `CreateRoomMessage` obsolète (création = HTTP), ne pas l'utiliser côté client.
 
 ## 🧩 TODO connus (non bloquants, à traiter plus tard)
 - **Pomme pourrie unanime = 0** : hypothèse par symétrie (D-003), à recouper avec le livret officiel (TODO dans `scoring.ts`).

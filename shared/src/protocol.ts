@@ -45,7 +45,12 @@ export function createEchoRequest(text: string): EchoRequest {
 // Client → Serveur (entrants, rares, comptés au plafond Cloudflare)
 // ---------------------------------------------------------------------------
 
-/** L'hôte crée une salle. */
+/** L'hôte crée une salle.
+ *
+ * NB : la création effective passe par `POST /api/rooms` (renvoie `{ code }`) —
+ * cf. `docs/agents/003-server-room-lobby.md`. Ce message reste défini pour un
+ * éventuel usage futur mais n'est plus traité par le serveur en lobby.
+ */
 export interface CreateRoomMessage {
   type: 'createRoom';
   pseudo: string;
@@ -53,13 +58,19 @@ export interface CreateRoomMessage {
   avatar?: string;
 }
 
-/** Un joueur rejoint une salle existante via son code. */
+/**
+ * Premier message envoyé par un client après l'upgrade WebSocket
+ * (`GET /api/ws?room=CODE` → le code est dans l'URL, pas dans le payload).
+ * - `playerId` présent ⇒ tentative de **reconnexion** (reprise de la place).
+ * - `couleur` absente ou déjà prise ⇒ le serveur assigne une couleur libre.
+ */
 export interface JoinRoomMessage {
   type: 'joinRoom';
-  roomCode: string;
   pseudo: string;
-  couleur: Couleur;
+  couleur?: Couleur;
   avatar?: string;
+  /** Fourni pour reprendre une place existante (reconnexion). */
+  playerId?: string;
 }
 
 /** L'hôte modifie les réglages (en lobby). */
@@ -107,6 +118,17 @@ export type ClientMessageType = ClientMessage['type'];
 // ---------------------------------------------------------------------------
 // Serveur → Client (broadcasts/targeted, libres)
 // ---------------------------------------------------------------------------
+
+/**
+ * Accusé de connexion **ciblé** (envoyé au seul socket qui vient de rejoindre) :
+ * communique au client son `playerId` (généré serveur, à stocker pour la
+ * reconnexion) et un premier snapshot de la salle.
+ */
+export interface JoinedMessage {
+  type: 'joined';
+  playerId: string;
+  state: PublicRoomState;
+}
 
 /** Snapshot agrégé de l'état public de la salle, à chaque changement. */
 export interface RoomStateMessage {
@@ -163,6 +185,7 @@ export interface ErrorMessage {
 /** Union des messages Serveur → Client. */
 export type ServerMessage =
   | EchoResponse
+  | JoinedMessage
   | RoomStateMessage
   | RoundStartMessage
   | PlayerSubmittedMessage

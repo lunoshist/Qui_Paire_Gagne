@@ -46,5 +46,12 @@ export default tseslint.config(
       globals: { ...globals.node },
     },
   },
+  {
+    // Test d'intégration Node (lance wrangler dev + client WebSocket natif Node 24).
+    files: ['server/test/**/*.mjs'],
+    languageOptions: {
+      globals: { ...globals.node, WebSocket: 'readonly' },
+    },
+  },
   prettier,
 );
