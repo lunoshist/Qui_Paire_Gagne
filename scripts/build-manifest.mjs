@@ -18,13 +18,18 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const IMAGES_DIR = join(ROOT, 'catalog', 'images');
 const MANIFEST = join(ROOT, 'catalog', 'manifest.json');
-const SOURCES = join(ROOT, 'catalog', 'pool', 'rf', '_sources.jsonl');
+// Provenance : fichier committé (dispo en CI) + pool local (plus complet). Le pool prime s'il existe.
+const SOURCE_FILES = [
+  join(ROOT, 'catalog', 'sources.jsonl'),
+  join(ROOT, 'catalog', 'pool', 'rf', '_sources.jsonl'),
+];
 const CREDITS = join(ROOT, 'catalog', 'CREDITS.md');
 
 // 1) Provenance des images libres de droit (basename -> meta)
 const prov = new Map();
-if (existsSync(SOURCES)) {
-  for (const line of readFileSync(SOURCES, 'utf8').split('\n')) {
+for (const SRC of SOURCE_FILES) {
+  if (!existsSync(SRC)) continue;
+  for (const line of readFileSync(SRC, 'utf8').split('\n')) {
     if (!line.trim()) continue;
     try {
       const m = JSON.parse(line);

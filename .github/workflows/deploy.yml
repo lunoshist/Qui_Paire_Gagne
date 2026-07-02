@@ -1,0 +1,46 @@
+name: Déploiement
+
+# Se déclenche à chaque push sur main (ex. quand tu ajoutes/retires des images du catalogue).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install
+        run: npm ci
+
+      - name: Régénérer le manifeste du catalogue
+        run: node scripts/build-manifest.mjs
+
+      - name: Vérifs (typecheck + lint + tests)
+        run: |
+          npm run typecheck
+          npm run lint
+          npm test
+
+      - name: Build client (recopie le catalogue dans dist)
+        run: npm run build --workspace client
+
+      - name: Déployer le front (Cloudflare Pages)
+        run: npx wrangler pages deploy client/dist --project-name qui-paire-gagne --branch main
+
+      - name: Déployer le serveur (Worker + Durable Object)
+        working-directory: server
+        run: npx wrangler deploy

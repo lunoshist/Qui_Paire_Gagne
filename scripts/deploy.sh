@@ -6,6 +6,8 @@ set -e
 cd "$(dirname "$0")/.."
 
 echo "1/4 · Régénération du manifeste depuis catalog/images/…"
+# rafraîchit la provenance committée (pour la CI, qui n'a pas le pool local)
+cp catalog/pool/rf/_sources.jsonl catalog/sources.jsonl 2>/dev/null || true
 node scripts/build-manifest.mjs
 
 echo "2/4 · Build du client (recopie du catalogue)…"

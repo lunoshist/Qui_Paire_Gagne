@@ -374,3 +374,77 @@ Images sous CC-BY (attribution requise) ci-dessous :
 - **kite-08** — Kite par Conal Gallagher (by 2.0) — https://www.flickr.com/photos/75083336@N00/15095794775
 - **kite-15** — Black Kite {Milvus migrans} par - Ariful H Bhuiyan - (by 2.0) — https://www.flickr.com/photos/8081658@N07/3328969842
 - **knight-armor-04** — Horse Knight Armor, Hermitage hall 243 (The Knight's hall) par Dezidor (by 3.0) — https://commons.wikimedia.org/w/index.php?curid=4063665
+- **ladybug-04** — Ladybug porn par jessicafm (by 2.0) — https://www.flickr.com/photos/94953676@N00/67022726
+- **lantern-02** — Jack-o'-lanterns par wwarby (by 2.0) — https://www.flickr.com/photos/26782864@N00/5144862325
+- **lantern-05** — It's Lantern City here! par PiktourUK (by 2.0) — https://www.flickr.com/photos/69706441@N03/33263496771
+- **lemon-12** — Lemon par jh_tan84 (by 2.0) — https://www.flickr.com/photos/21045446@N00/6288071935
+- **lemon-15** — Lemon and Lime par wwarby (by 2.0) — https://www.flickr.com/photos/26782864@N00/11781986025
+- **lemon-17** — Smoke art - Lemon lime par MattysFlicks (by 2.0) — https://www.flickr.com/photos/68397968@N07/14090408637
+- **light-switch-06** — light switch par Dean Hochman (by 2.0) — https://www.flickr.com/photos/17997843@N02/27882707399
+- **lightbulb-05** — new lightbulb par Runder (by 2.0) — https://www.flickr.com/photos/87234400@N00/19785080
+- **lighthouse-17** — Morris Island Lighthouse par .mary (by 2.0) — https://www.flickr.com/photos/33254512@N00/309176388
+- **lightning-10** — Lightning par snowpeak (by 2.0) — https://www.flickr.com/photos/53986933@N00/3762193048
+- **lightning-16** — Lightning par snowpeak (by 2.0) — https://www.flickr.com/photos/53986933@N00/3761397491
+- **lion-10** — Lion par Leszek.Leszczynski (by 2.0) — https://www.flickr.com/photos/47190679@N06/5483083986
+- **lollipop-10** — - Lollipop [5/52] par Juliana Coutinho (by 2.0) — https://www.flickr.com/photos/10217810@N05/6830871609
+- **magic-wand-07** — The Magic Wand par rafael-castillo (by 2.0) — https://www.flickr.com/photos/7972895@N02/4372616942
+- **magnifying-glass-17** — Magnify Glass and Money par Images_of_Money (by 2.0) — https://www.flickr.com/photos/59937401@N07/5857462455
+- **map-07** — 1911 World Map par perpetualplum (by 2.0) — https://www.flickr.com/photos/14277117@N03/2866054138
+- **maracas-10** — Sombreros et maracas par zigazou76 (by 2.0) — http://www.flickr.com/photos/38712296@N07/16200538453
+- **marbles-18** — Marbles par DreamSailors (by 2.0) — https://www.flickr.com/photos/22460495@N03/7043883053
+- **mask-04** — Mask par muffinn (by 2.0) — https://www.flickr.com/photos/26445715@N00/14113828949
+- **meteor-shower-09** — Perseid Meteor Shower par Trevor Bexon (by 2.0) — https://www.flickr.com/photos/94745953@N04/20543624326
+- **microphone-11** — Microphone par drestwn (by 2.0) — https://www.flickr.com/photos/99173313@N07/9434755558
+- **mitten-09** — Mittens and matching hat for toddler par Breibeest (by 2.0) — https://www.flickr.com/photos/81876892@N00/1756982403
+- **monkey-03** — Monkey par Ravi Jandhyala (by 2.0) — https://www.flickr.com/photos/75840729@N07/6812851017
+- **monkey-06** — Baby Monkey in a Basket par Mohd Khomaini Bin Mohd Sidik (by 2.0) — https://www.flickr.com/photos/12693634@N08/4167047432
+- **motorcycle-05** — Motorcycle par Allar Tammik (by 2.0) — https://www.flickr.com/photos/78124187@N08/7153914565
+- **necklace-04** — Bitcoin 'Blockchain' Necklace par btckeychain (by 2.0) — https://www.flickr.com/photos/100239928@N08/19574064780
+- **octopus-03** — 3D printed octopus par Creative Tools (by 2.0) — https://www.flickr.com/photos/33907867@N02/9564774340
+- **owl-01** — Snowy owl (female) par Marie Hale (by 2.0) — https://www.flickr.com/photos/15016964@N02/5909827861
+- **padlock-07** — Padlock par stebulus (by 2.0) — https://www.flickr.com/photos/69017177@N00/297522471
+- **paintbrush-01** — Paintbrushes par John-Morgan (by 2.0) — https://www.flickr.com/photos/24742305@N00/2292579833
+- **paintbrush-07** — Paintbrushes par Hardcast65 (by 2.0) — https://www.flickr.com/photos/66958833@N05/12685281884
+- **palm-tree-20** — Golden Palm Trees par Edmund Garman (by 2.0) — https://www.flickr.com/photos/40315625@N08/16051660198
+- **panda-15** — Panda par George Lu (by 2.0) — https://www.flickr.com/photos/59328895@N00/7708851288
+- **parrot-01** — Colorful Parrots Couple par ^riza^ (by 2.0) — https://www.flickr.com/photos/44115070@N00/3033898918
+- **pencil-02** — Pencil par taylor.a (by 2.0) — https://www.flickr.com/photos/40944554@N04/6956509317
+- **penguin-15** — Penguins on Parade par D-Stanley (by 2.0) — https://www.flickr.com/photos/79721788@N00/15910178387
+- **piano-01** — Piano Yamaha par zigazou76 (by 2.0) — https://www.flickr.com/photos/38712296@N07/6844067310
+- **piano-15** — Steinway Pianos Modeled in 3d studio max par gordontarpley (by 2.0) — https://www.flickr.com/photos/39361795@N00/4565310059
+- **pineapple-06** — Pineapple par David Hilowitz (by 2.0) — https://www.flickr.com/photos/12176869@N00/4853758891
+- **pretzel-07** — treble pretzel par oskay (by 2.0) — https://www.flickr.com/photos/17425845@N00/412424760
+- **pyramid-13** — Pyramid panorama par Daveness_98 (by 2.0) — https://www.flickr.com/photos/31216636@N00/3021262683
+- **rabbit-01** — Rabbit par Marit & Toomas Hinnosaar (by 2.0) — https://www.flickr.com/photos/27519540@N04/3715017837
+- **radio-14** — Dad's Radio par cogdogblog (by 2.0) — https://www.flickr.com/photos/37996646802@N01/6138240034
+- **rainbow-03** — Brilliant double rainbow after a sudden rainstorm (explore) par Peggy2012CREATIVELENZ (by 2.0) — https://www.flickr.com/photos/73230975@N03/6958309397
+- **rainbow-15** — Christina Rainbow par jerseytom55 (by 2.0) — https://www.flickr.com/photos/99576374@N02/51828180085
+- **rainbow-18** — Eight drinking straws in rainbow colors par Horia Varlan (by 2.0) — https://www.flickr.com/photos/10361931@N06/4273846588
+- **robot-04** — Robot par firepile (by 2.0) — https://www.flickr.com/photos/17643132@N00/438134701
+- **robot-12** — Robot par firepile (by 2.0) — https://www.flickr.com/photos/17643132@N00/438134733
+- **rose-01** — Rose par slgckgc (by 2.0) — https://www.flickr.com/photos/14771153@N04/4568774352
+- **rotary-telephone-02** — My Western Union Model 500 Rotary Telephone par Phillip Pessar (by 2.0) — https://www.flickr.com/photos/25955895@N03/30042939706
+- **rubik-cube-03** — 13/365: you're like a rubik's cube par jin.thai (by 2.0) — https://www.flickr.com/photos/32912734@N04/3192850778
+- **sailboat-07** — Sailboats par Damian Gadal (by 2.0) — https://www.flickr.com/photos/23024164@N06/2343802549
+- **saw-tool-11** — Swiss Army Knife on black par edgarpierce (by 2.0) — https://www.flickr.com/photos/43891205@N04/5485926479
+- **saxophone-04** — 'Buck Hill & Saxophone' -- 2019 Wall Mural by Joe Pagac at U and 14th Streets NW Washington (DC) June 2022 par Ron Cogswell (by 2.0) — https://www.flickr.com/photos/22711505@N05/52203461269
+- **scissors-01** — Scissors par James Bowe (by 2.0) — https://www.flickr.com/photos/29848680@N08/3708293822
+- **scissors-02** — Rock Paper Scissors par Mark Turnauckas (by 2.0) — https://www.flickr.com/photos/30329962@N08/5590077419
+- **seahorse-01** — Seahorse par oscar alexander (by 2.0) — https://www.flickr.com/photos/42856776@N00/1453329637
+- **shark-06** — Great White Shark par Elias Levy (by 2.0) — https://www.flickr.com/photos/67374204@N00/14730744390
+- **shooting-star-05** — Shooting Stars par Joe Martin Photography (by 2.0) — https://www.flickr.com/photos/54246483@N02/11935338326
+- **skull-04** — Skull par Anders Ljungberg (by 2.0) — https://www.flickr.com/photos/45803937@N00/2097019129
+- **skull-07** — A wall of bones and skulls par Gael Varoquaux (by 2.0) — https://www.flickr.com/photos/66885349@N03/29632530995
+- **snail-01** — Snail's Pace par Randy Son Of Robert (by 2.0) — https://www.flickr.com/photos/46042146@N00/2763801867
+- **snake-16** — Beautiful Little Snake (In The Shade) par Tobyotter (by 2.0) — https://www.flickr.com/photos/78428166@N00/3995918199
+- **soccer-ball-02** — contested soccer ball par woodleywonderworks (by 2.0) — https://www.flickr.com/photos/73645804@N00/6203802230
+- **starfish-15** — starfish par DanielBL (by 2.0) — https://www.flickr.com/photos/12463316@N00/8316114166
+- **statue-05** — Statue of Liberty par Koshyk (by 2.0) — https://www.flickr.com/photos/97235261@N00/2934626028
+- **strawberry-03** — Strawberries par Sharon Mollerus (by 2.0) — https://www.flickr.com/photos/38315261@N00/1328402515
+- **sushi-17** — Sushi par slgckgc (by 2.0) — https://www.flickr.com/photos/14771153@N04/5644345399
+- **tape-measure-05** — old folding tape measure par Laineys Repertoire (by 2.0) — https://www.flickr.com/photos/76283671@N00/184612844
+- **television-09** — Remote Control, Television - TV-controller par espensorvik (by 2.0) — https://www.flickr.com/photos/28478778@N05/5728485497
+- **tent-01** — Circus Tent par nathanking (by 2.0) — https://www.flickr.com/photos/19363794@N00/769733695
+- **tractor-14** — Tractor par Evan 07 (by 2.0) — https://www.flickr.com/photos/134253780@N03/19844757318
+- **treehouse-04** — Bewilderwood Treehouses par spencer77 (by 2.0) — https://www.flickr.com/photos/16784359@N07/2686792248
+- **trophy-06** — trophy 1 | the both and | shorts and longs | julie rybarczyk par shorts and longs (by 2.0) — https://www.flickr.com/photos/48424574@N07/5096035675
