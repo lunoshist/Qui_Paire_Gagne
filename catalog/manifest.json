@@ -2,8 +2,280 @@
  "version": 2,
  "updated": "2026-07-02",
  "note": "Généré par scripts/build-manifest.mjs depuis catalog/images/. Tags concepts dérivés du nom ; enrichissement (couleurs/catégorie/ambiance) à venir. Provenance/licence embarquée pour les images libres de droit.",
- "count": 523,
+ "count": 552,
  "cards": [
+  {
+   "id": "01-an-ambulance-rushing-through-a-city-street-at-dusk",
+   "subject": "01 an ambulance rushing through a city street at dusk",
+   "file": "images/01-an-ambulance-rushing-through-a-city-street-at-dusk.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "01 an ambulance rushing through a city street at dusk",
+     "ambulance",
+     "rushing",
+     "through",
+     "city",
+     "street",
+     "dusk"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "04-a-cozy-coffee-cup-on-a-cafe-table-by-a-window",
+   "subject": "04 a cozy coffee cup on a cafe table by a window",
+   "file": "images/04-a-cozy-coffee-cup-on-a-cafe-table-by-a-window.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "04 a cozy coffee cup on a cafe table by a window",
+     "cozy",
+     "coffee",
+     "cup",
+     "cafe",
+     "table",
+     "window"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "06-a-sailboat-on-a-calm-sea-at-sunset",
+   "subject": "06 a sailboat on a calm sea at sunset",
+   "file": "images/06-a-sailboat-on-a-calm-sea-at-sunset.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "06 a sailboat on a calm sea at sunset",
+     "sailboat",
+     "calm",
+     "sea",
+     "sunset"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "09-a-treasure-chest-in-a-dark-cave",
+   "subject": "09 a treasure chest in a dark cave",
+   "file": "images/09-a-treasure-chest-in-a-dark-cave.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "09 a treasure chest in a dark cave",
+     "treasure",
+     "chest",
+     "dark",
+     "cave"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "11-a-cactus-in-a-desert-under-a-blue-sky",
+   "subject": "11 a cactus in a desert under a blue sky",
+   "file": "images/11-a-cactus-in-a-desert-under-a-blue-sky.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "11 a cactus in a desert under a blue sky",
+     "cactus",
+     "desert",
+     "under",
+     "blue",
+     "sky"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "13-a-campfire-in-a-forest-at-night",
+   "subject": "13 a campfire in a forest at night",
+   "file": "images/13-a-campfire-in-a-forest-at-night.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "13 a campfire in a forest at night",
+     "campfire",
+     "forest",
+     "night"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "14-a-snowy-mountain-village-in-winter",
+   "subject": "14 a snowy mountain village in winter",
+   "file": "images/14-a-snowy-mountain-village-in-winter.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "14 a snowy mountain village in winter",
+     "snowy",
+     "mountain",
+     "village",
+     "winter"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "20-a-kite-flying-in-a-windy-blue-sky",
+   "subject": "20 a kite flying in a windy blue sky",
+   "file": "images/20-a-kite-flying-in-a-windy-blue-sky.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "20 a kite flying in a windy blue sky",
+     "kite",
+     "flying",
+     "windy",
+     "blue",
+     "sky"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "22-a-windmill-in-a-tulip-field",
+   "subject": "22 a windmill in a tulip field",
+   "file": "images/22-a-windmill-in-a-tulip-field.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "22 a windmill in a tulip field",
+     "windmill",
+     "tulip",
+     "field"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "23-a-rowboat-on-a-quiet-lake-at-dawn",
+   "subject": "23 a rowboat on a quiet lake at dawn",
+   "file": "images/23-a-rowboat-on-a-quiet-lake-at-dawn.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "23 a rowboat on a quiet lake at dawn",
+     "rowboat",
+     "quiet",
+     "lake",
+     "dawn"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "26-a-telescope-on-a-hill-under-a-starry-sky",
+   "subject": "26 a telescope on a hill under a starry sky",
+   "file": "images/26-a-telescope-on-a-hill-under-a-starry-sky.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "26 a telescope on a hill under a starry sky",
+     "telescope",
+     "hill",
+     "under",
+     "starry",
+     "sky"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "27-a-castle-on-a-hill-surrounded-by-fog",
+   "subject": "27 a castle on a hill surrounded by fog",
+   "file": "images/27-a-castle-on-a-hill-surrounded-by-fog.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "27 a castle on a hill surrounded by fog",
+     "castle",
+     "hill",
+     "surrounded",
+     "fog"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "28-a-train-crossing-a-bridge-over-a-valley",
+   "subject": "28 a train crossing a bridge over a valley",
+   "file": "images/28-a-train-crossing-a-bridge-over-a-valley.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "28 a train crossing a bridge over a valley",
+     "train",
+     "crossing",
+     "bridge",
+     "over",
+     "valley"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
+   "id": "29-a-picnic-blanket-in-a-sunny-meadow",
+   "subject": "29 a picnic blanket in a sunny meadow",
+   "file": "images/29-a-picnic-blanket-in-a-sunny-meadow.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "29 a picnic blanket in a sunny meadow",
+     "picnic",
+     "blanket",
+     "sunny",
+     "meadow"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
   {
    "id": "accordion-01",
    "subject": "accordion",
@@ -131,6 +403,23 @@
    }
   },
   {
+   "id": "acoustic-guitar",
+   "subject": "acoustic guitar",
+   "file": "images/acoustic-guitar.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "acoustic guitar",
+     "acoustic",
+     "guitar"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
    "id": "airplane-10",
    "subject": "airplane",
    "file": "images/airplane-10.jpg",
@@ -191,6 +480,23 @@
     "creator": "skyseeker",
     "sourceUrl": "https://www.flickr.com/photos/40422902@N00/10720103175",
     "provider": "flickr"
+   }
+  },
+  {
+   "id": "alarm-clock",
+   "subject": "alarm clock",
+   "file": "images/alarm-clock.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "alarm clock",
+     "alarm",
+     "clock"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
    }
   },
   {
@@ -3660,6 +3966,21 @@
    }
   },
   {
+   "id": "cage",
+   "subject": "cage",
+   "file": "images/cage.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "cage"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
    "id": "camera-04",
    "subject": "camera",
    "file": "images/camera-04.jpg",
@@ -3741,6 +4062,23 @@
     "creator": "compujeramey",
     "sourceUrl": "https://www.flickr.com/photos/37171504@N00/168108824",
     "provider": "flickr"
+   }
+  },
+  {
+   "id": "camping-tent",
+   "subject": "camping tent",
+   "file": "images/camping-tent.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "camping tent",
+     "camping",
+     "tent"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
    }
   },
   {
@@ -6098,6 +6436,23 @@
    }
   },
   {
+   "id": "crystal-gem",
+   "subject": "crystal gem",
+   "file": "images/crystal-gem.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "crystal gem",
+     "crystal",
+     "gem"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
    "id": "cupcake-11",
    "subject": "cupcake",
    "file": "images/cupcake-11.jpg",
@@ -6483,6 +6838,21 @@
     "creator": "Koshyk",
     "sourceUrl": "https://www.flickr.com/photos/97235261@N00/4595127567",
     "provider": "flickr"
+   }
+  },
+  {
+   "id": "diamond",
+   "subject": "diamond",
+   "file": "images/diamond.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "diamond"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
    }
   },
   {
@@ -7630,6 +8000,24 @@
    }
   },
   {
+   "id": "four-leaf-clover",
+   "subject": "four leaf clover",
+   "file": "images/four-leaf-clover.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "four leaf clover",
+     "four",
+     "leaf",
+     "clover"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
    "id": "fox-01",
    "subject": "fox",
    "file": "images/fox-01.jpg",
@@ -8597,6 +8985,23 @@
    }
   },
   {
+   "id": "horseshoe-magnet",
+   "subject": "horseshoe magnet",
+   "file": "images/horseshoe-magnet.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "horseshoe magnet",
+     "horseshoe",
+     "magnet"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
    "id": "hot-air-balloon",
    "subject": "voyage",
    "file": "images/hot-air-balloon.jpg",
@@ -8734,6 +9139,24 @@
     "creator": "Sean MacEntee",
     "sourceUrl": "https://www.flickr.com/photos/18090920@N07/20603563003",
     "provider": "flickr"
+   }
+  },
+  {
+   "id": "ice-cream-cone",
+   "subject": "ice cream cone",
+   "file": "images/ice-cream-cone.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "ice cream cone",
+     "ice",
+     "cream",
+     "cone"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
    }
   },
   {
@@ -9745,6 +10168,21 @@
    }
   },
   {
+   "id": "orchestre",
+   "subject": "orchestre",
+   "file": "images/orchestre.png",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "orchestre"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
    "id": "owl-01",
    "subject": "owl",
    "file": "images/owl-01.jpg",
@@ -9914,6 +10352,23 @@
     "creator": "George Lu",
     "sourceUrl": "https://www.flickr.com/photos/59328895@N00/7708851288",
     "provider": "flickr"
+   }
+  },
+  {
+   "id": "paper-airplane",
+   "subject": "paper airplane",
+   "file": "images/paper-airplane.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "paper airplane",
+     "paper",
+     "airplane"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
    }
   },
   {
@@ -10271,6 +10726,21 @@
     "creator": "Horia Varlan",
     "sourceUrl": "https://www.flickr.com/photos/10361931@N06/4273846588",
     "provider": "flickr"
+   }
+  },
+  {
+   "id": "rainbow",
+   "subject": "rainbow",
+   "file": "images/rainbow.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "rainbow"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
    }
   },
   {
@@ -10776,6 +11246,21 @@
    }
   },
   {
+   "id": "strawberry",
+   "subject": "strawberry",
+   "file": "images/strawberry.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "strawberry"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
+   }
+  },
+  {
    "id": "sushi-17",
    "subject": "sushi",
    "file": "images/sushi-17.jpg",
@@ -10909,6 +11394,23 @@
     "creator": "Joshua Tree National Park",
     "sourceUrl": "https://www.flickr.com/photos/115357548@N08/24256547674",
     "provider": "flickr"
+   }
+  },
+  {
+   "id": "theatre-mask",
+   "subject": "theatre mask",
+   "file": "images/theatre-mask.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "theatre mask",
+     "theatre",
+     "mask"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
    }
   },
   {
@@ -11083,6 +11585,23 @@
      "triangle",
      "part"
     ]
+   }
+  },
+  {
+   "id": "wine-glass",
+   "subject": "wine glass",
+   "file": "images/wine-glass.jpg",
+   "source": "ai-illustration",
+   "tags": {
+    "concepts": [
+     "wine glass",
+     "wine",
+     "glass"
+    ],
+    "couleursDominantes": [],
+    "categorie": "",
+    "ambiance": [],
+    "formes": []
    }
   }
  ]
