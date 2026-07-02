@@ -59,6 +59,14 @@ export const initialRoomState: RoomStoreState = {
   gameOver: null,
 };
 
+/** Remise à zéro des champs de manche (retour au lobby / relance). */
+const CLEARED_ROUND = {
+  round: null,
+  submitted: [] as string[],
+  reveal: null,
+  gameOver: null,
+} satisfies Partial<RoomStoreState>;
+
 /** Actions du réducteur : changements de connexion + messages serveur. */
 export type RoomAction =
   | { type: 'connection'; status: ConnectionStatus }
@@ -88,9 +96,17 @@ export function reduce(state: RoomStoreState, action: RoomAction): RoomStoreStat
             playerId: msg.playerId,
             roomState: msg.state,
             lastError: null,
+            // Retour au lobby (ex. reconnexion après `returnToLobby`) → ardoise nette.
+            ...(msg.state.phase === 'lobby' ? CLEARED_ROUND : null),
           };
         case 'roomState':
-          return { ...state, roomState: msg.state };
+          return {
+            ...state,
+            roomState: msg.state,
+            // `returnToLobby` ramène la salle en lobby : on efface manche/reveal/fin
+            // pour éviter tout écran fantôme d'une partie précédente.
+            ...(msg.state.phase === 'lobby' ? CLEARED_ROUND : null),
+          };
         case 'error':
           return { ...state, lastError: { code: msg.code, message: msg.message } };
 

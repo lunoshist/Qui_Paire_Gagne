@@ -121,6 +121,37 @@ describe('reduce — messages de jeu', () => {
     const s = reduce(withPlayer, { type: 'server', message: msg });
     expect(s.gameOver).toBe(msg);
   });
+
+  it('roomState phase lobby (returnToLobby) efface manche/reveal/fin', () => {
+    const dirty = {
+      ...withPlayer,
+      round: { manche: 3, cards: ['a'], deadline: 1 },
+      submitted: ['p1'],
+      reveal: { type: 'revealPayload' } as never,
+      gameOver: { type: 'gameOver' } as never,
+    };
+    const s = reduce(dirty, {
+      type: 'server',
+      message: { type: 'roomState', state: makeRoom({ phase: 'lobby' }) },
+    });
+    expect(s.roomState?.phase).toBe('lobby');
+    expect(s.round).toBeNull();
+    expect(s.submitted).toEqual([]);
+    expect(s.reveal).toBeNull();
+    expect(s.gameOver).toBeNull();
+  });
+
+  it('roomState hors lobby conserve reveal/gameOver (reconnexion mid-partie)', () => {
+    const withReveal = {
+      ...withPlayer,
+      reveal: { type: 'revealPayload' } as never,
+    };
+    const s = reduce(withReveal, {
+      type: 'server',
+      message: { type: 'roomState', state: makeRoom({ phase: 'reveal' }) },
+    });
+    expect(s.reveal).not.toBeNull();
+  });
 });
 
 describe('gardes dérivées', () => {

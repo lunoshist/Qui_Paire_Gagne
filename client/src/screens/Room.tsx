@@ -189,14 +189,20 @@ function RoomInner({
             <h2>La partie démarre…</h2>
             <p>Distribution des cartes…</p>
           </Panel>
-        ) : state.phase === 'forming' && room.round ? (
-          <Formation
-            round={room.round}
-            players={state.players}
-            myId={myId}
-            submitted={room.submitted}
-            onSubmit={room.submitPairs}
-          />
+        ) : state.phase === 'forming' ? (
+          // Participant → écran Formation (le round courant m'a été (re)synchronisé).
+          // Spectateur (rejoint en cours) → aucun round courant : écran d'attente clair.
+          room.round && room.round.manche === state.mancheCourante ? (
+            <Formation
+              round={room.round}
+              players={state.players}
+              myId={myId}
+              submitted={room.submitted}
+              onSubmit={room.submitPairs}
+            />
+          ) : (
+            <SpectatorPanel manche={state.mancheCourante} />
+          )
         ) : (state.phase === 'reveal' || state.phase === 'scores') && room.reveal ? (
           <Reveal
             reveal={room.reveal}
@@ -205,14 +211,21 @@ function RoomInner({
             onAdvance={room.advance}
           />
         ) : state.phase === 'finished' && room.gameOver ? (
-          <Victory gameOver={room.gameOver} players={state.players} navigate={navigate} />
+          <Victory
+            gameOver={room.gameOver}
+            players={state.players}
+            iAmHost={iAmHost}
+            onReturnToLobby={room.returnToLobby}
+            navigate={navigate}
+          />
         ) : state.phase !== 'lobby' ? (
+          // Transition brève (résolution en cours / resync en vol) : pas de blocage.
           <Panel className="placeholder-card">
             <div className="placeholder-emoji" aria-hidden="true">
-              🎬
+              ⏳
             </div>
-            <h2>La partie démarre…</h2>
-            <p>Chargement de la manche…</p>
+            <h2>Un instant…</h2>
+            <p>Synchronisation de la manche en cours.</p>
           </Panel>
         ) : (
           <>
@@ -264,6 +277,22 @@ function RoomInner({
         )}
       </div>
     </main>
+  );
+}
+
+/** Écran d'attente du joueur ayant rejoint une partie déjà lancée. */
+function SpectatorPanel({ manche }: { manche: number }) {
+  return (
+    <Panel className="placeholder-card">
+      <div className="placeholder-emoji" aria-hidden="true">
+        👀
+      </div>
+      <h2>Partie en cours</h2>
+      <p>
+        La manche {manche} est déjà lancée. Tu es <strong>spectateur</strong> le temps qu'elle se
+        termine, puis tu joueras dès la <strong>manche suivante</strong>.
+      </p>
+    </Panel>
   );
 }
 

@@ -32,6 +32,8 @@ export interface UseRoom extends RoomStoreState {
   submitPairs: (paires: Pair[], pommePourrie: string) => void;
   /** Hôte : passe de la révélation à la manche suivante (ou à la fin). */
   advance: () => void;
+  /** Hôte : depuis la fin de partie, ramène la salle au lobby (relance). */
+  returnToLobby: () => void;
   clearError: () => void;
 }
 
@@ -155,7 +157,16 @@ export function useRoom(code: string, joinInfo: JoinInfo | null): UseRoom {
     [sendMessage],
   );
   const advance = useCallback(() => sendMessage({ type: 'advance' }), [sendMessage]);
+  const returnToLobby = useCallback(() => sendMessage({ type: 'returnToLobby' }), [sendMessage]);
   const clearError = useCallback(() => dispatch({ type: 'clearError' }), []);
 
-  return { ...state, updateSettings, startGame, submitPairs, advance, clearError };
+  return {
+    ...state,
+    updateSettings,
+    startGame,
+    submitPairs,
+    advance,
+    returnToLobby,
+    clearError,
+  };
 }

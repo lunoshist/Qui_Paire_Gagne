@@ -14,6 +14,11 @@
  *     revealPayload (scores conformes) → advance → manche 2 → gameOver (classement trié)
  *  9. anti-fuite : aucune soumission (ni reveal) diffusée avant que tous aient soumis
  * 10. résolution par ALARME (échéance du sablier, sans soumission → 0 pt)
+ * 11. (TASK-010) reconnexion mid-forming → re-reçoit roundStart (deadline en cours) + « a soumis »
+ * 12. (TASK-010) reconnexion mid-reveal → re-reçoit revealPayload
+ * 13. (TASK-010) rejoindre en cours → spectateur (SPECTATOR) puis intégré à la manche suivante
+ * 14. (TASK-010) returnToLobby (hôte, depuis finished) → lobby scores à 0 + relance même salle
+ * 15. (TASK-010) hôte quitte en jeu → promotion d'un joueur restant
  *
  * Usage : node server/test/integration.mjs   (depuis la racine du repo)
  */
@@ -97,6 +102,10 @@ class Client {
   }
   ofType(type, ms) {
     return this.next((m) => m.type === type, type, ms);
+  }
+  /** Vide la file des messages déjà reçus (pour n'attendre QUE les suivants). */
+  drain() {
+    this.queue.length = 0;
   }
   close() {
     try {
@@ -511,6 +520,225 @@ async function main() {
       allZero && Date.now() >= rsA.deadline,
       `deltas=${JSON.stringify(revealAlarm.deltaScores)}`,
     );
+
+    // =====================================================================
+    // TASK-010 · Flows & scénarios (reconnexion, join-in-progress, relance)
+    // =====================================================================
+
+    /** Monte une salle de 3 joueurs en `forming` (manche 1). */
+    async function startedRoom(prefix, settings) {
+      const code = await createRoom();
+      const { c: q1, joined: jq1 } = await joinAndAck(code, { pseudo: `${prefix}1` });
+      clients.push(q1);
+      const { c: q2, joined: jq2 } = await joinAndAck(code, { pseudo: `${prefix}2` });
+      clients.push(q2);
+      const { c: q3, joined: jq3 } = await joinAndAck(code, { pseudo: `${prefix}3` });
+      clients.push(q3);
+      await q1.next(
+        (m) => m.type === 'roomState' && m.state.players.length === 3,
+        `roomState(${prefix}3)`,
+      );
+      if (settings) {
+        q1.send({ type: 'updateSettings', settings });
+        await q1.next(
+          (m) => m.type === 'roomState' && m.state.settings.nbManches === settings.nbManches,
+          `roomState(${prefix} settings)`,
+        );
+      }
+      q1.send({ type: 'startGame' });
+      const rs = await q1.ofType('roundStart', 6000);
+      return { code, q1, q2, q3, jq1, jq2, jq3, rs };
+    }
+
+    // --- 11. Reconnexion en pleine FORMATION : re-reçoit roundStart + deadline + qui a soumis ---
+    {
+      const { code, q1, q2, q3, jq2, jq3, rs } = await startedRoom('Rc');
+      const subs = buildSubs(rs.cards);
+      // q2 soumet (pour vérifier la restauration de l'état « a fini »).
+      q2.send({ type: 'submitPairs', ...subs.p2 });
+      await q1.next(
+        (m) => m.type === 'playerSubmitted' && m.playerId === jq2.playerId,
+        'submitted(Rc q2)',
+      );
+      // q3 se déconnecte puis se reconnecte en pleine manche.
+      q3.close();
+      await q1.next(
+        (m) =>
+          m.type === 'roomState' &&
+          m.state.players.some((p) => p.id === jq3.playerId && p.connecte === false),
+        'roomState(Rc q3 disconnected)',
+        6000,
+      );
+      const q3b = new Client(code);
+      await q3b.open();
+      clients.push(q3b);
+      q3b.send({ type: 'joinRoom', pseudo: 'Rc3', playerId: jq3.playerId });
+      await q3b.ofType('joined');
+      const rsReco = await q3b.ofType('roundStart', 4000);
+      check(
+        'reconnexion mid-forming → re-reçoit roundStart (mêmes cartes + deadline en cours)',
+        rsReco.manche === 1 &&
+          rsReco.cards.length === 11 &&
+          rsReco.deadline === rs.deadline &&
+          rsReco.deadline > Date.now(),
+        `manche=${rsReco.manche} deadlineEq=${rsReco.deadline === rs.deadline}`,
+      );
+      const psReco = await q3b.next(
+        (m) => m.type === 'playerSubmitted' && m.playerId === jq2.playerId,
+        'submitted(Rc reco q2)',
+        4000,
+      );
+      check('reconnexion mid-forming → restaure l’état « a soumis » (playerSubmitted)', !!psReco);
+    }
+
+    // --- 12. Reconnexion en pleine RÉVÉLATION : re-reçoit revealPayload ---
+    {
+      const { code, q1, q2, q3, jq1, jq2, jq3, rs } = await startedRoom('Rv');
+      const subs = buildSubs(rs.cards);
+      q1.send({ type: 'submitPairs', ...subs.p1 });
+      q2.send({ type: 'submitPairs', ...subs.p2 });
+      q3.send({ type: 'submitPairs', ...subs.p3 });
+      await q1.ofType('revealPayload', 6000);
+      await q1.next((m) => m.type === 'roomState' && m.state.phase === 'reveal', 'roomState(Rv reveal)');
+      // q3 se reconnecte pendant la révélation.
+      q3.close();
+      await q1.next(
+        (m) =>
+          m.type === 'roomState' &&
+          m.state.players.some((p) => p.id === jq3.playerId && p.connecte === false),
+        'roomState(Rv q3 disconnected)',
+        6000,
+      );
+      const q3b = new Client(code);
+      await q3b.open();
+      clients.push(q3b);
+      q3b.send({ type: 'joinRoom', pseudo: 'Rv3', playerId: jq3.playerId });
+      const joinedRv = await q3b.ofType('joined');
+      const revReco = await q3b.ofType('revealPayload', 4000);
+      check(
+        'reconnexion mid-reveal → re-reçoit revealPayload (deltas + soumissions)',
+        joinedRv.state.phase === 'reveal' &&
+          revReco.deltaScores[jq1.playerId] === 6 &&
+          revReco.deltaScores[jq2.playerId] === 6 &&
+          !!revReco.soumissionsParJoueur[jq1.playerId],
+        `phase=${joinedRv.state.phase} deltas=${JSON.stringify(revReco.deltaScores)}`,
+      );
+    }
+
+    // --- 13. Rejoindre EN COURS : spectateur de la manche, intégré à la suivante ---
+    {
+      const { code, q1, q2, q3, rs } = await startedRoom('Sp', {
+        nbManches: 2,
+        dureeSablier: 90,
+        vitesseReveal: 'normal',
+        variantesScoring: { paireUnanimeZero: true, pommePourrieDouble: true },
+      });
+      // Nouveau joueur pendant la manche 1.
+      const { c: s4, joined: js4 } = await joinAndAck(code, { pseudo: 'Spec' });
+      clients.push(s4);
+      // Il ne reçoit PAS de roundStart pour la manche en cours.
+      await sleep(300);
+      const gotRoundStart = s4.raw.some((s) => s.includes('"roundStart"'));
+      check('join-in-progress : spectateur (aucun roundStart de la manche en cours)', !gotRoundStart);
+      // Toute soumission est refusée (SPECTATOR).
+      s4.send({ type: 'submitPairs', ...buildSubs(rs.cards).p1 });
+      const errSpec = await s4.ofType('error', 4000);
+      check('join-in-progress : soumission refusée (SPECTATOR)', errSpec.code === 'SPECTATOR', errSpec.code);
+      // Les 3 participants terminent la manche 1 → reveal.
+      const subs = buildSubs(rs.cards);
+      q1.send({ type: 'submitPairs', ...subs.p1 });
+      q2.send({ type: 'submitPairs', ...subs.p2 });
+      q3.send({ type: 'submitPairs', ...subs.p3 });
+      await q1.ofType('revealPayload', 6000);
+      await q1.next((m) => m.type === 'roomState' && m.state.phase === 'reveal', 'roomState(Sp reveal)');
+      // Manche suivante : le spectateur devient participant.
+      q1.send({ type: 'advance' });
+      const rs2 = await s4.ofType('roundStart', 6000);
+      check('join-in-progress : intégré dès la manche suivante (reçoit roundStart)', rs2.manche === 2);
+      s4.send({ type: 'submitPairs', ...buildSubs(rs2.cards).p1 });
+      const psS4 = await q1.next(
+        (m) => m.type === 'playerSubmitted' && m.playerId === js4.playerId,
+        'submitted(Sp s4)',
+        4000,
+      );
+      check('join-in-progress : le nouveau joueur peut soumettre à la manche suivante', !!psS4);
+    }
+
+    // --- 14. returnToLobby (hôte) depuis la fin → relance dans la même salle ---
+    {
+      const { q1, q2, q3, jq1, jq2, jq3, rs } = await startedRoom('Rl', {
+        nbManches: 1,
+        dureeSablier: 90,
+        vitesseReveal: 'normal',
+        variantesScoring: { paireUnanimeZero: true, pommePourrieDouble: true },
+      });
+      const subs = buildSubs(rs.cards);
+      q1.send({ type: 'submitPairs', ...subs.p1 });
+      q2.send({ type: 'submitPairs', ...subs.p2 });
+      q3.send({ type: 'submitPairs', ...subs.p3 });
+      await q1.ofType('revealPayload', 6000);
+      await q1.next((m) => m.type === 'roomState' && m.state.phase === 'reveal', 'roomState(Rl reveal)');
+      q1.send({ type: 'advance' });
+      await q1.ofType('gameOver', 6000);
+      await q1.next((m) => m.type === 'roomState' && m.state.phase === 'finished', 'roomState(Rl finished)');
+      // Non-hôte refusé.
+      q2.send({ type: 'returnToLobby' });
+      const errRl = await q2.ofType('error', 4000);
+      check('returnToLobby non-hôte → error NOT_HOST', errRl.code === 'NOT_HOST', errRl.code);
+      // Hôte : retour au lobby (scores remis à 0, joueurs conservés).
+      q2.drain(); // ignore les roomState de lobby ANTÉRIEURS (phase de join)
+      q1.send({ type: 'returnToLobby' });
+      const stLobby = await q2.next(
+        (m) => m.type === 'roomState' && m.state.phase === 'lobby',
+        'roomState(Rl lobby)',
+        4000,
+      );
+      check(
+        'returnToLobby (hôte) → lobby, joueurs conservés, scores à 0, manche 0',
+        stLobby.state.players.length === 3 &&
+          stLobby.state.players.every((p) => p.scoreCumul === 0) &&
+          stLobby.state.mancheCourante === 0 &&
+          new Set([jq1.playerId, jq2.playerId, jq3.playerId]).size === 3,
+        JSON.stringify(stLobby.state.players.map((p) => p.scoreCumul)),
+      );
+      // Relance : on change un réglage puis on repart (même salle).
+      q1.send({
+        type: 'updateSettings',
+        settings: {
+          nbManches: 2,
+          dureeSablier: 90,
+          vitesseReveal: 'normal',
+          variantesScoring: { paireUnanimeZero: true, pommePourrieDouble: true },
+        },
+      });
+      await q1.next((m) => m.type === 'roomState' && m.state.settings.nbManches === 2, 'roomState(Rl resettings)');
+      q1.send({ type: 'startGame' });
+      const rsRelance = await q3.ofType('roundStart', 6000);
+      check('returnToLobby → relance : nouvelle partie manche 1 (même salle)', rsRelance.manche === 1);
+    }
+
+    // --- 15. Hôte quitte EN JEU (forming) → promotion d'un joueur restant ---
+    {
+      const { q1, q2, jq1, jq2 } = await startedRoom('Hq');
+      // L'hôte (q1 = 1er joueur) quitte pendant la manche.
+      q2.drain(); // ignore les roomState à 2 joueurs ANTÉRIEURS (phase de join)
+      q1.send({ type: 'leaveRoom' });
+      const stPromo = await q2.next(
+        (m) =>
+          m.type === 'roomState' &&
+          m.state.players.length === 2 &&
+          m.state.players.every((p) => p.id !== jq1.playerId),
+        'roomState(Hq promo)',
+        4000,
+      );
+      check(
+        'hôte quitte en jeu → promotion (nouvel hôte ≠ ancien, partie non interrompue)',
+        stPromo.state.hostId !== jq1.playerId &&
+          stPromo.state.players.some((p) => p.id === stPromo.state.hostId) &&
+          stPromo.state.phase === 'forming',
+        `host=${stPromo.state.hostId} attenduParmi=[${jq2.playerId}] phase=${stPromo.state.phase}`,
+      );
+    }
   } catch (err) {
     check('exécution sans exception', false, String(err && err.stack ? err.stack : err));
   } finally {

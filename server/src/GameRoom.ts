@@ -52,6 +52,12 @@ interface RoundData {
   tirage: string[];
   /** Timestamp (ms) de fin de la phase `forming` (arme aussi l'alarme DO). */
   deadline: number;
+  /**
+   * Joueurs **participant** à la manche = ceux présents au démarrage du round.
+   * Un joueur arrivé en cours de manche est spectateur (absent de cette liste) :
+   * il ne peut pas soumettre et n'est pas scoré ; il rejoint dès la manche suivante.
+   */
+  participants: string[];
   /** Soumissions secrètes par joueur (JAMAIS diffusées avant `reveal`). */
   submissions: Record<string, PlayerSubmission>;
   /** Résultat calculé, mémorisé une fois la manche résolue (phase `reveal`). */
@@ -86,6 +92,11 @@ export class GameRoom implements DurableObject {
       this.room = (await this.storage.get<RoomData>(STORAGE_KEY_ROOM)) ?? null;
       this.round = (await this.storage.get<RoundData>(STORAGE_KEY_ROUND)) ?? null;
       this.code = (await this.storage.get<string>(STORAGE_KEY_CODE)) ?? this.room?.code ?? null;
+      // Compat ascendante : un round persisté avant l'ajout des `participants`
+      // (déploiement en pleine partie) → tous les joueurs présents participent.
+      if (this.round && !Array.isArray(this.round.participants)) {
+        this.round.participants = this.room?.players.map((p) => p.id) ?? [];
+      }
     });
   }
 
@@ -147,6 +158,9 @@ export class GameRoom implements DurableObject {
       case 'advance':
         await this.handleAdvance(ws);
         return;
+      case 'returnToLobby':
+        await this.handleReturnToLobby(ws);
+        return;
       case 'leaveRoom':
         await this.handleLeave(ws);
         return;
@@ -200,6 +214,8 @@ export class GameRoom implements DurableObject {
     }
 
     // --- Reconnexion : playerId connu ---
+    // Le socket retrouve sa place ET reçoit l'état COURANT de la manche (resync)
+    // → plus jamais de blocage « Chargement » après un rechargement en pleine partie.
     if (msg.playerId && this.room) {
       const existing = this.room.players.find((p) => p.id === msg.playerId);
       if (existing) {
@@ -207,16 +223,15 @@ export class GameRoom implements DurableObject {
         ws.serializeAttachment({ playerId: existing.id } satisfies SocketAttachment);
         await this.persist();
         this.sendJoined(ws, existing.id);
+        this.sendResync(ws, existing.id);
         this.broadcast();
         return;
       }
     }
 
     // --- Nouveau joueur : gardes ---
-    if (this.room && this.room.phase !== 'lobby') {
-      this.sendError(ws, 'GAME_STARTED', 'La partie est déjà lancée.');
-      return;
-    }
+    // NB : rejoindre une partie EN COURS est autorisé → le nouveau venu est
+    // spectateur de la manche courante puis intégré dès la manche suivante.
     if (this.room && this.room.players.length >= MAX_PLAYERS) {
       this.sendError(ws, 'ROOM_FULL', `Salle pleine (max ${MAX_PLAYERS} joueurs).`);
       return;
@@ -263,6 +278,9 @@ export class GameRoom implements DurableObject {
     ws.serializeAttachment({ playerId } satisfies SocketAttachment);
     await this.persist();
     this.sendJoined(ws, playerId);
+    // Arrivé en cours de partie → resync (spectateur : voit reveal/fin, jouera
+    // à la manche suivante). En lobby, resync est un no-op.
+    this.sendResync(ws, playerId);
     this.broadcast();
   }
 
@@ -344,7 +362,10 @@ export class GameRoom implements DurableObject {
 
     const tirage = this.drawTirage();
     const deadline = Date.now() + this.room.settings.dureeSablier * 1000;
-    this.round = { tirage, deadline, submissions: {}, reveal: null };
+    // Participants = tous les joueurs présents au démarrage (les arrivants en
+    // cours de manche seront spectateurs jusqu'à la prochaine).
+    const participants = this.room.players.map((p) => p.id);
+    this.round = { tirage, deadline, participants, submissions: {}, reveal: null };
     this.room.phase = 'forming';
 
     // Alarme DO : résout la manche à l'échéance même si le DO hiberne entre-temps.
@@ -382,6 +403,10 @@ export class GameRoom implements DurableObject {
     if (!playerId || !this.room) return;
     if (this.room.phase !== 'forming' || !this.round) {
       this.sendError(ws, 'NOT_FORMING', 'Aucune soumission attendue hors de la phase forming.');
+      return;
+    }
+    if (!this.round.participants.includes(playerId)) {
+      this.sendError(ws, 'SPECTATOR', 'Tu rejoins la partie à la prochaine manche.');
       return;
     }
     if (this.round.submissions[playerId]) {
@@ -441,12 +466,18 @@ export class GameRoom implements DurableObject {
     return { playerId, paires: cleanPaires, pommePourrie };
   }
 
-  /** Vrai si tous les joueurs CONNECTÉS ont soumis (déclenche la résolution). */
+  /**
+   * Vrai si tous les PARTICIPANTS connectés ont soumis (déclenche la résolution).
+   * Les spectateurs (arrivés en cours de manche) sont ignorés.
+   */
   private allConnectedSubmitted(): boolean {
     if (!this.room || !this.round) return false;
-    const connected = this.room.players.filter((p) => p.connecte);
+    const round = this.round;
+    const connected = this.room.players.filter(
+      (p) => p.connecte && round.participants.includes(p.id),
+    );
     if (connected.length === 0) return false;
-    return connected.every((p) => this.round?.submissions[p.id]);
+    return connected.every((p) => round.submissions[p.id]);
   }
 
   /**
@@ -460,9 +491,13 @@ export class GameRoom implements DurableObject {
     // Annule l'alarme (résolution anticipée) — sans effet si déjà déclenchée.
     await this.storage.deleteAlarm();
 
-    const connectedIds = this.room.players.filter((p) => p.connecte).map((p) => p.id);
+    // Seuls les PARTICIPANTS connectés sont scorés (spectateurs exclus).
+    const round = this.round;
+    const connectedIds = this.room.players
+      .filter((p) => p.connecte && round.participants.includes(p.id))
+      .map((p) => p.id);
     const submissions = connectedIds
-      .map((id) => this.round?.submissions[id])
+      .map((id) => round.submissions[id])
       .filter((s): s is PlayerSubmission => Boolean(s));
 
     const result = computeRoundResult(submissions, connectedIds);
@@ -477,7 +512,7 @@ export class GameRoom implements DurableObject {
     await this.persist();
 
     this.broadcast();
-    this.broadcastReveal(result, submissions);
+    this.broadcastReveal(result);
   }
 
   private async handleAdvance(ws: WebSocket): Promise<void> {
@@ -506,6 +541,36 @@ export class GameRoom implements DurableObject {
 
     this.broadcast();
     this.broadcastGameOver();
+  }
+
+  /**
+   * Retour au lobby depuis la fin de partie (hôte) : scores remis à zéro,
+   * joueurs conservés, réglages inchangés → on peut ajuster puis relancer dans
+   * la MÊME salle. Évite tout cul-de-sac « Rejouer » (pas de re-création de room).
+   */
+  private async handleReturnToLobby(ws: WebSocket): Promise<void> {
+    const playerId = this.requireJoined(ws);
+    if (!playerId || !this.room) return;
+    if (playerId !== this.room.hostId) {
+      this.sendError(ws, 'NOT_HOST', 'Seul l’hôte peut relancer une partie.');
+      return;
+    }
+    if (this.room.phase !== 'finished') {
+      this.sendError(ws, 'NOT_FINISHED', 'Retour au lobby possible seulement en fin de partie.');
+      return;
+    }
+
+    for (const player of this.room.players) {
+      player.scoreCumul = 0;
+    }
+    this.room.phase = 'lobby';
+    this.room.mancheCourante = 0;
+    this.round = null;
+    await this.storage.deleteAlarm();
+    await this.storage.delete(STORAGE_KEY_ROUND);
+    await this.persist();
+
+    this.broadcast();
   }
 
   /**
@@ -642,32 +707,88 @@ export class GameRoom implements DurableObject {
     });
   }
 
-  /** `revealPayload` : résultats + soumissions révélées + deltas + cumul. */
-  private broadcastReveal(result: RoundResult, submissions: PlayerSubmission[]): void {
-    if (!this.room) return;
+  /** Construit le `revealPayload` de la manche résolue (soumissions + deltas + cumul). */
+  private buildRevealPayload(result: RoundResult): ServerMessage {
     const soumissionsParJoueur: Record<string, PlayerSubmission> = {};
-    for (const s of submissions) soumissionsParJoueur[s.playerId] = s;
+    if (this.round) {
+      for (const [id, sub] of Object.entries(this.round.submissions)) {
+        soumissionsParJoueur[id] = sub;
+      }
+    }
     const cumul: Record<string, number> = {};
-    for (const p of this.room.players) cumul[p.id] = p.scoreCumul;
-    this.broadcastServer({
+    for (const p of this.room?.players ?? []) cumul[p.id] = p.scoreCumul;
+    return {
       type: 'revealPayload',
       parPaire: result.parPaire,
       pommesPourries: result.pommesPourries,
       soumissionsParJoueur,
       deltaScores: result.deltaScores,
       cumul,
-    });
+    };
+  }
+
+  /** `revealPayload` : résultats + soumissions révélées + deltas + cumul. */
+  private broadcastReveal(result: RoundResult): void {
+    if (!this.room) return;
+    this.broadcastServer(this.buildRevealPayload(result));
+  }
+
+  /** Construit le `gameOver` (classement trié par score décroissant). */
+  private buildGameOver(): ServerMessage {
+    const players = this.room?.players ?? [];
+    const scoresFinaux: Record<string, number> = {};
+    for (const p of players) scoresFinaux[p.id] = p.scoreCumul;
+    const classement: Scoreboard = [...players]
+      .map((p) => ({ playerId: p.id, score: p.scoreCumul }))
+      .sort((a, b) => b.score - a.score);
+    return { type: 'gameOver', classement, scoresFinaux };
   }
 
   /** `gameOver` : classement trié par score décroissant. */
   private broadcastGameOver(): void {
     if (!this.room) return;
-    const scoresFinaux: Record<string, number> = {};
-    for (const p of this.room.players) scoresFinaux[p.id] = p.scoreCumul;
-    const classement: Scoreboard = [...this.room.players]
-      .map((p) => ({ playerId: p.id, score: p.scoreCumul }))
-      .sort((a, b) => b.score - a.score);
-    this.broadcastServer({ type: 'gameOver', classement, scoresFinaux });
+    this.broadcastServer(this.buildGameOver());
+  }
+
+  /**
+   * (Re)synchronise UN socket avec l'état COURANT de la manche, selon la phase.
+   * Envoyé juste après `joined` à chaque (re)connexion :
+   *  - `forming` + participant → `roundStart` (cartes + deadline restante) puis
+   *    un `playerSubmitted` par joueur ayant déjà soumis (restaure le sablier et
+   *    l'état « ont fini » / ma propre soumission).
+   *  - `forming` spectateur → rien (le client affiche l'écran « partie en cours »).
+   *  - `reveal`/`scores` → `revealPayload` mémorisé (n'importe quel arrivant peut
+   *    regarder la révélation).
+   *  - `finished` → `gameOver`.
+   */
+  private sendResync(ws: WebSocket, playerId: string): void {
+    if (!this.room) return;
+    switch (this.room.phase) {
+      case 'forming':
+        if (this.round && this.round.participants.includes(playerId)) {
+          this.send(ws, {
+            type: 'roundStart',
+            manche: this.room.mancheCourante,
+            cards: this.round.tirage,
+            deadline: this.round.deadline,
+          });
+          for (const submittedId of Object.keys(this.round.submissions)) {
+            this.send(ws, { type: 'playerSubmitted', playerId: submittedId });
+          }
+        }
+        return;
+      case 'reveal':
+      case 'scores':
+        if (this.round?.reveal) {
+          this.send(ws, this.buildRevealPayload(this.round.reveal));
+        }
+        return;
+      case 'finished':
+        this.send(ws, this.buildGameOver());
+        return;
+      default:
+        return; // lobby / dealing : le snapshot `joined` suffit.
+    }
   }
 
   private sendJoined(ws: WebSocket, playerId: string): void {

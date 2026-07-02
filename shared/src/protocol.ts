@@ -101,6 +101,15 @@ export interface LeaveRoomMessage {
   type: 'leaveRoom';
 }
 
+/**
+ * L'hôte ramène la salle au lobby depuis l'écran de fin (`finished`) :
+ * scores remis à zéro, joueurs conservés → on peut changer les réglages et
+ * relancer une partie dans la **même** salle (pas de cul-de-sac « Rejouer »).
+ */
+export interface ReturnToLobbyMessage {
+  type: 'returnToLobby';
+}
+
 /** Union des messages Client → Serveur. */
 export type ClientMessage =
   | EchoRequest
@@ -110,7 +119,8 @@ export type ClientMessage =
   | StartGameMessage
   | SubmitPairsMessage
   | AdvanceMessage
-  | LeaveRoomMessage;
+  | LeaveRoomMessage
+  | ReturnToLobbyMessage;
 
 /** Discriminant `type` des messages Client → Serveur. */
 export type ClientMessageType = ClientMessage['type'];

@@ -6,16 +6,20 @@
 
 import { useMemo } from 'react';
 import type { GameOverMessage, Player } from '@qpg/shared';
-import { Button, Panel } from '../ui/components';
+import { Banner, Button, Panel } from '../ui/components';
 import { PlayerToken } from '../ui/gameComponents';
 
 export function Victory({
   gameOver,
   players,
+  iAmHost,
+  onReturnToLobby,
   navigate,
 }: {
   gameOver: GameOverMessage;
   players: Player[];
+  iAmHost: boolean;
+  onReturnToLobby: () => void;
   navigate: (path: string) => void;
 }) {
   const byId = useMemo(() => new Map(players.map((p) => [p.id, p])), [players]);
@@ -69,9 +73,13 @@ export function Victory({
       </Panel>
 
       <div className="game-actions row">
-        <Button size="lg" onClick={() => navigate('/')}>
-          🔄 Rejouer
-        </Button>
+        {iAmHost ? (
+          <Button size="lg" onClick={onReturnToLobby}>
+            🔄 Rejouer (même salle)
+          </Button>
+        ) : (
+          <Banner kind="info">En attente que l’hôte relance une partie…</Banner>
+        )}
         <Button variant="ghost" size="lg" onClick={() => navigate('/')}>
           ← Retour à l’accueil
         </Button>
