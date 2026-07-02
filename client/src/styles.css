@@ -26,6 +26,9 @@
   --c-danger-bg: #ffe6e3;
   --c-ok: #4caf6d;
 
+  /* Fond neutre de « letterbox » derrière les images en contain (voir cartes). */
+  --c-letterbox: #f3eee6;
+
   /* --- Rayons / ombres --- */
   --radius-sm: 10px;
   --radius: 16px;
@@ -35,17 +38,38 @@
   --shadow: 0 8px 24px rgba(43, 37, 64, 0.12);
   --shadow-pop: 0 12px 32px rgba(255, 111, 97, 0.28);
 
+  /* Épaisseurs de bordure normalisées (fin = séparation discrète, fort = affordance
+     interactive : cible de drop, carte sélectionnée…). Éviter d'encadrer chaque bloc. */
+  --bw-hair: 1px;
+  --bw: 2px;
+  --bw-strong: 3px;
+
   /* --- Typo --- */
   --font-display: 'Fredoka', 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif;
   --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-  /* --- Espacements --- */
+  /* Échelle typographique (hiérarchie : display → titre → sous-titre → corps → légende). */
+  --text-caption: 0.8rem; /* légende / méta */
+  --text-sm: 0.9rem; /* corps secondaire */
+  --text-body: 1rem; /* corps */
+  --text-lg: 1.15rem; /* sous-titre / titre de panneau */
+  --text-xl: 1.4rem; /* titre de section */
+  --text-2xl: 1.8rem; /* titre d'écran */
+  --text-display: clamp(2rem, 6vw, 3.2rem); /* brand / hero */
+  --fw-regular: 400;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --leading-tight: 1.1;
+  --leading-normal: 1.5;
+
+  /* --- Espacements (échelle unique, appliquée partout : padding / marges / gaps) --- */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
   --space-5: 24px;
   --space-6: 32px;
+  --space-7: 48px;
 }
 
 * {
@@ -61,19 +85,31 @@ body,
 body {
   margin: 0;
   font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
   color: var(--c-ink);
   background: radial-gradient(circle at 15% 0%, var(--c-bg-2), var(--c-bg) 60%);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
 }
 
+/* Échelle des titres : hiérarchie nette h1 > h2 > h3. */
 h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.1;
+  font-weight: var(--fw-bold);
+  line-height: var(--leading-tight);
   margin: 0 0 var(--space-3);
+}
+h1 {
+  font-size: var(--text-2xl);
+}
+h2 {
+  font-size: var(--text-xl);
+}
+h3 {
+  font-size: var(--text-lg);
 }
 
 a {
@@ -104,7 +140,9 @@ a {
 
 .brand {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 6vw, 3.2rem);
+  font-size: var(--text-display);
+  font-weight: var(--fw-bold);
+  line-height: var(--leading-tight);
   text-align: center;
   color: var(--c-ink);
   margin: 0;
@@ -115,23 +153,31 @@ a {
 .brand-sub {
   text-align: center;
   color: var(--c-ink-soft);
+  font-size: var(--text-lg);
   margin: 0;
 }
 
 /* =========================================================================
    Composant : Panel / Card
    ========================================================================= */
+/* Le panneau se détache par l'ombre + un liseré fin (pas un gros cadre). */
 .panel {
   background: var(--c-surface);
-  border: 2px solid var(--c-border);
+  border: var(--bw-hair) solid var(--c-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
   padding: var(--space-5);
   width: 100%;
 }
+/* Panneau secondaire (atténué) : pas d'ombre, fond neutre — recule visuellement. */
+.panel-muted {
+  background: var(--c-bg);
+  box-shadow: none;
+}
 .panel-title {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: var(--text-lg);
+  font-weight: var(--fw-bold);
   margin: 0 0 var(--space-4);
   display: flex;
   align-items: center;
@@ -218,8 +264,8 @@ a {
   gap: var(--space-2);
 }
 .field-label {
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: var(--fw-semibold);
+  font-size: var(--text-sm);
   color: var(--c-ink-soft);
 }
 .input,
@@ -304,10 +350,10 @@ a {
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius);
   background: var(--c-bg);
-  border: 2px solid var(--c-border);
+  border: var(--bw-hair) solid var(--c-border);
 }
 .player-badge.is-me {
-  border-color: var(--c-accent);
+  border: var(--bw) solid var(--c-accent);
   background: #f0fbfa;
 }
 .player-badge.is-offline {
@@ -450,15 +496,18 @@ a {
 }
 .room-code {
   font-family: var(--font-display);
-  font-size: 1.6rem;
+  font-size: var(--text-xl);
+  font-weight: var(--fw-bold);
 }
 .room-code strong {
   letter-spacing: 0.25em;
   color: var(--c-primary);
 }
+/* Hiérarchie du lobby : la liste des joueurs (point focal) domine, les réglages
+   (secondaires) sont plus étroits et atténués via .panel-muted. */
 .room-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.35fr 1fr;
   gap: var(--space-4);
   align-items: start;
 }
@@ -476,7 +525,7 @@ a {
   padding: var(--space-2) 0;
 }
 .setting-row + .setting-row {
-  border-top: 1px solid var(--c-border);
+  border-top: var(--bw-hair) solid var(--c-border);
 }
 .setting-row .field-label {
   margin: 0;
@@ -486,7 +535,7 @@ a {
 }
 .setting-static {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: var(--fw-semibold);
 }
 
 .placeholder-card {
@@ -521,21 +570,21 @@ a {
   flex-wrap: wrap;
   gap: var(--space-3);
   background: var(--c-surface);
-  border: 2px solid var(--c-border);
+  border: var(--bw-hair) solid var(--c-border);
   border-radius: var(--radius);
   padding: var(--space-2) var(--space-4);
   box-shadow: var(--shadow-sm);
 }
 .game-manche {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: var(--fw-bold);
+  font-size: var(--text-lg);
 }
 .countdown {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.3rem;
-  padding: 2px 12px;
+  font-weight: var(--fw-bold);
+  font-size: var(--text-xl);
+  padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-pill);
   background: var(--c-bg-2);
 }
@@ -612,8 +661,10 @@ a {
 .card-face {
   border-radius: var(--radius);
   overflow: hidden;
-  background: var(--c-bg-2);
-  border: 2px solid var(--c-border);
+  /* Fond « letterbox » neutre : l'image est montrée ENTIÈRE (contain), les bandes
+     éventuelles restent discrètes et ne détournent pas le regard de l'illustration. */
+  background: var(--c-letterbox);
+  border: var(--bw) solid var(--c-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -628,10 +679,11 @@ a {
 .card-face-lg {
   width: 160px;
 }
+/* contain = image entière (plus de crop). Le carré de la carte fait le letterbox. */
 .card-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   user-select: none;
 }
@@ -763,7 +815,7 @@ a {
   flex-direction: column;
   gap: var(--space-2);
   background: var(--c-surface);
-  border: 2px solid var(--c-border);
+  border: var(--bw-hair) solid var(--c-border);
   border-radius: var(--radius-lg);
   padding: var(--space-3);
 }
@@ -986,19 +1038,38 @@ a {
 /* --- Révélation --- */
 .reveal-header {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+.reveal-header h2 {
+  font-size: var(--text-2xl);
+  margin: 0;
 }
 .reveal-sub {
   color: var(--c-ink-soft);
+  font-size: var(--text-sm);
   margin: 0;
 }
-.reveal-pairs {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-3);
+/* Scène de révélation : historique compact (haut) + paire COURANTE en grand (bas). */
+.reveal-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
 }
+.reveal-history {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
 .pair-reveal {
   background: var(--c-surface);
-  border: 2px solid var(--c-border);
+  border: var(--bw-hair) solid var(--c-border);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   display: flex;
@@ -1006,6 +1077,54 @@ a {
   align-items: center;
   gap: var(--space-3);
 }
+
+/* Paire COURANTE : point focal, nettement plus grande + mise en avant. */
+.pair-reveal-hero {
+  width: 100%;
+  max-width: 520px;
+  padding: var(--space-5);
+  gap: var(--space-4);
+  border-width: var(--bw);
+  box-shadow: var(--shadow);
+}
+.pair-reveal-hero .pair-heart {
+  font-size: 2rem;
+}
+.pair-reveal-hero .pair-reveal-points {
+  font-size: var(--text-lg);
+}
+
+/* Paires déjà révélées : miniatures atténuées, en ligne, clairement secondaires. */
+.pair-reveal-history {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  opacity: 0.68;
+  transition: opacity 0.15s ease;
+}
+.pair-reveal-history:hover {
+  opacity: 1;
+}
+.pair-reveal-history .pair-reveal-cards {
+  width: auto;
+}
+.pair-reveal-history .pair-reveal-cards .zoomable-card {
+  flex: 0 0 auto;
+}
+.pair-reveal-history .pair-reveal-cards .card-face {
+  width: 48px;
+}
+.pair-reveal-history .pair-heart {
+  font-size: 0.95rem;
+}
+.pair-reveal-history .pair-reveal-makers {
+  justify-content: flex-start;
+}
+.pair-reveal.pair-reveal-history .pair-reveal-points {
+  font-size: var(--text-caption);
+}
+
 .pair-reveal.is-solo,
 .pair-reveal.is-unanime {
   opacity: 0.9;
@@ -1198,7 +1317,7 @@ a {
   gap: var(--space-2);
   padding: var(--space-3);
   border-radius: var(--radius);
-  border: 2px solid var(--c-border);
+  border: var(--bw-hair) solid var(--c-border);
   background: var(--c-surface);
 }
 .pomme-reveal.is-gold {
@@ -1237,19 +1356,19 @@ a {
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius);
   background: var(--c-bg);
-  border: 2px solid var(--c-border);
+  border: var(--bw-hair) solid var(--c-border);
 }
 .score-rank {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   width: 1.5em;
   color: var(--c-ink-soft);
 }
 .score-total {
   margin-left: auto;
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: var(--fw-bold);
+  font-size: var(--text-lg);
 }
 .score-delta {
   color: var(--c-ink-soft);
@@ -1367,7 +1486,7 @@ a {
   font-size: 0.9rem;
 }
 .score-row.is-winner {
-  border-color: var(--c-sun);
+  border: var(--bw) solid var(--c-sun);
   background: #fff6df;
 }
 .victory-shell .panel {

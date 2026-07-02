@@ -180,7 +180,7 @@ export function Reveal({
         )}
       </header>
 
-      <section className="reveal-pairs" aria-label="Paires révélées">
+      <section className="reveal-stage" aria-label="Paires révélées">
         {visiblePairs === 0 && !pommesVisible ? (
           <p className="reveal-waiting">
             {mode === 'meneur' && !iAmHost
@@ -188,18 +188,36 @@ export function Reveal({
               : 'La révélation va commencer…'}
           </p>
         ) : (
-          paires
-            .slice(0, visiblePairs)
-            .map((pr, i) => (
+          <>
+            {/* Historique compact : les paires déjà révélées, réduites et en retrait. */}
+            {visiblePairs > 1 && (
+              <div className="reveal-history" aria-label="Paires déjà révélées">
+                {paires.slice(0, visiblePairs - 1).map((pr, i) => (
+                  <PairReveal
+                    key={i}
+                    pr={pr}
+                    variant="history"
+                    duo={duo}
+                    byId={byId}
+                    catalog={catalog}
+                    onZoom={setZoomed}
+                  />
+                ))}
+              </div>
+            )}
+            {/* Paire COURANTE (dernière révélée) : point focal, en grand. */}
+            {visiblePairs > 0 && (
               <PairReveal
-                key={i}
-                pr={pr}
+                key={visiblePairs - 1}
+                pr={paires[visiblePairs - 1]}
+                variant="hero"
                 duo={duo}
                 byId={byId}
                 catalog={catalog}
                 onZoom={setZoomed}
               />
-            ))
+            )}
+          </>
         )}
       </section>
 
@@ -287,12 +305,15 @@ function pairVerdict(makers: number, points: number): { text: string; kind: stri
 
 function PairReveal({
   pr,
+  variant = 'hero',
   duo = false,
   byId,
   catalog,
   onZoom,
 }: {
   pr: PairResult;
+  /** `hero` = paire courante en grand (focal) ; `history` = miniature déjà révélée. */
+  variant?: 'hero' | 'history';
   duo?: boolean;
   byId: Map<string, Player>;
   catalog: ReturnType<typeof useCatalog>;
@@ -302,14 +323,16 @@ function PairReveal({
   const verdict = duo
     ? { text: 'Paire en commun 💞', kind: 'plus' }
     : pairVerdict(pr.makers.length, pr.pointsParMaker);
+  const history = variant === 'history';
+  const cardSize = history ? 'sm' : 'md';
   return (
-    <article className={`pair-reveal reveal-pop is-${verdict.kind}`}>
+    <article className={`pair-reveal reveal-pop pair-reveal-${variant} is-${verdict.kind}`}>
       <div className="pair-reveal-cards">
-        <ZoomableCard id={pr.pair[0]} catalog={catalog} size="md" onZoom={onZoom} />
+        <ZoomableCard id={pr.pair[0]} catalog={catalog} size={cardSize} onZoom={onZoom} />
         <span className="pair-heart" aria-hidden="true">
           💞
         </span>
-        <ZoomableCard id={pr.pair[1]} catalog={catalog} size="md" onZoom={onZoom} />
+        <ZoomableCard id={pr.pair[1]} catalog={catalog} size={cardSize} onZoom={onZoom} />
       </div>
       <div className="pair-reveal-makers">
         {pr.makers.length === 0 ? (
@@ -317,12 +340,13 @@ function PairReveal({
         ) : (
           pr.makers.map((id) => {
             const p = byId.get(id);
-            return p ? <PlayerToken key={id} player={p} /> : null;
+            return p ? <PlayerToken key={id} player={p} showName={!history} /> : null;
           })
         )}
       </div>
       <span className={`pair-reveal-points is-${verdict.kind}`}>
-        {verdict.kind === 'plus' && (
+        {/* Le « +N » ne s'envole que sur la paire courante (pas sur l'historique). */}
+        {verdict.kind === 'plus' && !history && (
           <span className="points-fly" aria-hidden="true">
             +{pr.pointsParMaker}
           </span>

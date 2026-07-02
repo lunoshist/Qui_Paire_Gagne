@@ -319,7 +319,7 @@ function SettingsPanel({
   onChange: (patch: Partial<RoomSettings>) => void;
 }) {
   return (
-    <Panel title={`Réglages ${editable ? '' : '(hôte seul)'}`.trim()}>
+    <Panel className="panel-muted" title={`Réglages ${editable ? '' : '(hôte seul)'}`.trim()}>
       <div className="setting-row">
         <span className="field-label">Mode</span>
         {editable ? (
